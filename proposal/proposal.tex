@@ -1,27 +1,75 @@
-\documentclass[12pt]{article}
+\documentclass[11pt]{article}
 
+% Input encoding
 \usepackage[utf8]{inputenc}
+
+% Math packages
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsmath}
-\usepackage{hyperref}
 \usepackage{amsthm}
+
+%Add some color
+\usepackage{xcolor}
+
+% WE want colored links instead of ugly boxes
+\usepackage[colorlinks=true]{hyperref}
+
+% Ednotes, TODO: Remove this in the end.
 \usepackage[show]{ed}
 
-% BibTex
+% We're actually using a units package, so we might also search this document.
+\usepackage{siunitx}
+\sisetup{load-configurations = abbreviations}
+
+% BibTex, TODO: Once we add references, we can uncomment this.
 %\usepackage[backend=biber]{biblatex}
 %\addbibresource{proposal.bib}
 
-\title{Units for MathWebSearch\ednote{Preliminary Title}\\Bachelor Thesis Proposal}
-\author{Tom Wiesing}
+
+\title{Units for MathWebSearch\ednote{Preliminary Title}\\ \vspace{2 mm} Guided Research Proposal}
+\author{Tom Wiesing\\Supervisor: Michael Kohlhase\\Jacobs University, Bremen, Germany}
+
 \date{\today}
 
 \begin{document}
 
+%Title Page
 \maketitle
-\newpage
-\tableofcontents
+
+%The abstract
+\begin{abstract}
+  In this proposal we describe an approach to introduce Units to MathWebSearch
+  \ednote{Write abstract properly}
+\end{abstract}
+
+%The content pages
 \section{Introduction}
-\section{Project Plan}
+
+\ednote{Write an introductary sentence / paragraph?}
+
+MathWebSearch (MWS for short\ednote{should I really use abbreviations here?}) is a system to search (latex) documents for mathematical formulae. Additionally it can also search for text in the documents\ednote{Or is this the multi-faceted search that is currently planned? Do we really need this sentence?}. However it not only searches for formulae in a simple-minded string way but also includes simple transformation rules, such as $a + b = b + a$. Additionally, is is possible to search with wildcards such as $ { \color{red} x} + \sqrt{\color{red} x}$. In this example MWS delivers results of the given form where $\color{red} x$ is substituted with any sub-formular\ednote{Re-formulate this and link to an example}.
+
+MWS has been shown to be very useful for mathematicians\ednote{Quote neeeded}. The transformation system it uses can currently be used only for mathematical formulae which limits its applications. In this paper we propose an extension for physical units\ednote{Reformulate this?}. Instead of transforming mathematical formulae, the search engine should transfer physical units.
+The end-user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
+
+This proposal is organised as follows\ednote{Update this possible if we change the structure}: In section \ref{sec:mws} we describe the existing MathWebSearch system and then proceed in section \ref{sec:extension} to discuss the proposed extension. Finally in section \ref{sec:problems_relatedwork} we discuss possible problems with this approach and related work.
+
+\section{The existing MathWebSearch system}
+\label{sec:mws}
+
+\ednote{Write this}
+
+\section{The proposed extension}
+\label{sec:extension}
+
+\ednote{Write this}
+
+\section{Problems and related Work}
+\label{sec:problems_relatedwork}
+
+\ednote{Write this}
+
+%BIBLIOGRAPHY
 %\printbibliography[title={\addtocounter{section}{1}\thesection \quad References}]
 \end{document}
