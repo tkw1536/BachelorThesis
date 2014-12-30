@@ -53,7 +53,7 @@ MathWebSearch (MWS for short\ednote{should I really use abbreviations here?}) is
 MWS has been shown to be very useful for mathematicians\ednote{Quote neeeded}. The transformation system it uses can currently be used only for mathematical formulae which limits its applications. In this paper we propose an extension for physical units\ednote{Reformulate this?}. Instead of transforming mathematical formulae, the search engine should transfer physical units.
 The end-user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
 
-This proposal is organised as follows\ednote{Update this possible if we change the structure}: In section \ref{sec:mws} we describe the existing MathWebSearch system and then proceed in section \ref{sec:extension} to discuss the proposed extension. Finally in section \ref{sec:problems_relatedwork} we discuss possible problems with this approach and related work.
+This proposal is organised as follows\ednote{Update this possible if we change the structure}: In section \ref{sec:mws} we describe the existing MathWebSearch system and then proceed in section \ref{sec:extension} to describe in detail the proposed extension. Finally in section \ref{sec:problems_relatedwork} we discuss possible problems with this approach and related work.
 
 \section{The existing MathWebSearch system}
 \label{sec:mws}
@@ -63,10 +63,95 @@ This proposal is organised as follows\ednote{Update this possible if we change t
 \section{The proposed extension}
 \label{sec:extension}
 
+\ednote{Perhaps go over MWS again? Or just in the introduction?}
+
+\begin{itemize}
+  \item want a complete system
+  \item searches a corpus of documents for units
+  \item which is presentable to the end user
+  \item should be extendable with respect to
+  \begin{itemize}
+    \item the corpus. Plugging in a new corpus should be as easy as running a script somehwere.
+    \item the units. Adding new units should be simple by just adding a conversion to one already known unit.
+  \end{itemize}
+\end{itemize}
+
+The frontend
+\begin{itemize}
+  \item a web page
+  \item should work in modern browsers, preferably mobile-friendly
+  \item should only be a frontend for a REST backend
+  \item has an input for a unit
+  \item has an input for a value
+  \item maybe have facetet search on top
+\end{itemize}
+
+The backend
+\begin{itemize}
+  \item REST based
+  \item based on the existing system
+  \item has to have a format of units
+  \item has to receive text queries
+  \item has to receive exact values or ranges or automatically generated ranges
+\end{itemize}
+
+The corpus
+\begin{itemize}
+  \item should consist of a lot of tex documents
+  \item should have marked up units
+  \item ideally, if a single document is added, only the new corpus should have to be re-scanned (procedular generation)
+  \item should be easily exchangable
+\end{itemize}
+
+The unit transition system
+\begin{itemize}
+  \item should be a graph
+  \item should have few connected components and each of the components should be sparse (i. e. few connections)
+  \item translation are:
+  \begin{itemize}
+    \item either a factor towards a single unit
+    \item or a composition of a factor together with a product or fraction of units \ednote{Figure out more details about this}
+    \item Perhaps include prefixes somehow?
+  \end{itemize}
+\end{itemize}
+
 \ednote{Write this}
 
 \section{Problems and related Work}
 \label{sec:problems_relatedwork}
+
+The unit input system:
+\begin{itemize}
+  \item Entering a single unit and recognising it is simple
+  \item It is not clear how to enter composite units
+  \item the end result delivered to the search engine should either be LaTeX or MathML
+  \item maybe allow different inout methods:
+  \begin{itemize}
+    \item The output latex
+    \item AsciiMath (with autocompletion would be nice)
+    \item MathML?
+  \end{itemize}
+  \item system needs to be aware of full unit names as well as abbreviations
+\end{itemize}
+
+Unit translation
+\begin{itemize}
+  \item Should just be rational factors
+  \item might give a problem with rounding
+  \item maybe have ranges instead
+  \begin{itemize}
+    \item this has just been implemented by Radu \ednote{Quote needed}
+  \end{itemize}
+  \item support for composite units: $a \cdot{} b$ and $\frac{a}{b}$.
+\end{itemize}
+
+Finding a corpus
+\begin{itemize}
+  \item We need to have a suitably large corpus of documents to test this properly
+  \item the units need to be marked up in the corpus
+  \item actually finding them is done by ??? \ednote{Who is doing the unit finding?}
+  \item The results should show which unit is originally in the text and also show the value in the unit searched for.
+\end{itemize}
 
 \ednote{Write this}
 
