@@ -68,7 +68,7 @@ For each corpus a big search index is generated before search \ednote{Explain th
 
 \ednote{Explain how MWS uses those here}
 
-Advantages of this approach / hwo MWS is received
+Advantages of this approach / how MWS is received
 \ednote{Find points here}
 
 Disadvantages of the current approach
@@ -134,40 +134,16 @@ The unit transition system
 \section{Problems and related Work}
 \label{sec:problems_relatedwork}
 
-The unit input system:
-\begin{itemize}
-  \item Entering a single unit and recognising it is simple
-  \item It is not clear how to enter composite units
-  \item the end result delivered to the search engine should either be LaTeX or MathML
-  \item maybe allow different inout methods:
-  \begin{itemize}
-    \item The output latex
-    \item AsciiMath (with autocompletion would be nice)
-    \item MathML?
-  \end{itemize}
-  \item system needs to be aware of full unit names as well as abbreviations
-\end{itemize}
+There are several problems with this approach. \ednote{Continue intro pargraph}
 
-Unit translation
-\begin{itemize}
-  \item Should just be rational factors
-  \item might give a problem with rounding
-  \item maybe have ranges instead
-  \begin{itemize}
-    \item this has just been implemented by Radu \ednote{Quote needed}
-  \end{itemize}
-  \item support for composite units: $a \cdot{} b$ and $\frac{a}{b}$.
-\end{itemize}
+The units have to be entered in some fashion in the search engine. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore si-prefixes (such as kilo or mini) should also be recognised which is an additional problem. There are a few alternatives to use as input formats: AsciiMath, LaTeX and MathML, to name only 3. Independent of the input format, the end result (delivered to the backend of the search engine) should be MathML containing the unit in some yet-to-be-determined standard form.
 
-Finding a corpus
-\begin{itemize}
-  \item We need to have a suitably large corpus of documents to test this properly
-  \item the units need to be marked up in the corpus
-  \item actually finding them is done by ??? \ednote{Who is doing the unit finding?}
-  \item The results should show which unit is originally in the text and also show the value in the unit searched for.
-\end{itemize}
+As described above, the unit equivalences should be in the form of a theory graph \ednote{Reference this properly. } The equivalence
+(translation) itself contains both a translation for the quantity and the unit. The values searched for should be simple real numbers together with the forumlar. However since all numbers must be represented in a finite fashion, translations formulars can gvie problems. A natural quantity in one unit can be a repeating decimal in a another unit. Also rounding of quantities might depend on the unit used. It is thus preferable not not search for an exact value but instead for a range of values. These ranges should depend on the unit. These ranges have just been implemented in MWS by Radu \ednote{Quote needed; reformulate}. \ednote{Write excatly how to use ranges}
 
-\ednote{Write this}
+Finally, there are the problems of finding a corpus and marking up units in this corpus. The second problem, marking up units in a corpus, will be taken on by ???\ednote{Who is doing unit finding?} in a seperate thesis. The first problem will be postponed for now. In case there is still time, a suitably corpus can be marked up manually and plugged into the system. For first testing, I will create a dummy corpus of lorem-ipsum style documents which will contain a random sampling of units.
+
+\ednote{Write final paragraph}
 
 %BIBLIOGRAPHY
 %\printbibliography[title={\addtocounter{section}{1}\thesection \quad References}]
