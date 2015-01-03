@@ -62,7 +62,7 @@ As mentioned above, MathWebSearch is a search engine for mathmatical formulars i
 
 The frontend, running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses a REST backend and dependens on MathML support to render Mathematics. It simply accessing a REST backend via AJAX. When the client enters a LaTeX forumar to search for, the backend renders MathML which is then sent back to the client. Next, the client renders the MathML (to show the formular the user is searching for) and also sends back the MathML to the server to search for it. Finally the server sends back results to the client which then shows a list of them.
 
-The backend, written in ?? \ednote{What is the backend written in?}, as can be seen from the procedure during a common search, has 2 independent components. The LaTeX to MathML rendering is not part of MathWebSearch but rather uses LaTeXML \ednote{Really? Reference needed. }. The searching is handled by MWS directly.
+The backend, written in ??? \ednote{What is the backend written in?}, has 2 independent components. The first component, LaTeX to MathML translation, is not part of MathWebSearch directly. It is rather uses LaTeXML to work\ednote{Really? Reference needed. }. The searching however is handled by MWS directly.
 
 For each corpus a big search index is generated before search \ednote{Explain this better}. Then during runtime only this index is searched. \ednote{Explain theory graphs here}
 
@@ -79,37 +79,30 @@ Disadvantages of the current approach
 \section{The proposed extension}
 \label{sec:extension}
 
+The goal of the guided research is to get a complete system that searches a corpus of documents for units as already indicated above. This system should be nicely accessible to the end user. Furthermore, it should be extendable with respect to
 \begin{itemize}
-  \item want a complete system
-  \item searches a corpus of documents for units
-  \item which is presentable to the end user
-  \item should be extendable with respect to
-  \begin{itemize}
-    \item the corpus. Plugging in a new corpus should be as easy as running a script somehwere.
-    \item the units. Adding new units should be simple by just adding a conversion to one already known unit.
-  \end{itemize}
+  \item \textit{the unit system, } Adding new units should be easy and most translations should be deducted by the system automatically.
+  \item \textit{and the searchable corpus. } It should be easy to search a different corpus of documents provided units are properly marked up inside it.
 \end{itemize}
 
-The frontend
-\begin{itemize}
-  \item a web page
-  \item should work in modern browsers, preferably mobile-friendly
-  \item should only be a frontend for a REST backend
-  \item has an input for a unit
-  \item has an input for a value
-  \item maybe have facetet search on top
-\end{itemize}
+As with the existing system, the frontend should be a web page that works in all modern browsers. It should be mobile friendly. It should communicate directly with the backend via a RESTful API. The frontend should incoperate 4 main elements:
 
-The backend
-\begin{itemize}
-  \item REST based
-  \item based on the existing system
-  \item has to have a format of units
-  \item has to receive text queries
-  \item has to receive exact values or ranges or automatically generated ranges
-\end{itemize}
+\begin{enumerate}
+  \item a search input for a (real) quantity,
+  \item a search inout for a unit, described further in section \ref{sec:problems_relatedwork},
+  \item an additional search input for text and
+  \item a result page that displays results and links to the found documents.
+\end{enumerate}
 
-The corpus
+\noindent The REST-based backend should have 3 major tasks:
+
+\begin{enumerate}
+  \item translate raw unit input into a standardised form (see section \ref{sec:problems_relatedwork} for details),
+  \item search for documents using the input from the frontend and
+  \item make the documents available to the enduser.
+\end{enumerate}
+
+\noindent The corpus \ednote{Write form here onwards}
 \begin{itemize}
   \item should consist of a lot of tex documents
   \item should have marked up units
@@ -129,8 +122,6 @@ The unit transition system
   \end{itemize}
 \end{itemize}
 
-\ednote{Write this}
-
 \section{Problems and related Work}
 \label{sec:problems_relatedwork}
 
@@ -138,8 +129,8 @@ There are several problems with this approach. \ednote{Continue intro pargraph}
 
 The units have to be entered in some fashion in the search engine. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore si-prefixes (such as kilo or mini) should also be recognised which is an additional problem. There are a few alternatives to use as input formats: AsciiMath, LaTeX and MathML, to name only 3. Independent of the input format, the end result (delivered to the backend of the search engine) should be MathML containing the unit in some yet-to-be-determined standard form.
 
-As described above, the unit equivalences should be in the form of a theory graph \ednote{Reference this properly. } The equivalence
-(translation) itself contains both a translation for the quantity and the unit. The values searched for should be simple real numbers together with the forumlar. However since all numbers must be represented in a finite fashion, translations formulars can gvie problems. A natural quantity in one unit can be a repeating decimal in a another unit. Also rounding of quantities might depend on the unit used. It is thus preferable not not search for an exact value but instead for a range of values. These ranges should depend on the unit. These ranges have just been implemented in MWS by Radu \ednote{Quote needed; reformulate}. \ednote{Write excatly how to use ranges}
+The unit equivalences should be in the form of a theory graph \ednote{Reference this properly. } The equivalence
+(translation) itself contains both a translation for the quantity and the unit. The values searched for should be simple real numbers together with the forumlar. However since all numbers must be represented in a finite fashion, translations formulars can gvie problems. A natural quantity in one unit can be a repeating decimal in a another unit. Also rounding of quantities might depend on the unit used. It is thus preferable not not search for an exact value but instead for a range of values. These ranges should depend on the unit. These ranges have just been implemented in MWS by Radu \ednote{Quote needed; reformulate}. \ednote{Write excatly how to use ranges} \ednote{Check if the reference in (2) is clear}
 
 Finally, there are the problems of finding a corpus and marking up units in this corpus. The second problem, marking up units in a corpus, will be taken on by ???\ednote{Who is doing unit finding?} in a seperate thesis. The first problem will be postponed for now. In case there is still time, a suitably corpus can be marked up manually and plugged into the system. For first testing, I will create a dummy corpus of lorem-ipsum style documents which will contain a random sampling of units.
 
