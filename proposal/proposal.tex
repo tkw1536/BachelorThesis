@@ -48,7 +48,7 @@
 
 \ednote{Write an introductary sentence / paragraph?}
 
-MathWebSearch (MWS for short\ednote{should I really use abbreviations here?}) is a system to search (latex) documents for mathematical formulae. Additionally it can also search for text in the documents\ednote{Or is this the multi-faceted search that is currently planned? Do we really need this sentence?}. However it not only searches for formulae in a simple-minded string way but also includes simple transformation rules, such as $a + b = b + a$. Additionally, is is possible to search with wildcards such as $ { \color{red} x} + \sqrt{\color{red} x}$. In this example MWS delivers results of the given form where $\color{red} x$ is substituted with any sub-formular\ednote{Re-formulate this and link to an example}.
+MathWebSearch (MWS for short\ednote{should I really use abbreviations here?}) is a system to search (latex) documents for mathematical formulae. Additionally it can also search for text in the documents\ednote{Or is this the multi-faceted search that is currently planned? Do we really need this sentence?}. However it not only searches for formulae in a simple-minded ``text search'' way but also includes simple transformation rules, such as $a + b = b + a$. Additionally, is is possible to search with wildcards such as $ { \color{red} x} + \sqrt{\color{red} x}$. In this example MWS delivers results of the given form where $\color{red} x$ is substituted with any sub-formular\ednote{Re-formulate this and link to an example?}.
 
 MWS has been shown to be very useful for mathematicians\ednote{Quote neeeded}. The transformation system it uses can currently be used only for mathematical formulae which limits its applications. In this paper we propose an extension for physical units\ednote{Reformulate this?}. Instead of transforming mathematical formulae, the search engine should transfer physical units.
 The end-user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
@@ -58,18 +58,15 @@ This proposal is organised as follows\ednote{Update this possible if we change t
 \section{Background - The existing MathWebSearch system}
 \label{sec:mws}
 
-As mentioned above, MathWebSearch is a search engine for mathmatical formulars in documents. It has a corpus of ??? \ednote{Get an estimate here} documents and is currently deployed and used by ??? and ??? \ednote{where? }.
+As mentioned above, MathWebSearch is a search engine for mathmatical formulars in documents. It has a corpus of ??? documents \ednote{Get an estimate here} and is currently deployed and used by Zentralblatt Math \ednote{link to their front-end here; mayber mention a bit more about it}.
 
 The frontend, running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses a REST backend and dependens on MathML support to render Mathematics. It simply accessing a REST backend via AJAX. When the client enters a LaTeX forumar to search for, the backend renders MathML which is then sent back to the client. Next, the client renders the MathML (to show the formular the user is searching for) and also sends back the MathML to the server to search for it. Finally the server sends back results to the client which then shows a list of them.
 
 The backend, written in ??? \ednote{What is the backend written in?}, has 2 independent components. The first component, LaTeX to MathML translation, is not part of MathWebSearch directly. It is rather uses LaTeXML to work\ednote{Really? Reference needed. }. The searching however is handled by MWS directly.
 
-For each corpus a big search index is generated before search \ednote{Explain this better}. Then during runtime only this index is searched. \ednote{Explain theory graphs here}
+\ednote{Explain how the backend works}
 
-\ednote{Explain how MWS uses those here}
-
-Advantages of this approach / how MWS is received
-\ednote{Find points here}
+\ednote{Find advantages of the current MWS system here}
 
 Disadvantages of the current approach
 \begin{itemize}
@@ -110,7 +107,7 @@ As with the existing system, the frontend should be a web page that works in all
   \item should be easily exchangable
 \end{itemize}
 
-The unit transition system
+The unit transition system \ednote{Write this part. }
 \begin{itemize}
   \item should be a graph
   \item should have few connected components and each of the components should be sparse (i. e. few connections)
