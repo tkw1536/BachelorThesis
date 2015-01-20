@@ -27,7 +27,7 @@
 %\addbibresource{proposal.bib}
 
 
-\title{Units for MathWebSearch\ednote{Preliminary Title}\\ \vspace{2 mm} Guided Research Proposal}
+\title{Semantic Search for Quantity Expressions\ednote{Alternative Title: Units for MathWebSearch}\\ \vspace{2 mm} Guided Research Proposal}
 \author{Tom Wiesing\\Supervisor: Michael Kohlhase\\Jacobs University, Bremen, Germany}
 
 \date{\today}
@@ -39,30 +39,30 @@
 
 %The abstract
 \begin{abstract}
-  In this proposal we describe an approach to introduce Units to MathWebSearch
-  \ednote{Write abstract properly}
+  In this proposal we describe how to approach Semantic search for Quantity Expressions, in particular how to make the existing MathWebSearch system aware of physical units.
+  \ednote{Continue and finish abstract}
 \end{abstract}
 
 %The content pages
 \section{Introduction}
 
-\ednote{Write an introductary sentence / paragraph?}
+In this paper we want to give an approach to Semantic Search for Quantity Expressions. A quantity expression is a number together with a physical unit, for example $25 \frac{\text{m}}{\text{s}}$ where $\frac{\text{m}}{\text{s}}$ the unit. The quantity expression is equivalent to, meaning it expresses the same quantity, to $90 \frac{\text{km}}{\text{h}}$ although the units are different. In a semantic search for quantity expressions, we want to be able to search for a certain quantity expression and find any equivalent one.
 
-MathWebSearch (MWS for short\ednote{should I really use abbreviations here?}) is a system to search (latex) documents for mathematical formulae. Additionally it can also search for text in the documents\ednote{Or is this the multi-faceted search that is currently planned? Do we really need this sentence?}. However it not only searches for formulae in a simple-minded ``text search'' way but also includes simple transformation rules, such as $a + b = b + a$. Additionally, is is possible to search with wildcards such as $ { \color{red} x} + \sqrt{\color{red} x}$. In this example MWS delivers results of the given form where $\color{red} x$ is substituted with any sub-formular\ednote{Re-formulate this and link to an example?}.
+MathWebSearch (MWS for short\ednote{should I really use abbreviations here?}) is an existing system to search \LaTeX documents for mathematical formulae \ednote{Should I mention Thema-Search (search with text) here?}. However it not only searches for formulae in a simple-minded ``text search'' way but also includes simple transformation rules, such as $a + b = b + a$. Thus it is aware of semantics. Additionally, it can deal with wildcards such as $ { \color{red} x} + \sqrt{\color{red} x}$. For this query MWS would deliver formulars which are of the form as above with $ { \color{red} x} $ substituted with any sub-formular.
 
-MWS has been shown to be very useful for mathematicians\ednote{Quote neeeded}. The transformation system it uses can currently be used only for mathematical formulae which limits its applications. In this paper we propose an extension for physical units\ednote{Reformulate this?}. Instead of transforming mathematical formulae, the search engine should transfer physical units.
+MWS has been shown to be very useful for mathematicians\ednote{Quote neeeded}. The transformation system it uses can currently be used only for mathematical formulae which limits its applications. In this paper we propose an extension for physical units\ednote{We have said this already}. Instead of transforming mathematical formulae, the search engine should transform physical units.
 The end-user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
 
-This proposal is organised as follows\ednote{Update this possible if we change the structure}: In section \ref{sec:mws} we shortly describe and discuss the existing MathWebSearch system and then proceed in section \ref{sec:extension} to describe in detail the proposed extension. Finally in section \ref{sec:problems_relatedwork} we discuss possible problems with this approach and related work.
+This proposal is organised as follows\ednote{Update this if we change the structure}: In section \ref{sec:mws} we shortly describe and discuss the existing MathWebSearch system and then proceed in section \ref{sec:extension} to describe in detail the proposed extension. Finally in section \ref{sec:problems_relatedwork} we discuss possible problems with this approach and related work.
 
 \section{Background - The existing MathWebSearch system}
 \label{sec:mws}
 
-As mentioned above, MathWebSearch is a search engine for mathmatical formulars in documents. It has a corpus of ??? documents \ednote{Get an estimate here} and is currently deployed and used by Zentralblatt Math \ednote{link to their front-end here; mayber mention a bit more about it}.
+As mentioned above, MathWebSearch is a search engine for mathmatical formulars in documents. It has a corpus of ??? documents \ednote{Get an estimate here} and is currently deployed and used by Zentralblatt Math \ednote{link to their front-end here; mayber mention a bit more about it, this is thema-search}.
 
-The frontend, running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses a REST backend and dependens on MathML support to render Mathematics. It simply accessing a REST backend via AJAX. When the client enters a LaTeX forumar to search for, the backend renders MathML which is then sent back to the client. Next, the client renders the MathML (to show the formular the user is searching for) and also sends back the MathML to the server to search for it. Finally the server sends back results to the client which then shows a list of them.
+The frontend, running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses a REST backend and dependens on MathML support to render Mathematics. It simply accessing a REST backend via AJAX. When the client enters a \LaTeX forumar to search for, the backend renders MathML which is then sent back to the client. Next, the client renders the MathML (to show the formular the user is searching for) and also sends back the MathML to the server to search for it. Finally the server sends back results to the client which then shows a list of them.
 
-The backend, written in ??? \ednote{What is the backend written in?}, has 2 independent components. The first component, LaTeX to MathML translation, is not part of MathWebSearch directly. It is rather uses LaTeXML to work\ednote{Really? Reference needed. }. The searching however is handled by MWS directly.
+The backend, written in ??? \ednote{What is the backend written in?}, has 2 independent components. The first component, \LaTeX to MathML translation, is not part of MathWebSearch directly. It is rather uses \LaTeX ML to work\ednote{Really? Reference needed. }. The searching however is handled by MWS directly.
 
 \ednote{Explain how the backend works}
 
@@ -124,7 +124,7 @@ The unit transition system \ednote{Write this part. }
 
 There are several problems with this approach. \ednote{Continue intro pargraph}
 
-The units have to be entered in some fashion in the search engine. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore si-prefixes (such as kilo or mini) should also be recognised which is an additional problem. There are a few alternatives to use as input formats: AsciiMath, LaTeX and MathML, to name only 3. Independent of the input format, the end result (delivered to the backend of the search engine) should be MathML containing the unit in some yet-to-be-determined standard form.
+The units have to be entered in some fashion in the search engine. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore si-prefixes (such as kilo or mini) should also be recognised which is an additional problem. There are a few alternatives to use as input formats: AsciiMath, \LaTeX and MathML, to name only 3. Independent of the input format, the end result (delivered to the backend of the search engine) should be MathML containing the unit in some yet-to-be-determined standard form.
 
 The unit equivalences should be in the form of a theory graph \ednote{Reference this properly. } The equivalence
 (translation) itself contains both a translation for the quantity and the unit. The values searched for should be simple real numbers together with the forumlar. However since all numbers must be represented in a finite fashion, translations formulars can gvie problems. A natural quantity in one unit can be a repeating decimal in a another unit. Also rounding of quantities might depend on the unit used. It is thus preferable not not search for an exact value but instead for a range of values. These ranges should depend on the unit. These ranges have just been implemented in MWS by Radu \ednote{Quote needed; reformulate}. \ednote{Write excatly how to use ranges} \ednote{Check if the reference in (2) is clear}
