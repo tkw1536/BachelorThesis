@@ -14,6 +14,7 @@
 
 % WE want colored links instead of ugly boxes
 \usepackage[colorlinks=true]{hyperref}
+\usepackage{url}
 
 % Ednotes
 \usepackage[show]{ed}
@@ -46,7 +47,7 @@
 
 In this paper we want to give an approach to Semantic Search for Quantity Expressions. A quantity expression is a number together with a physical unit, for example $25 \frac{\text{m}}{\text{s}}$ where $\frac{\text{m}}{\text{s}}$ the unit. This quantity expression is equivalent to $90 \frac{\text{km}}{\text{h}}$ (with equivalent in this sense meaning it expresses the same quantity) although the units are different. In a semantic search for quantity expressions, we want to be able to search for a certain quantity expression and find any equivalent ones as well.
 
-MathWebSearch (MWS for short) is an existing semantics-aware system to search \LaTeX documents \footnote{Technically, MWS itself can only search XHTML documents. However with the help of \LaTeX ML it mostly handles converted \LaTeX  documents. } for mathematical formulae \cite{HamKohPro:man14}. As it is semantics-aware it not only searches for formulae in a simple-minded ``text search'' way but also includes simple transformation rules, such as $a + b = b + a$. Additionally, it can deal with wildcards such as $ { \color{red} x} + \sqrt{\color{red} x}$. For this query MWS would deliver formulars which are of the form as above with $ { \color{red} x} $ substituted with any sub-formular.
+MathWebSearch (MWS for short) is an existing semantics-aware system to search \LaTeX \  documents \footnote{Technically, MWS itself can only search XHTML documents. However with the help of \LaTeX ML \cite{latexml-daemon} it also handles \LaTeX \  documents. } for mathematical formulae \cite{HamKohPro:man14}. As it is semantics-aware it not only searches for formulae in a simple-minded ``text search'' way but also includes simple transformation rules, such as $a + b = b + a$. Additionally, it can deal with wildcards such as $ { \color{red} x} + \sqrt{\color{red} x}$. For this query MWS would deliver forumlae which are of the form as above with $ { \color{red} x} $ substituted with any sub-formular.
 
 So far the transformation system has been used by MWS only for mathmatical forumlae. In this paper we propose an extension for quantity expressions which will be useful in physical papers.
 The end-user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
@@ -56,7 +57,7 @@ This proposal is organised as follows\ednote{Update this if we change the struct
 \section{Background - The existing MathWebSearch system}
 \label{sec:mws}
 
-As mentioned above, MathWebSearch is a search engine for mathmatical formulars in documents. It has a corpus of ??? documents \ednote{Get an estimate here} and is currently deployed and used by Zentralblatt Math \ednote{link to their front-end here; mayber mention a bit more about it, this is thema-search}.
+As mentioned above, MathWebSearch is a search engine for mathmatical forumlae in documents. It has a corpus of ??? documents \ednote{Get an estimate here} and is currently deployed and used by Zentralblatt Math \ednote{link to their front-end here; mayber mention a bit more about it, this is thema-search}.
 
 The frontend, running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses a REST backend and dependens on MathML support to render Mathematics. It simply accessing a REST backend via AJAX. When the client enters a \LaTeX forumar to search for, the backend renders MathML which is then sent back to the client. Next, the client renders the MathML (to show the formular the user is searching for) and also sends back the MathML to the server to search for it. Finally the server sends back results to the client which then shows a list of them.
 
@@ -125,7 +126,7 @@ There are several problems with this approach. \ednote{Continue intro pargraph}
 The units have to be entered in some fashion in the search engine. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore si-prefixes (such as kilo or mini) should also be recognised which is an additional problem. There are a few alternatives to use as input formats: AsciiMath, \LaTeX and MathML, to name only 3. Independent of the input format, the end result (delivered to the backend of the search engine) should be MathML containing the unit in some yet-to-be-determined standard form.
 
 The unit equivalences should be in the form of a theory graph \ednote{Reference this properly. } The equivalence
-(translation) itself contains both a translation for the quantity and the unit. The values searched for should be simple real numbers together with the forumlar. However since all numbers must be represented in a finite fashion, translations formulars can gvie problems. A natural quantity in one unit can be a repeating decimal in a another unit. Also rounding of quantities might depend on the unit used. It is thus preferable not not search for an exact value but instead for a range of values. These ranges should depend on the unit. These ranges have just been implemented in MWS by Radu \ednote{Quote needed; reformulate}. \ednote{Write excatly how to use ranges} \ednote{Check if the reference in (2) is clear}
+(translation) itself contains both a translation for the quantity and the unit. The values searched for should be simple real numbers together with the forumlar. However since all numbers must be represented in a finite fashion, translations forumlae can gvie problems. A natural quantity in one unit can be a repeating decimal in a another unit. Also rounding of quantities might depend on the unit used. It is thus preferable not not search for an exact value but instead for a range of values. These ranges should depend on the unit. These ranges have just been implemented in MWS by Radu \ednote{Quote needed; reformulate}. \ednote{Write excatly how to use ranges} \ednote{Check if the reference in (2) is clear}
 
 Finally, there are the problems of finding a corpus and marking up units in this corpus. The second problem, marking up units in a corpus, will be taken on by ???\ednote{Who is doing unit finding?} in a seperate thesis. The first problem will be postponed for now. In case there is still time, a suitably corpus can be marked up manually and plugged into the system. For first testing, I will create a dummy corpus of lorem-ipsum style documents which will contain a random sampling of units.
 
@@ -133,5 +134,5 @@ Finally, there are the problems of finding a corpus and marking up units in this
 
 %BIBLIOGRAPHY
 \bibliography{kwarc}{}
-\bibliographystyle{plain}
+\bibliographystyle{plainurl}
 \end{document}
