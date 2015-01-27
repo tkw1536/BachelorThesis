@@ -52,7 +52,7 @@ MathWebSearch (MWS for short) is an existing semantics-aware system to search \L
 So far the transformation system has been used by MWS exclusively for mathmatical forumlae. In this paper we propose an extension for quantity expressions which should prove useful for physicists.
 The end user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
 
-This proposal is organised as follows: In section \ref{sec:mws} we shortly describe the existing MathWebSearch system and then proceed in section \ref{sec:extension} to describe in detail the proposed extension. Finally in section \ref{sec:problems_relatedwork} we discuss possible problems with this approach and related work.
+This proposal is organised as follows: In section \ref{sec:mws} we shortly describe the existing MathWebSearch system and then proceed in section \ref{sec:extension} to describe in detail the proposed extension. Finally in section \ref{sec:problems_relatedwork} we discuess challenges as well as related work.
 
 \section{An overview of the existing MathWebSearch system}
 \label{sec:mws}
@@ -70,68 +70,48 @@ The crawler, as its name suggests, crawls corpera for forumlars. For each corpus
 
 The frontend, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a \LaTeX{} formular to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query in content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents.
 
-There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capabale of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}. 
+There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capabale of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}.
 
+\ednote{how MWS uses Theory graphs}
 
-\ednote{How to search Math here}
-
-\section{The proposed extension}
+\section{The goal - a semantic search for quantity expressions based on MathWebSearch}
 \label{sec:extension}
 
-The goal of the guided research is to get a complete system that searches a corpus of documents for units as already indicated above. This system should be nicely accessible to the end user. Furthermore, it should be extendable with respect to
+The goal of the guided research is to get a complete system that can perform a semantic search of quanity expressions on a specific corpus.  As such it needs 4 components: (1) \textit{A crawler} that searches through documents and finds units which can be indexed, (2) \textit{a core system} that takes care of storing indexes and processing queries and is aware of units with the help of a theory graph, (3) \textit{a rest API} that has to have a way of sending units from and to a client and (4) \textit{a frontend} that runs in the web browser.
+
+Furthermore the system will be flexible with respect to
 \begin{itemize}
-  \item \textit{the unit system, } Adding new units should be easy and most translations should be deducted by the system automatically.
-  \item \textit{and the searchable corpus. } It should be easy to search a different corpus of documents provided units are properly marked up inside it.
+  \item \textit{the quanity expressions it understands, } Adding new units should be a simple process so that the system can be easily extended to also capture rare units and
+  \item \textit{the corpus} which should be exchangable easily.
 \end{itemize}
 
-As with the existing system, the frontend should be a web page that works in all modern browsers. It should be mobile friendly. It should communicate directly with the backend via a RESTful API. The frontend should incoperate 4 main elements:
+The crawler will be based on existing MWS crawlers. As it is very difficult to find and mark up all units in a corpus automatically, we will restrict ourself to an artificial corpus containing only lorem ipsum documents with randomly inserted units. This does not solve the problem of writing a crawler, however it will enable us to build a proof-of-concept system first.
+
+The core system will almost completly be inherited from existing implementations. As it does not search formulae, it has to be made aware of unit translations. This will be done with the help of theory graphs. It is not yet clear how exactly these will look, a speculation can be found below in \ref{sec:problems_relatedwork}.
+
+The rest-based API will have to take the user input from the client and pass the entire quantity expression on to the core system. Once it receives a result, it will have to translate these back into human-readable form and then pass these on to the frontend.
+
+As with the existing system, the frontend will be a web page that incorperates 3 main elements:
 
 \begin{enumerate}
-  \item a search input for a (real) quantity,
-  \item a search inout for a unit, described further in section \ref{sec:problems_relatedwork},
-  \item an additional search input for text and
+  \item a search input for a number,
+  \item a search input for a unit, with the format as described below in \ref{sec:problems_relatedwork} and
   \item a result page that displays results and links to the found documents.
 \end{enumerate}
 
-\noindent The REST-based backend should have 3 major tasks:
+\ednote{Maybe have a final pargraph in this section? Or write more?}
 
-\begin{enumerate}
-  \item translate raw unit input into a standardised form (see section \ref{sec:problems_relatedwork} for details),
-  \item search for documents using the input from the frontend and
-  \item make the documents available to the enduser.
-\end{enumerate}
-
-\noindent The corpus \ednote{Write form here onwards}
-\begin{itemize}
-  \item should consist of a lot of tex documents
-  \item should have marked up units
-  \item ideally, if a single document is added, only the new corpus should have to be re-scanned (procedular generation)
-  \item should be easily exchangable
-\end{itemize}
-
-The unit transition system \ednote{Write this part. }
-\begin{itemize}
-  \item should be a graph
-  \item should have few connected components and each of the components should be sparse (i. e. few connections)
-  \item translation are:
-  \begin{itemize}
-    \item either a factor towards a single unit
-    \item or a composition of a factor together with a product or fraction of units \ednote{Figure out more details about this}
-    \item Perhaps include prefixes somehow?
-  \end{itemize}
-\end{itemize}
-
-\section{Problems and related Work}
+\section{Challenges and related Work}
 \label{sec:problems_relatedwork}
 
-There are several problems with this approach. \ednote{Continue intro pargraph}
+The biggest challenge with the approach will be to find a standardised representation for quantity expressions, mainly for units\footnote{Here, standardised means that all quantity expressions are represented in a standardised, machine-readable fashion, not equivalent quantity expressions being representeted in exactly one way. }. Because we want to translate between these representations however, it is insufficent to just have such a representation. We additionally need to find a standardies way of translating between units need to exist as well.
 
-The units have to be entered in some fashion in the search engine. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore si-prefixes (such as kilo or mini) should also be recognised which is an additional problem. There are a few alternatives to use as input formats: AsciiMath, \LaTeX and MathML, to name only 3. Independent of the input format, the end result (delivered to the backend of the search engine) should be MathML containing the unit in some yet-to-be-determined standard form.
+\ednote{Describe a possible unit translation system here, have a small example graph with the help of @miancu}.
+\ednote{Mention: Ranges have been implemented in MWS by Radu; Quote needed}
 
-The unit equivalences should be in the form of a theory graph \ednote{Reference this properly. } The equivalence
-(translation) itself contains both a translation for the quantity and the unit. The values searched for should be simple real numbers together with the forumlar. However since all numbers must be represented in a finite fashion, translations forumlae can gvie problems. A natural quantity in one unit can be a repeating decimal in a another unit. Also rounding of quantities might depend on the unit used. It is thus preferable not not search for an exact value but instead for a range of values. These ranges should depend on the unit. These ranges have just been implemented in MWS by Radu \ednote{Quote needed; reformulate}. \ednote{Write excatly how to use ranges} \ednote{Check if the reference in (2) is clear}
+The units will have to be entered in some fashion in the frontend. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore units with (si-)prefixes (such as kilo or mega) can either be recognised seperatly or as part of the unit. There are several input formats that can be used: AsciiMath, \LaTeX{} and MathML, to name only a few. Independent of the input format, the end result (delivered to the backend of the search engine) will have to be represented in one way.
 
-Finally, there are the problems of finding a corpus and marking up units in this corpus. The second problem, marking up units in a corpus, will be taken on by ???\ednote{Who is doing unit finding?} in a seperate thesis. The first problem will be postponed for now. In case there is still time, a suitably corpus can be marked up manually and plugged into the system. For first testing, I will create a dummy corpus of lorem-ipsum style documents which will contain a random sampling of units.
+Finally, there is the problem of choosing a suitable corpus and implementing a crawler which will find and mark up quantity expressions. The latter will be taken on by ???\ednote{Who is doing unit finding?} in a seperate effort\ednote{Reference here}. The task of finding a suitable corpus is postponed for now. In case there is sufficient time a corpus can be marked up manually and crawled afterwards.
 
 \ednote{Write final paragraph}
 
