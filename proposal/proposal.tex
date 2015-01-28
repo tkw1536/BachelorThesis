@@ -63,16 +63,30 @@ The backend consists of 3 main components,
 \begin{enumerate}
   \item a crawler,
   \item a core system and
-  \item a public REST API.
+  \item a public rest API.
 \end{enumerate}
 
-The crawler, as its name suggests, crawls corpera for forumlars. For each corpus MWS uses, a seperate crawler has to be implemented. The crawled formulars are then transformed into a format easily accessible by the search engine. Next, the core system builds a search index. The core system is also responsible for parsing queries and sending results back to the REST API.
+The crawler, as its name suggests, crawls corpera for forumlars. For each corpus MWS uses, a seperate crawler has to be implemented. The crawled formulars are passed to the core system and indexed in an MWS Harvest. The core system is also responsible for parsing queries and sending results back to the REST API. This is done by searching the harvest only.
 
-The frontend, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a \LaTeX{} formular to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query in content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents.
+Because MWS is semeantics-aware, the harvest does not only contain the exact formulars that can be found in the original corpus but also all versions that are quivalent to it. These are generated with the help of MMT and theory graphs.
+
+MMT is a \textbf{M}odule system for \textbf{M}athematical \textbf{T}heories \cite{RabKoh:WSMSML13}. In MMT we can represent mathematical theories, views and imports.
+
+A mathematical theory in this sense is a set of symbols along with a set of axiomes\footnote{While in mathematics axiomes do not require proof, in MMT it is possible for an axiom to actually be a theorem that has a proof. }. In their MMT representation both the symbols and axioms have types.
+
+Theories can be related in two ways, with imports and views. If theory A imports theory B then theory A contains all symbols and axiomes from theory B. As an example, the theory of a \textit{commutative groups} imports the theory of \textit{groups}. The \textit{commutative group} theory additionally has the axiom of commutativity. We can consider an import as a type of inheritance relation. In contrast to this a view is a type of instance relation. For example, there is a view from the theory of \textit{Monoids} to the theory of \textit{Natural numbers}. A theorem in one theory can be translated along views as well as along imports. For example, given a theorem in the theory of groups, we automatically get a theorem in the theory of commutative groups.
+
+The theories and their relations can be represented with the help of a graph. This graph is then called theory graph. In the following example, we represent imports as solid edges and views as dashed edges. \ednote{Have an example of a small theory graph here with help from @miancu. }
+
+Every theory in MMT has a (globally unique) URL, called the MMT URL. Sometimes it is useful to not write down a theory explicitly, but only give an existing theory and a view to this new theory. We then call this new theory an \textit{induced theory}. The MMT URL of this induced theory is only given via the view. However, the MMT URL contains enough information that MMT can generate all symbols, axiomes and induced theorems explictly \cite{IanKohProd:rassmk14}.
+
+\ednote{What is a formula in MWS HARVEST? Continue here}
+
+The frontend for MathWebSearch, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a \LaTeX{} formular to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query in content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents.
 
 There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capabale of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}.
 
-\ednote{how MWS uses Theory graphs}
+
 
 \section{The goal - a semantic search for quantity expressions based on MathWebSearch}
 \label{sec:extension}
@@ -106,7 +120,7 @@ As with the existing system, the frontend will be a web page that incorperates 3
 
 The biggest challenge with the approach will be to find a standardised representation for quantity expressions, mainly for units\footnote{Here, standardised means that all quantity expressions are represented in a standardised, machine-readable fashion, not equivalent quantity expressions being representeted in exactly one way. }. Because we want to translate between these representations however, it is insufficent to just have such a representation. We additionally need to find a standardies way of translating between units need to exist as well.
 
-\ednote{Describe a possible unit translation system here, have a small example graph with the help of @miancu}.
+\ednote{Mention the graph that has to be created. }
 \ednote{Mention: Ranges have been implemented in MWS by Radu; Quote needed}
 
 The units will have to be entered in some fashion in the frontend. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore units with (si-)prefixes (such as kilo or mega) can either be recognised seperatly or as part of the unit. There are several input formats that can be used: AsciiMath, \LaTeX{} and MathML, to name only a few. Independent of the input format, the end result (delivered to the backend of the search engine) will have to be represented in one way.
