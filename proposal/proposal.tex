@@ -68,7 +68,7 @@ The backend consists of 3 main components,
 
 The crawler, as its name suggests, crawls corpera for forumlars. For each corpus MWS uses, a seperate crawler has to be implemented. The crawled formulars are passed to the core system and indexed in an MWS Harvest. The core system is also responsible for parsing queries and sending results back to the REST API. This is done by searching the harvest only.
 
-Because MWS is semeantics-aware, the harvest does not only contain the exact formulars that can be found in the original corpus but also all versions that are quivalent to it. These are generated with the help of MMT and theory graphs.
+Because MWS is semantics-aware, the harvest can not only contain the exact formulars that are found in the original corpus but also all versions that are quivalent to it. These are generated with the help of MMT and theory graphs.
 
 MMT is a \textbf{M}odule system for \textbf{M}athematical \textbf{T}heories \cite{RabKoh:WSMSML13}. In MMT we can represent mathematical theories, views and imports.
 
@@ -78,15 +78,13 @@ Theories can be related in two ways, with imports and views. If theory A imports
 
 The theories and their relations can be represented with the help of a graph. This graph is then called theory graph. In the following example, we represent imports as solid edges and views as dashed edges. \ednote{Have an example of a small theory graph here with help from @miancu. }
 
-Every theory in MMT has a (globally unique) URL, called the MMT URL. Sometimes it is useful to not write down a theory explicitly, but only give an existing theory and a view to this new theory. We then call this new theory an \textit{induced theory}. The MMT URL of this induced theory is only given via the view. However, the MMT URL contains enough information that MMT can generate all symbols, axiomes and induced theorems explictly \cite{IanKohProd:rassmk14}.
+Every theory in MMT has a (globally unique) URL, called the MMT URL. Sometimes it is useful to not write down a theory explicitly, but only give an existing \textit{represented theory} and a view to a new theory. We then call this new theory an \textit{induced theory}. The MMT URL of induced theories is given via the view only and not represented explicitly. However, the MMT URL contains enough information that MMT can generate all symbols, axiomes and induced theorems explictly \cite{IanKohProd:rassmk14}.
 
-\ednote{What is a formula in MWS HARVEST? Continue here}
+In an MWS Harvest we exploit this property of induced theories. We have several represented theories, the forumlae in the corpus, and many more induced theories, other equivalent representations of these formulae. With the help of MMT, the MMT Harvest is built by representing all theses theories (forumlae) explictly.
 
 The frontend for MathWebSearch, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a \LaTeX{} formular to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query in content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents.
 
 There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capabale of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}.
-
-
 
 \section{The goal - a semantic search for quantity expressions based on MathWebSearch}
 \label{sec:extension}
@@ -118,7 +116,7 @@ As with the existing system, the frontend will be a web page that incorperates 3
 \section{Challenges and related Work}
 \label{sec:problems_relatedwork}
 
-The biggest challenge with the approach will be to find a standardised representation for quantity expressions, mainly for units\footnote{Here, standardised means that all quantity expressions are represented in a standardised, machine-readable fashion, not equivalent quantity expressions being representeted in exactly one way. }. Because we want to translate between these representations however, it is insufficent to just have such a representation. We additionally need to find a standardies way of translating between units need to exist as well.
+A bigger challenge with the approach will be to find a standardised representation for quantity expressions, mainly for units\footnote{Here, standardised means that all quantity expressions are represented in a standardised, machine-readable fashion, not equivalent quantity expressions being representeted in exactly one way. }. Because we want to translate between these representations however, it is insufficent to just have such a representation. We additionally need to find a standardised way of translating between units need to exist as well.
 
 \ednote{Mention the graph that has to be created. }
 \ednote{Mention: Ranges have been implemented in MWS by Radu; Quote needed}
