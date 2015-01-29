@@ -7,7 +7,8 @@
 \usepackage{amsfonts}
 \usepackage{amssymb}
 \usepackage{amsmath}
-\usepackage{amsthm}
+
+\usepackage{tikz,stex,amstext}
 
 %Add some color
 \usepackage{xcolor}
@@ -76,7 +77,9 @@ A mathematical theory in this sense is a set of symbols along with a set of axio
 
 Theories can be related in two ways, with imports and views. If theory A imports theory B then theory A contains all symbols and axiomes from theory B. As an example, the theory of a \textit{commutative groups} imports the theory of \textit{groups}. The \textit{commutative group} theory additionally has the axiom of commutativity. We can consider an import as a type of inheritance relation. In contrast to this a view is a type of instance relation. For example, there is a view from the theory of \textit{Monoids} to the theory of \textit{Natural numbers}. A theorem in one theory can be translated along views as well as along imports. For example, given a theorem in the theory of groups, we automatically get a theorem in the theory of commutative groups.
 
-The theories and their relations can be represented with the help of a graph. This graph is then called theory graph. In the following example, we represent imports as solid edges and views as dashed edges. \ednote{Have an example of a small theory graph here with help from @miancu. }
+The theories and their relations can be represented with the help of a graph. This graph is then called theory graph. In figure \ref{graph1} we can see a simple example of a theory graph.
+
+\input{graph1.tex}
 
 Every theory in MMT has a (globally unique) URL, called the MMT URL. Sometimes it is useful to not write down a theory explicitly, but only give an existing \textit{represented theory} and a view to a new theory. We then call this new theory an \textit{induced theory}. The MMT URL of induced theories is given via the view only and not represented explicitly. However, the MMT URL contains enough information that MMT can generate all symbols, axiomes and induced theorems explictly \cite{IanKohProd:rassmk14}.
 
@@ -103,15 +106,7 @@ The core system will almost completly be inherited from existing implementations
 
 The rest-based API will have to take the user input from the client and pass the entire quantity expression on to the core system. Once it receives a result, it will have to translate these back into human-readable form and then pass these on to the frontend.
 
-As with the existing system, the frontend will be a web page that incorperates 3 main elements:
-
-\begin{enumerate}
-  \item a search input for a number,
-  \item a search input for a unit, with the format as described below in \ref{sec:problems_relatedwork} and
-  \item a result page that displays results and links to the found documents.
-\end{enumerate}
-
-\ednote{Should I write a final paragraph in this section. }
+As with the existing system, the frontend will be a web page that incorperates 3 main elements, (1) a search input for a value (2) a search input for a unit and (3) a result page that displays results and links to the found documents.
 
 \section{Challenges and related Work}
 \label{sec:problems_relatedwork}
@@ -122,14 +117,12 @@ Because we want to translate between these representations however, it is insuff
 
 To translate between units we could use simple translation formulae such has $x \text{K} = x + 273.15 ^\circ{C} $. However because we want to support composite units (such as meters per second $\frac{\text{m}}{\text{s}}$) as well, this can cause problems. In machine representation, every quantity expression has to have a finite precision representation. When translating between 2 composite units, this can easily cause rounding errors. In particular, when an author gives an approximation of a quantity in a document, they might round differently depending on the units used.
 
-Hence it will not be sufficient to use exact translations. Thus we should search for a range of values instead. This has recently been implemented as an extension to MathWebSearch\cite{MWS:Ranges}. It remains to be seen how exactly these ranges should be used.
+Hence it will not be sufficient to use exact translations. Thus we should search for a range of values instead. This has recently been implemented as an extension to MathWebSearch\cite{MWS:Ranges}. It remains to be seen how exactly these ranges should be used. \ednote{Simple unit graph example}
 
 Furthermore the units will have to be entered in some fashion in the frontend. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore units with (si-)prefixes (such as kilo or mega) can either be recognised seperatly or as part of the unit (multipling directly into the value of the quantity expression). There are several input formats that can be used: AsciiMath, \LaTeX{} and MathML, to name only a few. Independent of the input format, the end result (delivered to the backend of the search engine) will have to be represented in one way.
 
 Finally, there is the problem of choosing a suitable corpus and implementing a crawler which will find and mark up quantity expressions. The latter will be taken on by
 Stiv Sherko in a seperate effort \cite{proposal:sharko}. The task of finding a suitable corpus is postponed for now. In case there is sufficient time a ycorpus can be marked up manually and crawled afterwards.
-
-\ednote{Maybe I should write a final paragraph. }
 
 %BIBLIOGRAPHY
 \bibliography{kwarc,proposal}{}

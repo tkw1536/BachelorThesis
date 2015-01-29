@@ -1,0 +1,105 @@
+\usetikzlibrary{shapes,arrows,mmt}
+\def\thmo#1#2{\mathsf{#1}\colon\kern-.15em{#2}}
+\providecommand\myxscale{3.9}
+\providecommand\myyscale{2.2}
+\providecommand\myfontsize{\footnotesize}
+
+\begin{figure}[h]
+\begin{tikzpicture}[xscale=\myxscale,yscale=\myyscale]\myfontsize
+  \node[thy] (sg) at (1,-1) {
+    \begin{tabular}{l}
+      \textsf{Semigroup}\\\hline
+      $G,\circ$\\\hline
+      $\scriptstyle x\circ y\in G$ \\\hline
+      $\scriptstyle \mathsf{assoc}: (x\circ y)\circ z=x\circ (y\circ z)$
+    \end{tabular}
+  };
+  \node[thy] (m) at (1,0) {
+    \begin{tabular}{l}
+      \textsf{Monoid}\\\hline
+      $e$\\\hline
+      $\scriptstyle e\circ x=x$
+    \end{tabular}
+  };
+  \node[thy] (g) at (1,1) {
+    \begin{tabular}{l}
+      \textsf{Group}\\\hline
+      $i := \scriptstyle\lambda x.\tau y. x\circ y=e$\\\hline
+      $\scriptstyle\forall x:G.\exists y:G.x\circ y=e$
+    \end{tabular}
+  };
+  \node[thy] (cg) at (1,2) {
+    \begin{tabular}{l}
+      \textsf{Commutative Group}\\\hline
+      \\\hline
+      $\scriptstyle \mathsf{comm} : x\circ y=y\circ x$
+    \end{tabular}
+  };
+
+
+
+  \node[thy] (N) at (-1,-1) {
+    \begin{tabular}{l}
+      \textsf{Natural Numbers}\\\hline
+      $\mathbb{N},s,0$\\\hline
+      $\scriptstyle P1$,\ldots $\scriptstyle P5$
+    \end{tabular}
+  };
+  \node[thy] (Np) at (-1,0) {
+    \begin{tabular}{l}
+      \textsf{Natural Numbers with Plus}\\\hline
+      $+$\\\hline
+      $\scriptstyle n+0=n$,\\
+      $\scriptstyle n+s(m)=s(n+m)$
+    \end{tabular}
+  };
+  \node[thy] (Nt) at (-1,1) {
+    \begin{tabular}{l}
+      \textsf{Natural Numbers with Multiplication}\\\hline
+      $\cdot$\\\hline
+      $\scriptstyle n\cdot1=n$,\\
+      $\scriptstyle n\cdot s(m)=n\cdot m+n$
+    \end{tabular}
+  };
+  \node[thy] (ia) at (-1,2) {
+    \begin{tabular}{l}
+      \textsf{Integer Arithmetics}\\\hline
+      $-$\\
+      $\mathbb{Z} := \mathbb{N}\cup-\mathbb{N}$\\\hline
+      $\scriptstyle-0=0$
+    \end{tabular}
+  };
+
+
+  \node (psi) at (0,-.5) {
+    $\psi=\left\{\begin{array}{l}
+    G\mapsto\mathbb{N}\\
+    \circ\mapsto +\\
+    e\mapsto 0\end{array}\right\}$
+  };
+
+  \node (phi) at (0,1.7) {
+    $\phi=\left\{\begin{array}{l}
+    i\mapsto -\\
+    \mathsf{g}\mapsto\mathsf{f}
+    \end{array}\right\}$
+  };
+
+  %Right side
+  \draw[include] (sg) -- (m);
+  \draw[include] (m) -- node[left] (mg) {$\mathsf{g}$} (g);
+  \draw[include] (g) -- (cg);
+
+  %Left side
+  \draw[include] (N) -- (Np);
+  \draw[include] (Np) -- (Nt);
+  \draw[include] (Nt) -- (ia);
+
+  %Links
+  \draw[view] (m) -- node[above] {$\thmo{f}\psi$} (Np);
+  \draw[view] (cg) -- node[above] {$\thmo{h}{\phi}$} (ia);
+\end{tikzpicture}
+
+\caption{A simple theory graph. Imports are represented as solid edges and views as dashed edges. }
+\label{graph1}
+\end{figure}
