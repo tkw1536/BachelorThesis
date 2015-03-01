@@ -57,7 +57,7 @@ MathWebSearch (MWS for short) is an existing semantics-aware system to search \L
 So far the transformation system has been used by MWS exclusively for mathmatical forumlae. In this paper we propose an extension for quantity expressions which should prove useful for physicists.
 The end user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
 
-This proposal is organised as follows: In section \ref{sec:mws} we shortly describe the existing MathWebSearch system and then proceed in section \ref{sec:extension} to describe in detail the proposed extension. Finally in section \ref{sec:problems_relatedwork} we discuess challenges as well as related work.
+This proposal is organised as follows: In section \ref{sec:mws} we shortly describe the existing MathWebSearch system. Then we proceed in section \ref{sec:timings} to describe the work to be done and finally discuss further aspects of the system in \ref{sec:system}.
 
 \section{An Overview of the existing MathWebSearch system}
 \label{sec:mws}
@@ -121,12 +121,18 @@ In an MWS Harvest we exploit this property of induced theorems. We have several 
 
 Applying this principle to quantity expressions, we can consider different units as different theories and different quantity expressions different theorems belonging to their respective unit theories. The unit conversions can then be represented via views. The information on how to translate from one unit to another will be contained within the view. If we know all formulae in a corpus we can then generate an MWS Harvest that contains all the representations. \ednote{Should we move this paragraph to the next section?}
 
-\section{A Semantic Search For Quantity Expressions Based On MathWebSearch}
-\label{sec:extension}
 
-We want to build a complete system based on MathWebSearch that can perform a semantic search of quanity expressions on a specific corpus. As such it needs 4 components: (1) \textit{A crawler} that crawls documents for quantity expressions, (2) \textit{a core system} that transforms these quantity expressions and harvests them as described above as well as provides search functionality, (3) \textit{a rest API} that exposes this search functionality and (4) \textit{a frontend} that servers as the end-users interface to the system.
+\section{Schedule and Work Packages}
+\label{sec:timing}
+
+We want to build a complete system based on MathWebSearch that can perform a semantic search of quanity expressions on a specific corpus. As such it needs 4 components: (1) \textit{A crawler} that crawls documents for quantity expressions, (2) \textit{a core system} that transforms these quantity expressions and harvests them as described above as well as provides search functionality, (3) \textit{a rest API} that exposes this search functionality and (4) \textit{a frontend} that servers as the endusers\ednote{Spelling?} interface to the system.
 
 \ednote{Describe the components again}
+
+
+
+We will build the frontend using HTML, CSS and JavaScript. Because it serves as the main interface to the system
+
 
 Furthermore the system will be flexible with respect to
 \begin{itemize}
@@ -142,8 +148,8 @@ The rest-based API will have to take the user input from the client and pass the
 
 As with the existing system, the frontend will be a web page that incorperates 3 main elements, (1) a search input for a value (2) a search input for a unit and (3) a result page that displays results and links to the found documents.
 
-\section{Challenges and related Work}
-\label{sec:problems_relatedwork}
+\section{A Semantic Search For Quantity Expressions Based On MathWebSearch}
+\label{sec:system}
 
 \ednote{Is the section title correct?}
 
@@ -158,6 +164,7 @@ Hence it will not be sufficient to use exact translations. Thus we should search
 Furthermore the units will have to be entered in some fashion \ednote{The same?} in the frontend. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore units with (si-)prefixes (such as kilo or mega) can either be recognised seperatly or as part of the unit (multipling directly into the value of the quantity expression). There are several input formats that can be used: AsciiMath, \LaTeX{} and MathML, to name only a few. Independent of the input format, the end result (delivered to the backend of the search engine) will have to be represented in one way.
 
 Finally, there is the problem of choosing a suitable corpus and implementing a crawler which will find and mark up quantity expressions. The latter will be taken on by Stiv Sherko in a seperate effort \cite{proposal:sharko}. The task of finding a suitable corpus is postponed for now. In case there is sufficient time a ycorpus can be marked up manually and crawled afterwards.
+
 
 %BIBLIOGRAPHY
 \bibliography{kwarc,proposal}{}
