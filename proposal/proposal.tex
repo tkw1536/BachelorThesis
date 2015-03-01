@@ -60,7 +60,8 @@ This proposal is organised as follows: In section \ref{sec:mws} we shortly descr
 
 \section{An Overview of the existing MathWebSearch system}
 \label{sec:mws}
-\ednote{Subsections}
+
+\subsection{The Components of MathWebSearch}
 
 As mentioned above, MathWebSearch is a search engine for forumlae. MWS consists of 3 main components as well as a frontend \footnote{The frontend is not part of MWS directly but rather built on top of the REST API, more on this later. }\cite{KohPro:MWSmanual}.
 
@@ -75,11 +76,19 @@ The crawler, as its name suggests, crawls corpera for forumlars. For each corpus
 
 Because MWS is semantics-aware, the harvest can not only contain the exact formulars that are found in the original corpus but also all versions that are quivalent to it. These are generated with the help of MMT and theory graphs.
 
+The frontend for MathWebSearch, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a \LaTeX{} formular to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query in content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents.
+
+There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capabale of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}.
+
+\subsection{Modeling of Mathematical Theories with MMT}
+
 MMT is a \textbf{M}odule system for \textbf{M}athematical \textbf{T}heories \cite{RabKoh:WSMSML13}. In MMT we can represent mathematical theories, views and imports.
 
 In MMT, a mathematical theory in this sense is a set of symbols along with a set of axiomes\footnote{While in mathematics axiomes do not require proof, in MMT it is possible for an axiom to actually be a theorem that has a proof. } \ednote{Explain this MUCH MUCH BETTER, this way it is wrong. }. In their MMT representation both the symbols and axioms have types.
 
 Theories can be related in two ways, with imports and views. If theory A imports theory B then theory A contains all symbols and axiomes from theory B. As an example, the theory of a \textit{commutative groups} imports the theory of \textit{groups}. The \textit{commutative group} theory additionally has the axiom of commutativity. We can consider an import as a type of inheritance relation. In contrast to this a view is a type of interpretation relation. For example, there is a view from the theory of \textit{Monoids} to the theory of \textit{Natural numbers}. A theorem in one theory can be translated along views as well as along imports. For example, given a theorem in the theory of groups, we automatically get a theorem in the theory of commutative groups.
+
+\subsection{Using Theory Graphs}
 
 The theories and their relations can be represented with the help of a graph. This graph is then called theory graph. In figure \ref{graph1} we can see a simple example of a theory graph.
 
@@ -87,11 +96,9 @@ The theories and their relations can be represented with the help of a graph. Th
 
 Every theory in MMT has a (globally unique) URL, called the MMT URL. Sometimes it is useful to not write down a theory explicitly, but only give an existing \textit{represented theory} and a view to a new theory \ednote{This is theorems only}. We then call this new theory an \textit{induced theory}. The MMT URL of induced theories is given via the view only and not represented explicitly. However, the MMT URL contains enough information that MMT can generate all symbols, axiomes and induced theorems explictly \cite{IanKohProd:rassmk14} \ednote{Mention URKs}.
 
-In an MWS Harvest we exploit this property of induced theories. We have several represented theories, the forumlae in the corpus, and many more induced theories, other equivalent representations of these formulae. With the help of MMT, the MMT Harvest is built by representing all theses theories (forumlae) explictly.
+In an MWS Harvest we exploit this property of induced theorems. We have several represented theories, the forumlae in the corpus, and many more induced theories, other equivalent representations of these formulae. With the help of MMT, the MMT Harvest is built by representing all theses theories (forumlae) explictly.
 
-The frontend for MathWebSearch, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a \LaTeX{} formular to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query in content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents.
 
-There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capabale of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}.
 
 \section{The goal - A Semantic Search For Quantity Expressions Based On MathWebSearch}
 \label{sec:extension}
