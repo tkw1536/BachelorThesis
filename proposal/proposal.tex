@@ -72,36 +72,56 @@ The backend consists of 3 main components,
   \item a public rest API.
 \end{enumerate}
 
-The crawler, as its name suggests, crawls corpera for forumlars. For each corpus MWS uses, a seperate crawler has to be implemented. The crawled formulae are passed to the core system and indexed in an MWS Harvest. The core system is also responsible for parsing queries and sending results back to the REST API. This is done by searching the harvest only.
+The crawler, as its name suggests, crawls corpera for forumlae. For each corpus MWS uses, a seperate crawler has to be implemented. The crawled formulae are passed to the core system and indexed in an MWS Harvest. The core system is also responsible for parsing queries and sending results back to the REST API. This is done by searching the harvest only. In order to make a semantic search for quantity expressions we will adapt this crawler to find and harvest quantity expression instead.
 
-Because MWS is semantics-aware, the harvest can not only contain the exact formulars that are found in the original corpus but also all versions that are quivalent to it. These are generated with the help of MMT and theory graphs.
+Because MWS is semantics-aware, the harvest can not only contain the exact formulars that are found in the original corpus but also all versions that are quivalent to it. These are generated with the help of MMT and theory graphs, see sections \ref{sec:mws:mmt} and \ref{sec:mws:tg}
 
 The frontend for MathWebSearch, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a \LaTeX{} formular to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query in content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents.
 
 There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capabale of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}.
 
-\subsection{Modeling of Mathematical Theories with MMT}
+\subsection{Mathematical Theory Modeling with MMT}
+\label{sec:mws:mmt}
 
 MMT is a \textbf{M}odule system for \textbf{M}athematical \textbf{T}heories \cite{RabKoh:WSMSML13}. In MMT we can represent mathematical theories, views and imports.
 
-In MMT, a mathematical theory in this sense is a set of symbols along with a set of axiomes\footnote{While in mathematics axiomes do not require proof, in MMT it is possible for an axiom to actually be a theorem that has a proof. } \ednote{Explain this MUCH MUCH BETTER, this way it is wrong. }. In their MMT representation both the symbols and axioms have types.
+A mathematical theory in MMT is a set of typed symbols and statements. As a simple example, the theory of semigroups can be written down as following:
 
-Theories can be related in two ways, with imports and views. If theory A imports theory B then theory A contains all symbols and axiomes from theory B. As an example, the theory of a \textit{commutative groups} imports the theory of \textit{groups}. The \textit{commutative group} theory additionally has the axiom of commutativity. We can consider an import as a type of inheritance relation. In contrast to this a view is a type of interpretation relation. For example, there is a view from the theory of \textit{Monoids} to the theory of \textit{Natural numbers}. A theorem in one theory can be translated along views as well as along imports. For example, given a theorem in the theory of groups, we automatically get a theorem in the theory of commutative groups.
+\begin{tabular}{|l c l|}
+  \hline
+  \textsf{Semigroup} & &\\\hline
+  $G$ & &\\
+  $\circ$ & $:$ & $ G \rightarrow G \rightarrow G$\\
+  $\scriptstyle \mathsf{assoc}$& $:$ & $(x\circ y)\circ z=x\circ (y\circ z)$\\\hline
+\end{tabular}
+
+In the example above \ednote{Check with miancu if the example is correct this way}, we first define the a symbol $G$ (the set of the Semigoup), as well as a (binary) operation $\circ$ and then the law of associativity for the operation $\circ$.
+
+Theories in MMT can be related in two ways, with imports and views. If theory A imports theory B then theory A contains all symbols and statements from theory B. In particular, every satisfiable statement that can be made in theory A is also a satisfiable statement in theory B.
+
+As an example of an import, the theory of a \textit{commutative groups} imports the theory of \textit{groups}. The \textit{commutative group} theory additionally has the axiom of commutativity. We can consider an import as a type of inheritance relation.
+
+In contrast to this a view is a type of interpretation relation. For example, there is a view from the theory of \textit{Monoids} to the theory of \textit{Natural numbers}. Again, a satisfiable statement in the viewed theory can be translated into a satisfiable statement in the target theory.
+
+Thus a theorem in one theory can be translated along views as well as along imports. For example, given a theorem in the theory of groups, we automatically get a theorem in the theory of commutative groups.
 
 \subsection{Using Theory Graphs}
+\label{sec:mws:tg}
 
 The theories and their relations can be represented with the help of a graph. This graph is then called theory graph. In figure \ref{graph1} we can see a simple example of a theory graph.
 
 \input{graph1.tex}
 
-Every theory in MMT has a (globally unique) URL, called the MMT URL. Sometimes it is useful to not write down a theory explicitly, but only give an existing \textit{represented theory} and a view to a new theory \ednote{This is theorems only}. We then call this new theory an \textit{induced theory}. The MMT URL of induced theories is given via the view only and not represented explicitly. However, the MMT URL contains enough information that MMT can generate all symbols, axiomes and induced theorems explictly \cite{IanKohProd:rassmk14} \ednote{Mention URKs}.
+Every theory in MMT has a (globally unique) URL, called the MMT URL \ednote{Example URL here}. Furthermore, every theorem in MMT can also be represented via a URI. As explained above, if 2 theories are related via a view or import, theorems can be translated along this relation.
+
+Sometimes it is useful not to write down a theorem explicitly, but only give an existing theorm and translate this along a view or import. The MMT URL of this induced theorem can then be given using the view\ednote{Example URI here}\cite{IanKohProd:rassmk14}.
 
 In an MWS Harvest we exploit this property of induced theorems. We have several represented theories, the forumlae in the corpus, and many more induced theories, other equivalent representations of these formulae. With the help of MMT, the MMT Harvest is built by representing all theses theories (forumlae) explictly.
 
-
-
 \section{The goal - A Semantic Search For Quantity Expressions Based On MathWebSearch}
 \label{sec:extension}
+
+\subsection{Using theory graphs for Quantity Expressions}
 
 The goal of the guided research is to get a complete system that can perform a semantic search of quanity expressions on a specific corpus.  As such it needs 4 components: (1) \textit{A crawler} that searches through\ednote{reformulate this} documents and finds units which can be indexed, (2) \textit{a core system} that takes care of storing indexes and processing queries and is aware of units with the help of a theory graph, (3) \textit{a rest API} that has to have a way of sending units from and to a client and (4) \textit{a frontend} that runs in the web browser.
 
@@ -121,6 +141,8 @@ As with the existing system, the frontend will be a web page that incorperates 3
 
 \section{Challenges and related Work}
 \label{sec:problems_relatedwork}
+
+\ednote{Is the section title correct?}
 
 A bigger challenge with the approach will be to find a standardised representation for quantity expressions, mainly for units\footnote{Here, standardised means that all quantity expressions are represented in a standardised, machine-readable fashion, not equivalent quantity expressions being representeted in exactly one way. } \ednote{MathML note OM CDs}.
 
