@@ -80,24 +80,26 @@ Because MWS is semantics-aware, the harvest can not only contain the exact formu
 
 The frontend for MathWebSearch, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a \LaTeX{} formular to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query in content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents.
 
-There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capabale of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}.
+There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capabale of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URI:MWSDemo}.
 
 \subsection{Mathematical Theory Modeling with MMT}
 \label{sec:mws:mmt}
 
 MMT is a \textbf{M}odule system for \textbf{M}athematical \textbf{T}heories \cite{RabKoh:WSMSML13}. In MMT we can represent mathematical theories, views and imports.
 
-A mathematical theory in MMT is a set of typed symbols and statements. As a simple example, the theory of semigroups can be written down as following:
+A mathematical theory in MMT is a set of typed symbols. Via the Curry–Howard isomorphism theorms are simply constants inside a theory. If a theorems type is non-empty, is is proveable and the definition is a representation of a proof.
+
+As a simple example, the theory of semigroups can be written down as following:
 
 \begin{tabular}{|l c l|}
   \hline
   \textsf{Semigroup} & &\\\hline
-  $G$ & &\\
+  $G$ & $:$ & $\scriptstyle \mathsf{type}$\\
   $\circ$ & $:$ & $ G \rightarrow G \rightarrow G$\\
   $\scriptstyle \mathsf{assoc}$& $:$ & $(x\circ y)\circ z=x\circ (y\circ z)$\\\hline
 \end{tabular}
 
-In the example above \ednote{Check if example is correct}, we first define the a symbol $G$ (the set of the Semigoup), as well as a (binary) operation $\circ$ and then the law of associativity for the operation $\circ$.
+In the example above, we first define the a type $G$ (the set of the Semigoup). Next we define a (binary) operation $\circ$ and then the law of associativity for the operation $\circ$.
 
 Theories in MMT can be related in two ways, with imports and views. If theory A imports theory B then theory A contains all symbols and statements from theory B. In particular, every satisfiable statement that can be made in theory A is also a satisfiable statement in theory B.
 
@@ -114,17 +116,16 @@ The theories and their relations can be represented with the help of a graph. Th
 
 \input{graph1.tex}
 
-Every theory in MMT has a (globally unique) URL, called the MMT URL \ednote{Example URL here}. Furthermore, every theorem in MMT can also be represented via a URI. As explained above, if 2 theories are related via a view or import, theorems can be translated along this relation.
+Every theory and every constant in MMT has a (globally unique) URI, called the MMT URI. It can be constructed via a triple $\left( G,M,S \right)$ where $G$ is a document, $M$ is a module within this documents and $S$ is the name of a constant \cite{RabKoh:WSMSML13}. We then seperate these components via a ? to get a URI of the form $G?M?S$. Furthermore, every theorem in MMT can also be represented via a URI. As explained above, if 2 theories are related via a view or import, theorems can be translated along this relation.
 
-Sometimes it is useful not to write down a theorem explicitly, but only give an existing theorem and translate this along a view or import. The MMT URL of this induced theorem can then be given using the view\ednote{Example URI here}. This URL contains enough information for MMT to generate the theorem in explicit form\cite{IanKohProd:rassmk14}.
+Sometimes it is useful not to write down a theorem explicitly, but only give an existing theorem and translate this along a view or import. The MMT URI of this induced theorem can then be given using the view. This URI contains enough information for MMT to generate the theorem in explicit form\cite{IanKohProd:rassmk14}.
 
 In an MWS Harvest we exploit this property of induced theorems. We have several represented theorems, the forumlae in the corpus, and many more induced theorems, other equivalent representations of these formulae. With the help of MMT, the MMT Harvest is built by representing all theses theories (forumlae) explictly.
 
 Applying this principle to quantity expressions, we can consider different units as different theories and different quantity expressions different theorems belonging to their respective unit theories. The unit conversions can then be represented via views. The information on how to translate from one unit to another will be contained within the view. If we know all formulae in a corpus we can then generate an MWS Harvest that contains all the representations.
 
-\section{Schedule and Work Packages}
+\section{Work Plan}
 \label{sec:timings}
-\ednote{Think of a better section title?}
 
 Because we want to build a complete system based on MathWebSearch that can perform a semantic search of quanity expressions on a specific corpus we need 4 major components: (1) \textit{A crawler} that crawls documents for quantity expressions, (2) \textit{a core system} that transforms these quantity expressions and harvests them as described above as well as provides search functionality, (3) \textit{a rest API} that exposes this search functionality and (4) \textit{a frontend} that servers as the end users interface to the system.
 
@@ -146,7 +147,7 @@ Although we need work packages 1 and 2 to properly test these components, work p
 
 After the harvester is completed we can proceed with writing an API (work package 6) and the frontend (work package 7). Finally we can return to work packages 1-3 and expand the corpus and unit theories.
 
-This results in the following timeline \ednote{Replace week numbers with actual dates}:
+This results in the following timeline \ednote{Find out deadline}:
 \begin{itemize}
   \item \textbf{Week 1} - Work Package 3 - Building a small unit theories graph
   \item \textbf{Week 2} - Work Package 4 - Developing a unit system
@@ -158,11 +159,7 @@ This results in the following timeline \ednote{Replace week numbers with actual 
 \section{A Semantic Search For Quantity Expressions Based On MathWebSearch}
 \label{sec:system}
 
-\ednote{Is the section title correct?} \ednote{Remove subsections?}
-
 Most of the components will inherit from the existing MathWebSearch system. Some of the work packages, like the theory graph, will be easy to complete whereas others, like the unit system, need more work.
-
-\subsection{The unit system}
 
 A view between theories of units is enough to translate between them. In practice however, because we want to use units in several components of the system, it is insufficient to just look at the theory graph views. We will need to develop a unit system that can efficiently handle units as well as translations.
 
@@ -170,11 +167,7 @@ To translate between units we could use simple translation formulae such has $x 
 
 Apart from translating, we will also need to enter the units in the frontend and pass them to the API. The representation we choose for units when translating should also be flexible enough so that they can be entered easily. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore units with (si-)prefixes (such as kilo or mega) can either be recognised seperatly or as part of the unit (multipling directly into the value of the quantity expression). There are several input formats that can be used: AsciiMath, \LaTeX{} and MathML, to name only a few.
 
-\subsection{Conclusion}
-
-\ednote{Write a final pargraph}
-
 %BIBLIOGRAPHY
 \bibliography{kwarc,proposal}{}
-\bibliographystyle{alpha} %plainurl?
+\bibliographystyle{alpha} %plainURI?
 \end{document}
