@@ -59,7 +59,7 @@ MathWebSearch (MWS for short) is an existing semantics-aware system to search \L
 So far the transformation system has been used by MWS exclusively for mathmatical forumlae. In this paper we propose an extension for quantity expressions which should prove useful for physicists.
 The end user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
 
-This proposal is organised as follows: In section \ref{sec:mws} we shortly describe the existing MathWebSearch system. We continue in section \ref{sec:timings} with a list of work packages and a schedule. Then we conclude in section \ref{sec:system} with describing our approach to building the system components.
+This proposal is organised as follows: In section \ref{sec:mws} we shortly describe the existing MathWebSearch system. We continue in section \ref{sec:timings} with a list of work packages and a schedule and then conclude in section \ref{sec:system} with describing the approach we will use with the work packages\ednote{Reforumulate this}.
 
 \section{An Overview of the existing MathWebSearch system}
 \label{sec:mws}
@@ -159,40 +159,21 @@ This results in the following timeline \ednote{Replace week numbers with actual 
 \section{A Semantic Search For Quantity Expressions Based On MathWebSearch}
 \label{sec:system}
 
-\ednote{Subsections?} \ednote{Is the section title correct?}
+\ednote{Is the section title correct?} \ednote{Remove subsections?}
 
-\ednote{Describe the WPs one by one here}
+Most of the components will inherit from the existing MathWebSearch system. Some of the work packages, like the theory graph, will be easy to complete whereas others, like the unit system, need more work.
 
-We will build the frontend using HTML, CSS and JavaScript. Because it serves as the main interface to the system
+\subsection{The unit system}
 
-Furthermore the system will be flexible with respect to
-\begin{itemize}
-  \item \textit{the quanity expressions it understands, } Adding new units should be a simple process so that the system can be easily extended to also capture rare units and
-  \item \textit{the corpus} which should be exchangable easily.
-\end{itemize}
+A view between theories of units is enough to translate between them. In practice however, because we want to use units in several components of the system, it is insufficient to just look at the theory graph views. We will need to develop a unit system that can efficiently handle units as well as translations.
 
-The crawler will be based on existing MWS crawlers. As it is very difficult to find and mark up all units in a corpus automatically, we will restrict ourself to an artificial corpus containing only lorem ipsum \ednote{What is my contribution, the exact details are not important. }documents with randomly inserted units. This does not solve the problem of writing a crawler, however it will enable us to build a proof-of-concept system first.
+To translate between units we could use simple translation formulae such has $x \text{K} = x + 273.15 ^\circ{C} $. However because we want to support composite units (such as meters per second $\frac{\text{m}}{\text{s}}$) as well, this can cause problems. When translating between 2 composite units, this can easily cause rounding errors. In particular, when an author gives an approximation of a quantity expression in a document, they might round differently depending on the units used. Thuse we might want to search for a range of values instead. This has recently been implemented as an extension to MathWebSearch\cite{MWS:Ranges}. It remains to be seen how exactly these ranges should be used.
 
-The core system will almost completly be inherited from existing implementations. As it does not search formulae, it has to be made aware of unit translations. This will be done with the help of theory graphs. It is not yet clear how exactly these will look, a speculation can be found below in \ednote{Fix reference}.
+Apart from translating, we will also need to enter the units in the frontend and pass them to the API. The representation we choose for units when translating should also be flexible enough so that they can be entered easily. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore units with (si-)prefixes (such as kilo or mega) can either be recognised seperatly or as part of the unit (multipling directly into the value of the quantity expression). There are several input formats that can be used: AsciiMath, \LaTeX{} and MathML, to name only a few.
 
-The rest-based API will have to take the user input from the client and pass the entire quantity expression on to the core system. Once it receives a result, it will have to translate these back into human-readable form and then pass these on to the frontend.
+\subsection{Conclusion}
 
-As with the existing system, the frontend will be a web page that incorperates 3 main elements, (1) a search input for a value (2) a search input for a unit and (3) a result page that displays results and links to the found documents.
-
-\ednote{Next section continues here}
-
-A bigger challenge with the approach will be to find a standardised representation for quantity expressions, mainly for units\footnote{Here, standardised means that all quantity expressions are represented in a standardised, machine-readable fashion, not equivalent quantity expressions being representeted in exactly one way. } \ednote{MathML note OM CDs}.
-
-Because we want to translate between these representations however, it is insufficent to just have such a representation. We additionally need to find a standardised way of translating between units need to exist as well. Because MWS uses Theory Graphs and MMT to translate between equivalent formulae, we will have to write down all units in the form of a theory graph. Translations between units will be represented as views.
-
-To translate between units we could use simple translation formulae such has $x \text{K} = x + 273.15 ^\circ{C} $. However because we want to support composite units (such as meters per second $\frac{\text{m}}{\text{s}}$) as well, this can cause problems. In machine representation \ednote{Seperate problem}, every quantity expression has to have a finite precision representation. When translating between 2 composite units, this can easily cause rounding errors. In particular, when an author gives an approximation of a quantity in a document, they might round differently depending on the units used.
-
-Hence it will not be sufficient to use exact translations. Thus we should search for a range of values instead. This has recently been implemented as an extension to MathWebSearch\cite{MWS:Ranges}. It remains to be seen how exactly these ranges should be used.
-
-Furthermore the units will have to be entered in some fashion \ednote{The same?} in the frontend. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore units with (si-)prefixes (such as kilo or mega) can either be recognised seperatly or as part of the unit (multipling directly into the value of the quantity expression). There are several input formats that can be used: AsciiMath, \LaTeX{} and MathML, to name only a few. Independent of the input format, the end result (delivered to the backend of the search engine) will have to be represented in one way.
-
-
-\ednote{Write a final paragraph to wrap it up. }
+\ednote{Write a final pargraph}
 
 %BIBLIOGRAPHY
 \bibliography{kwarc,proposal}{}
