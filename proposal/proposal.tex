@@ -44,7 +44,6 @@
 %The abstract
 \begin{abstract}
   In this proposal we describe how to introduce units to MathWebSearch. The aim of the project is build a complete semantics-aware system that searches a corpus of documents for quantity expressions. The project will be based on the existing MathWebSearch system and related technologies.
-  \ednote{Spin}
 \end{abstract}
 
 \tableofcontents
@@ -59,7 +58,7 @@ MathWebSearch (MWS for short) is an existing semantics-aware system to search \L
 So far the transformation system has been used by MWS exclusively for mathmatical forumlae. In this paper we propose an extension for quantity expressions which should prove useful for physicists.
 The end user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
 
-This proposal is organised as follows: In section \ref{sec:mws} we shortly describe the existing MathWebSearch system. We continue in section \ref{sec:timings} with a list of work packages and a schedule and then conclude in section \ref{sec:system} with describing the approach we will use with the work packages\ednote{Reforumulate this}.
+This proposal is organised as follows: In section \ref{sec:mws} we shortly describe the existing MathWebSearch system. We continue in section \ref{sec:timings} with a list of work packages and a schedule and then conclude in section \ref{sec:system} with describing some of the approaches we will use.
 
 \section{An Overview of the existing MathWebSearch system}
 \label{sec:mws}
@@ -98,7 +97,7 @@ A mathematical theory in MMT is a set of typed symbols and statements. As a simp
   $\scriptstyle \mathsf{assoc}$& $:$ & $(x\circ y)\circ z=x\circ (y\circ z)$\\\hline
 \end{tabular}
 
-In the example above \ednote{Check with miancu if the example is correct this way}, we first define the a symbol $G$ (the set of the Semigoup), as well as a (binary) operation $\circ$ and then the law of associativity for the operation $\circ$.
+In the example above \ednote{Check if example is correct}, we first define the a symbol $G$ (the set of the Semigoup), as well as a (binary) operation $\circ$ and then the law of associativity for the operation $\circ$.
 
 Theories in MMT can be related in two ways, with imports and views. If theory A imports theory B then theory A contains all symbols and statements from theory B. In particular, every satisfiable statement that can be made in theory A is also a satisfiable statement in theory B.
 
@@ -121,13 +120,13 @@ Sometimes it is useful not to write down a theorem explicitly, but only give an 
 
 In an MWS Harvest we exploit this property of induced theorems. We have several represented theorems, the forumlae in the corpus, and many more induced theorems, other equivalent representations of these formulae. With the help of MMT, the MMT Harvest is built by representing all theses theories (forumlae) explictly.
 
-Applying this principle to quantity expressions, we can consider different units as different theories and different quantity expressions different theorems belonging to their respective unit theories. The unit conversions can then be represented via views. The information on how to translate from one unit to another will be contained within the view. If we know all formulae in a corpus we can then generate an MWS Harvest that contains all the representations. \ednote{Should we move this paragraph to the next section?}
+Applying this principle to quantity expressions, we can consider different units as different theories and different quantity expressions different theorems belonging to their respective unit theories. The unit conversions can then be represented via views. The information on how to translate from one unit to another will be contained within the view. If we know all formulae in a corpus we can then generate an MWS Harvest that contains all the representations.
 
 \section{Schedule and Work Packages}
 \label{sec:timings}
-\ednote{Think of a better section title?} \ednote{Subsections?}
+\ednote{Think of a better section title?}
 
-Because we want to build a complete system based on MathWebSearch that can perform a semantic search of quanity expressions on a specific corpus we need 4 major components: (1) \textit{A crawler} that crawls documents for quantity expressions, (2) \textit{a core system} that transforms these quantity expressions and harvests them as described above as well as provides search functionality, (3) \textit{a rest API} that exposes this search functionality and (4) \textit{a frontend} that servers as the endusers\ednote{Spelling?} interface to the system.
+Because we want to build a complete system based on MathWebSearch that can perform a semantic search of quanity expressions on a specific corpus we need 4 major components: (1) \textit{A crawler} that crawls documents for quantity expressions, (2) \textit{a core system} that transforms these quantity expressions and harvests them as described above as well as provides search functionality, (3) \textit{a rest API} that exposes this search functionality and (4) \textit{a frontend} that servers as the end users interface to the system.
 
 This results in several work packages:
 
