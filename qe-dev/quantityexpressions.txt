@@ -25,34 +25,49 @@ Theory dimension {
 
 //Next we define units
 //Each unit has a dimension.
-
 THEORY units {
   //so it takes a dimension and returns a type.
   unit: dimension -> type
 
-  //simplicstic example: meter is a unit of length
+  //and then we can say:
   m = unit length
+  s = unit time
 }
 
 
 //Let us move on to scalars
 //we just assume they are given
-THEORY Scalars {
+THEORY Floats {
 
   //they are just a type
-  scalar: type
+  float: type
 
-  //we can add subtract multiply and divide them
-  add: scalar -> scalar -> scalar
-  sub: scalar -> scalar -> scalar
-  mul: scalar -> scalar -> scalar
-  div: scalar -> scalar -> scalar
+  //we can do a lot of operations on them
+  add: float -> float -> float
+  sub: float -> float -> float
+  mul: float -> float -> float
+  div: float -> float -> float
+
+  //and we would actually have to give all the axiomes of the operations
+  //but we will simply omit them
+  //and assume they are given
+
+  //(they could potentially be imported)
 }
 
 
+THEORY QuantityExpressionP {
 
-THEORY QuantityExpression {
-  //We would declare / import floats here
-  QE:
+  //In this representastion we look at QEs as a pair
 
+  //Construct a quantity expression as a pair.
+  QuantityExpression: scalar -> unit -> type
+
+  //get the dimension of a QE
+  //TODO: Check if this is the right type.
+  getDim: QuantityExpression -> dimension : {x:dimension} primQE _ unit x = x
+
+
+  //TODO: Define operations on QEs
+  //which should not work when we have different dimensions
 }
