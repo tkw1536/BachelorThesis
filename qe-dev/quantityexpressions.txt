@@ -1,0 +1,58 @@
+
+//First we define dimentions
+//These are just a type
+//That has operations multiply and divide on it
+Theory dimension {
+  // A dimension, which is just a type.
+  dimension: type
+
+  // The 7 base dimensions in SI
+  length: dimension
+  mass: dimension
+  time: dimension
+  current: dimension
+  temperature: dimension
+  luminous: dimension
+  amount: dimension
+
+  //multiply
+  dimmul: dimension -> dimension -> dimension
+
+  // divide
+  dimdiv: dimension -> dimension -> dimension
+}
+
+
+//Next we define units
+//Each unit has a dimension.
+
+THEORY units {
+  //so it takes a dimension and returns a type.
+  unit: dimension -> type
+
+  //simplicstic example: meter is a unit of length
+  m = unit length
+}
+
+
+//Let us move on to scalars
+//we just assume they are given
+THEORY Scalars {
+
+  //they are just a type
+  scalar: type
+
+  //we can add subtract multiply and divide them
+  add: scalar -> scalar -> scalar
+  sub: scalar -> scalar -> scalar
+  mul: scalar -> scalar -> scalar
+  div: scalar -> scalar -> scalar
+}
+
+
+
+THEORY QuantityExpression {
+  //We would declare / import floats here
+  QE:
+
+}
