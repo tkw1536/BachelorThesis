@@ -1,0 +1,84 @@
+\section{The structure of Mathmatics: Theories, Views and Imports}
+
+Before we continue, we want to give an introduction to mathematical theories\ednote{Better introduction?}.
+
+\subsection{Modeling Mathematics with the help of theories}
+
+Theories, in this sense, are a set of symbols. Each of the symbols optionally can optionally have a type and a definition. Within each theory, we can then use these symbols to write down terms (or expressions) within this theory. Types and definitions of these symbols are terms themselves\footnote{They are not terms over the same theory however. }. As a simple example of this, let us consider the theory of semigroups:
+
+\vspace{20px}
+
+\begin{tabular}{|l c l|}
+  \hline
+  \textsf{Semigroup} & &\\\hline
+  $G$ & $:$ & $ \mathsf{type}$\\
+  $\circ$ & $:$ & $ G \rightarrow G \rightarrow G$\\
+  $ \mathsf{assoc}$& $:$ & $ \text{ded}\left( \forall x \in G . \forall y \in G . \forall z \in G . (x\circ y)\circ z=x\circ (y\circ z) \right)$\\\hline
+\end{tabular}
+
+\vspace{20px}
+
+In this theory, we define 3 symbols: $G$, $\circ$ and $\scriptstyle \mathsf{assoc}$. In the first line we define a type $G$. Next we define a function $\circ$ that takes 2 arguments of type $G$ and returns another term of type $G$. In the last line, we make the statement that associativity holds\ednote{possibly explain / mention Curry–Howard isomorphism}.
+
+\subsection{Extending theories using imports}
+
+Sometimes we want to extend theories without having to define everything again. For example, we want to say that a Monoid is a semi-group along with an identity element. In the semi-group example above, we have also used terms from other theories to define $G$ as a type.
+
+We can model this concept by using imports. An import from one theory into another makes symbols of the imported theory available in the target theory. We can thus define a Monoid as follows\ednote{Inline import syntax?}:
+
+\vspace{20px}
+
+\begin{tabular}{|l c l|}
+  \hline
+  \textsf{Monoid} & &\\\hline
+  $ \mathsf{import \ Semigroup}$ &&\\
+  \hline
+  $e$ & $:$ & $G$\\
+  $ \mathsf{id}$& $:$ & $ \text{ded}\left( \forall x \in G . x\circ e = e \circ x = x\right)$\\\hline
+\end{tabular}
+
+\subsection{Views as mappings between theories}
+
+However imports are not the only way theories can be related. If we have 2 theories, we sometimes want to have a map between them. In addition to the theory of monoids above, we could for example declare the following theory of non-negative integers:
+
+\vspace{20px}
+
+\begin{tabular}{|l c l|}
+  \hline
+  \textsf{Non-negative integers} & &\\\hline
+  $\mathbb{Z}^{+}_{0}$ & $:$ & $\mathsf{type}$\\
+
+  $0$ & $:$ & $\mathbb{Z}^{+}_{0}$\\
+
+  $+$ & $:$ & $ \mathbb{Z}^{+}_{0} \rightarrow \mathbb{Z}^{+}_{0} \rightarrow \mathbb{Z}^{+}_{0}$\\
+
+  $\mathsf{assoc}$& $:$ & $ \text{ded}\left( \forall x \in \mathbb{Z}^{+}_{0} . \forall y \in \mathbb{Z}^{+}_{0} . \forall z \in \mathbb{Z}^{+}_{0} . (x\circ y)\circ z=x\circ (y\circ z) \right)$\\
+
+  $\mathsf{id}$& $:$ & $ \text{ded}\left( \forall x \in \mathbb{Z}^{+}_{0} . x + 0 = 0 + x = x\right)$\\\hline
+\end{tabular}
+
+\vspace{20px}
+
+A map from the theory of monoids to the theory of positive integers should map all symbols from the theory of monoids to symbols from the theory of positive integers. Furthermore, such a map should be truth preserving, i. e. if I write down a true statement as a term over the theory of monoids and translate this term, it should still be true  in the theory of positive integers. Such a mapping is called a \textit{View} from the theory of monoids to the theory of Positive integers. Such a view $\phi$ could look as follows:
+
+\[
+  \phi=\left\{\begin{array}{l}
+  G \mapsto \mathbb{Z}^{+}_{0}\\
+  e \mapsto 0\\
+  \circ \mapsto +\\
+  \mathsf{assoc} \mapsto \mathsf{assoc}\\
+  \mathsf{id} \mapsto \mathsf{id}
+  \end{array}\right\}
+\]
+
+If we take a closer look at this view, we notice that we also have to map the imported symbols. This is needed so that we can translate any term or statement in theory of monoids to a term or statment into the theory of non-negative integers.
+
+\subsection{Building theory graphs}
+
+\ednote{Remove section heading or extend this section. } We have seen in the examples above that we can model mathematics with the help of theories, views and imports. To make this structure even more obvious, we can represent it in a graph, a so-called theory graph. We consider the theories as vertices of such a graph and the views and imports as edges. An example can be found in figure \ref{graph1}.
+
+\input{graph1.tex}
+
+\subsection{MMT as a concrete implementation}
+
+MMT is a \textbf{M}odule system for \textbf{M}athematical \textbf{T}heories \cite{RabKoh:WSMSML13}. In MMT we can represent mathematical theories, views and imports. \ednote{Continue this section}

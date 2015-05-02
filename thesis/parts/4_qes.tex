@@ -1,0 +1,34 @@
+\section{Making Quantity Expressions searchable}
+
+%\label{sec:mws:tg}
+
+%The theories and their relations can be represented as a graph, called a theory graph. In Figure \ref{graph1} we can see a simple example of a theory graph.
+
+%\input{graph1.tex} \ednote{Explain the mappings somewhere}
+
+%Every theory and every constant in MMT has a (globally unique) URI, called the MMT URI. It can be constructed via a triple $\left( G,M,S \right)$ where $G$ is a document URI, $M$ is a module name within this document and $S$ is the name of a constant \cite{RabKoh:WSMSML13}. We then seperate these components via a ? to get a URI of the form $G?M?S$. Because every theorem in MMT is only a symbol declaration it can also be represented via a URI. As explained above, if two theories are related via a view or import, theorems can be translated along this relation.
+
+%Sometimes it is useful not to write down a theorem explicitly, but only give an existing theorem and translate this along a view or import. The MMT URI of this induced theorem can then be given using the view. This URI contains enough information for MMT to generate the theorem in explicit form\cite{IanKohProd:rassmk14}.
+
+%In an MWS Harvest we exploit this property of induced theorems. We have several represented theorems, the forumlae in the corpus, and many more induced theorems, other equivalent representations of these formulae. With the help of MMT, the MMT Harvest is built by representing all theses theories (forumlae) explictly.
+
+%Applying this principle to quantity expressions, we can consider different units as different theories and different quantity expressions different theorems belonging to their respective unit theories. The unit conversions can then be represented via views. The information on how to translate from one unit to another will be contained within the view. If we know all formulae in a corpus we can then generate an MWS Harvest that contains all the representations.
+
+
+
+%As mentioned above, MathWebSearch is a search engine for forumlae and key phrases\ednote{Work in TEMA Search}. MWS consists of 3 main components as well as a frontend\footnote{The frontend is not part of MWS directly but rather built on top of the REST API, more on this later. }\cite{KohPro:MWSmanual}.
+
+%The backend consists of 3 main components,
+%\begin{enumerate}
+%  \item a crawler,
+%  \item a core system and
+%  \item a public REST API.
+%\end{enumerate}
+
+%The crawler, as its name suggests, crawls corpera for forumlae. For each corpus MWS uses, a seperate crawler has to be implemented. The crawled formulae are passed to the core system and indexed in an MWS Harvest. The core system is also responsible for parsing queries and sending results back to the REST API. This is done by searching the harvest only. In order to make a semantic search for quantity expressions we will adapt this crawler to find and harvest quantity expression instead.
+
+%Because MWS is semantics-aware, the harvest can not only contain the exact formulars that are found in the original corpus but also all versions that are quivalent to it. These are generated with the help of MMT and theory graphs, see sections \ref{sec:mws:mmt} and \ref{sec:mws:tg}.
+
+%The frontend for MathWebSearch, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a query to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query into content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents. \ednote{ScreenShot of MWS} \ednote{Write about Query Expansion vs Index Expansion}
+
+%There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capable of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}.

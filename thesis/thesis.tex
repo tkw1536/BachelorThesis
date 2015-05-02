@@ -43,129 +43,40 @@
 
 %The abstract
 \begin{abstract}
-  In this proposal we describe how to introduce units to MathWebSearch. The aim of the project is build an extensible semantics-aware system that searches a corpus of documents for quantity expressions. The project will be based on the existing MathWebSearch system and related technologies. \ednote{Physics search}\ednote{Include results here. }
+  In this proposal we describe how to introduce units to MathWebSearch. The aim of the project is build an extensible semantics-aware system that searches a corpus of documents for quantity expressions. The project will be based on the existing MathWebSearch system and related technologies. \ednote{Physics search}\ednote{Re-write abstract}
 \end{abstract}
 
 \tableofcontents
 
-%The content pages
-\section{Introduction}
+\newpage
 
-In this paper we want to give an approach to Semantic Search for Quantity Expressions. A quantity expression is a scalar together with a physical unit, for example $25 \frac{\text{m}}{\text{s}}$ where $25$ is the scalar and $\frac{\text{m}}{\text{s}}$ the unit. This quantity expression is semantically equivalent to $90 \frac{\text{km}}{\text{h}}$ (with equivalent in this sense meaning it expresses the same quantity) although the units are different. In a semantic search for quantity expressions we want to be able to search for a certain quantity expression and find any equivalent ones as well.
+\input{parts/1_intro.tex}
 
-MathWebSearch (MWS for short) is an existing semantics-aware system to search \LaTeX \  documents \footnote{Technically, MWS itself can only search XHTML documents. However with the help of \LaTeX{}ML \cite{Miller:latexml:base} it also handles \LaTeX \ documents. } for mathematical formulae \cite{HamKohPro:man14}. As it is semantics-aware it not only searches for formulae in a simple-minded ``text search'' way but it can deal with wildcards such as $ { \color{red} x} + \sqrt{\color{red} x}$. For this query MWS would deliver forumlae as above where $ { \color{red} x} $ has been substituted with any sub-formula.
+\newpage
 
-So far the\ednote{Which one?} transformation system has been used by MWS exclusively for mathmatical forumlae. In this paper we propose an extension for quantity expressions which should prove useful for physicists.
-The end user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
+\input{parts/2_mtm.tex}
 
-This proposal\ednote{It is no longer a proposal} is organised as follows: In Section \ref{sec:mws} we shortly describe the existing MathWebSearch system. We continue in in Section \ref{sec:system} with describing some of the approaches we will use and conclude in Section \ref{sec:timings} with a list of work packages and a schedule.
+\newpage
 
-\section{An Overview of the existing MathWebSearch system}
-\label{sec:mws}
+\input{parts/3_mqe.tex}
 
-\subsection{The Components of MathWebSearch}
+\newpage
 
-As mentioned above, MathWebSearch is a search engine for forumlae and key phrases\ednote{Work in TEMA Search}. MWS consists of 3 main components as well as a frontend\footnote{The frontend is not part of MWS directly but rather built on top of the REST API, more on this later. }\cite{KohPro:MWSmanual}.
+\input{parts/4_qes.tex}
 
-The backend consists of 3 main components,
-\begin{enumerate}
-  \item a crawler,
-  \item a core system and
-  \item a public REST API.
-\end{enumerate}
+\newpage
 
-The crawler, as its name suggests, crawls corpera for forumlae. For each corpus MWS uses, a seperate crawler has to be implemented. The crawled formulae are passed to the core system and indexed in an MWS Harvest. The core system is also responsible for parsing queries and sending results back to the REST API. This is done by searching the harvest only. In order to make a semantic search for quantity expressions we will adapt this crawler to find and harvest quantity expression instead.
+\input{parts/5_cav.tex}
 
-Because MWS is semantics-aware, the harvest can not only contain the exact formulars that are found in the original corpus but also all versions that are quivalent to it. These are generated with the help of MMT and theory graphs, see sections \ref{sec:mws:mmt} and \ref{sec:mws:tg}.
+\newpage
 
-The frontend for MathWebSearch, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a query to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query into content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents. \ednote{ScreenShot of MWS} \ednote{Write about Query Expansion vs Index Expansion}
+\input{parts/6_future.tex}
 
-There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capable of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}.
+\newpage
 
-\subsection{Mathematical Theory Modeling with MMT}
-\label{sec:mws:mmt}
+\input{parts/7_conclusion.tex}
 
-MMT is a \textbf{M}odule system for \textbf{M}athematical \textbf{T}heories \cite{RabKoh:WSMSML13}. In MMT we can represent mathematical theories, views and imports.
-
-A mathematical theory in MMT is a set of typed symbols. Via the Curry–Howard isomorphism theorms are simply constants inside a theory. If a theorems type is non-empty, is is proveable and the definition is a representation of a proof.
-
-As a simple example, the theory of semigroups can be written down as following\ednote{Define ded?}:
-
-\begin{tabular}{|l c l|}
-  \hline
-  \textsf{Semigroup} & &\\\hline
-  $G$ & $:$ & $\scriptstyle \mathsf{type}$\\
-  $\circ$ & $:$ & $ G \rightarrow G \rightarrow G$\\
-  $\scriptstyle \mathsf{assoc}$& $:$ & $ \text{ded}\left( \forall x \forall y \forall z (x\circ y)\circ z=x\circ (y\circ z) \right)$\\\hline
-\end{tabular}
-
-In the example above, we first define the a type $G$ (the base set of the Semigoup). Next we define a (binary) operation $\circ$ and then the law of associativity for the operation $\circ$ on $G$.
-
-Theories in MMT can be related in two ways, with imports and views. If theory A imports theory B then theory A contains all symbols and statements from theory B. In particular, every satisfiable statement that can be made in theory A is also a satisfiable statement in theory B.
-
-As an example of an import, the theory of a \textit{commutative groups} imports the theory of \textit{groups}. The \textit{commutative group} theory additionally has the axiom of commutativity. We can consider an import as a type of inheritance relation.
-
-In contrast to this a view is a type of interpretation relation. For example, there is a view from the theory of \textit{Monoids} to the theory of \textit{Natural numbers}. Again, a satisfiable statement in the source theory can be translated into a satisfiable statement in the target theory.
-
-Thus a theorem in one theory can be translated along views as well as along imports. For example, given a theorem in the theory of groups, we automatically get a theorem in the theory of commutative groups. \ednote{They contain mappings as in Figure graph1}
-
-\subsection{Using Theory Graphs}
-\label{sec:mws:tg}
-
-The theories and their relations can be represented as a graph, called a theory graph. In Figure \ref{graph1} we can see a simple example of a theory graph.
-
-\input{graph1.tex} \ednote{Explain the mappings somewhere}
-
-Every theory and every constant in MMT has a (globally unique) URI, called the MMT URI. It can be constructed via a triple $\left( G,M,S \right)$ where $G$ is a document URI, $M$ is a module name within this document and $S$ is the name of a constant \cite{RabKoh:WSMSML13}. We then seperate these components via a ? to get a URI of the form $G?M?S$. Because every theorem in MMT is only a symbol declaration it can also be represented via a URI. As explained above, if two theories are related via a view or import, theorems can be translated along this relation.
-
-Sometimes it is useful not to write down a theorem explicitly, but only give an existing theorem and translate this along a view or import. The MMT URI of this induced theorem can then be given using the view. This URI contains enough information for MMT to generate the theorem in explicit form\cite{IanKohProd:rassmk14}.
-
-In an MWS Harvest we exploit this property of induced theorems. We have several represented theorems, the forumlae in the corpus, and many more induced theorems, other equivalent representations of these formulae. With the help of MMT, the MMT Harvest is built by representing all theses theories (forumlae) explictly.
-
-Applying this principle to quantity expressions, we can consider different units as different theories and different quantity expressions different theorems belonging to their respective unit theories. The unit conversions can then be represented via views. The information on how to translate from one unit to another will be contained within the view. If we know all formulae in a corpus we can then generate an MWS Harvest that contains all the representations.
-
-\section{A Semantic Search For Quantity Expressions Based On MathWebSearch}
-\label{sec:system}
-
-Most of the components will inherit from the existing MathWebSearch system. Some of the work packages, like the theory graph, will be easy to complete whereas others, like the unit system, need more work.
-
-A view between theories of units is enough to translate between them. In practice however, because we want to use units in several components of the system, it is insufficient to just look at the theory graph views. We will need to develop a unit system that can efficiently handle units as well as translations.
-
-To translate between units we could use simple translation formulae such has $x \text{K} = x + 273.15 ^\circ{C} $. However because we want to support composite units (such as meters per second $\frac{\text{m}}{\text{s}}$) as well, this can cause problems. When translating between 2 composite units, this can easily cause rounding errors. In particular, when an author gives an approximation of a quantity expression in a document, they might round differently depending on the units used. Thuse we might want to search for a range of values instead. This has recently been implemented as an extension to MathWebSearch\cite{MWS:Ranges}. It remains to be seen how exactly these ranges should be used and handled in the front end.
-
-Apart from translating, we will also need to enter the units in the frontend and pass them to the API. The representation we choose for units when translating should also be flexible enough so that they can be entered easily. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore units with (si-)prefixes (such as kilo or mega) can either be recognised seperatly or as part of the unit (multipling directly into the value of the quantity expression). There are several input formats that can be used: AsciiMath, \LaTeX{} and MathML, to name only a few.
-
-\section{Work Plan}
-\label{sec:timings}
-
-Because we want to build a complete system based on MathWebSearch that can perform a semantic search of quanity expressions on a specific corpus we need 4 major components: (1) \textit{A crawler} that crawls documents for quantity expressions, (2) \textit{a core system\ednote{Better name}} that transforms these quantity expressions and harvests them as described above as well as provides search functionality, (3) \textit{a rest API} that exposes this search functionality and (4) \textit{a frontend} that servers as the end users interface to the system.
-
-This results in several work packages:
-
-\begin{enumerate}
-  \item \textbf{A corpus} that is needed for a demo to work.
-  \item \textbf{A formula spotter} that crawls the corpus and finds formulae.
-  \item \textbf{A unit theories graph} as described above that can be used to transform units.
-  \item \textbf{A unit system} that can be used by the API and the frontend.
-  \item \textbf{A harvester} which uses the theory graph to perform an MWS Harvest of the corpus
-  \item \textbf{An API} that understands the unit system
-  \item \textbf{A frontend} that works together with the API.
-\end{enumerate}
-
-We will start by taking on work package 3 and building a small unit theories graph. We can then develop a unit system (work package 4). Once that is done we will be able to build a harvester (work package 5).
-
-Although we need work packages 1 and 2 to properly test these components, work package 1 will be postponed for now. Work package 2 will be taken on by Stiv Sherko in a seperate effort \cite{proposal:sharko}. Work package 1 will be postponed as well.
-
-After the harvester is completed we can proceed with writing an API (work package 6) and the frontend (work package 7). Finally we can return to work packages 1-3 and expand the corpus and unit theories.
-
-This results in the following timeline \ednote{Find out deadline}:
-\begin{itemize}
-  \item \textbf{Week 1} - Work Package 3 - Building a small unit theories graph
-  \item \textbf{Week 2} - Work Package 4 - Developing a unit system
-  \item \textbf{Weeks 3 \& 4} - Work Package 5 - Building a harvester
-  \item \textbf{Weeks 4 \& 5} - Work Package 6 \& 7 - Building an API and a frontend
-  \item \textbf{Weeks 6 \& 7} - Work Packages 1, 2 \& 3 - Finishing up the unit theories graph and integrating a corpus
-\end{itemize}
+\newpage
 
 %BIBLIOGRAPHY
 \bibliography{kwarc,thesis}{}

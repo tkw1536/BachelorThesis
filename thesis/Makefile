@@ -6,7 +6,7 @@ all: clean setup
 
 setup:
 	mkdir dest
-	cp -r *.tex *.bib img dest
+	cp -r *.tex *.bib parts img dest
 
 clean:
 	rm -rf dest

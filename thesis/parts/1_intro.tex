@@ -1,0 +1,9 @@
+\section{Introduction}
+
+%In this paper we want to give an approach to Semantic Search for Quantity Expressions. A quantity expression is a scalar together with a physical unit, for example $25 \frac{\text{m}}{\text{s}}$ where $25$ is the scalar and $\frac{\text{m}}{\text{s}}$ the unit. This quantity expression is semantically equivalent to $90 \frac{\text{km}}{\text{h}}$ (with equivalent in this sense meaning it expresses the same quantity) although the units are different. In a semantic search for quantity expressions we want to be able to search for a certain quantity expression and find any equivalent ones as well.
+
+%MathWebSearch (MWS for short) is an existing semantics-aware system to search \LaTeX \  documents \footnote{Technically, MWS itself can only search XHTML documents. However with the help of \LaTeX{}ML \cite{Miller:latexml:base} it also handles \LaTeX \ documents. } for mathematical formulae \cite{HamKohPro:man14}. As it is semantics-aware it not only searches for formulae in a simple-minded ``text search'' way but it can deal with wildcards such as $ { \color{red} x} + \sqrt{\color{red} x}$. For this query MWS would deliver forumlae as above where $ { \color{red} x} $ has been substituted with any sub-formula.
+
+%So far the\ednote{Which one?} transformation system has been used by MWS exclusively for mathmatical forumlae. In this paper we propose an extension for quantity expressions which should prove useful for physicists. The end user will search, for example, \SI{100}{\degreeCelsius} and also get results which show $212$$^\circ$F or $373.15$K.
+
+%This proposal\ednote{It is no longer a proposal} is organised as follows: In Section \ref{sec:mws} we shortly describe the existing MathWebSearch system. We continue in in Section \ref{sec:system} with describing some of the approaches we will use and conclude in Section \ref{sec:timings} with a list of work packages and a schedule.

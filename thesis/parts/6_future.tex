@@ -1,0 +1,12 @@
+\section{Future work}
+\subsection{Extension of the theory graph of units}
+
+\subsection{Integration with MathWebSearch}
+
+%Most of the components will inherit from the existing MathWebSearch system. Some of the work packages, like the theory graph, will be easy to complete whereas others, like the unit system, need more work.
+
+%A view between theories of units is enough to translate between them. In practice however, because we want to use units in several components of the system, it is insufficient to just look at the theory graph views. We will need to develop a unit system that can efficiently handle units as well as translations.
+
+%To translate between units we could use simple translation formulae such has $x \text{K} = x + 273.15 ^\circ{C} $. However because we want to support composite units (such as meters per second $\frac{\text{m}}{\text{s}}$) as well, this can cause problems. When translating between 2 composite units, this can easily cause rounding errors. In particular, when an author gives an approximation of a quantity expression in a document, they might round differently depending on the units used. Thuse we might want to search for a range of values instead. This has recently been implemented as an extension to MathWebSearch\cite{MWS:Ranges}. It remains to be seen how exactly these ranges should be used and handled in the front end.
+
+%Apart from translating, we will also need to enter the units in the frontend and pass them to the API. The representation we choose for units when translating should also be flexible enough so that they can be entered easily. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore units with (si-)prefixes (such as kilo or mega) can either be recognised seperatly or as part of the unit (multipling directly into the value of the quantity expression). There are several input formats that can be used: AsciiMath, \LaTeX{} and MathML, to name only a few.
