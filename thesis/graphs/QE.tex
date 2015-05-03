@@ -4,9 +4,11 @@
       \hline
       \textsf{Quantity Expression} & &\\\hline
       $ \mathsf{import \ Dimension}$ &&\\
+      $ \mathsf{import \ Number}$ &&\\
       \hline
       $\mathsf{QE}$ & $:$ & $ \mathsf{dimension} \rightarrow \mathsf{type}$\\
-      $ \mathsf{QEMul}$& $:$ & $ \forall x : \mathsf{dimension} . \forall y : \mathsf{dimension} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( y\right) \rightarrow \mathsf{QE} \left( \cdot{} \left(x, y\right) \right)  $\\
+      $\mathsf{QENum}$ & $:$ & $ \mathsf{number} \rightarrow \mathsf{QE}\left( \mathsf{unit} \right)$\\
+      $\mathsf{QEMul}$& $:$ & $ \forall x : \mathsf{dimension} . \forall y : \mathsf{dimension} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( y\right) \rightarrow \mathsf{QE} \left( \cdot{} \left(x, y\right) \right)  $\\
       $ \mathsf{QEDiv}$& $:$ & $ \forall x : \mathsf{dimension} . \forall y : \mathsf{dimension} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( y\right) \rightarrow \mathsf{QE} \left( \backslash \left(x, y\right) \right)  $\\\hline
     \end{tabular}
   \end{center}

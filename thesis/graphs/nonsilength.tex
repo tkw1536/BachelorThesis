@@ -1,0 +1,20 @@
+\begin{figure}[h]
+  \begin{center}
+    \begin{tabular}{|l c l|}
+      \hline
+      \textsf{Meter} & &\\\hline
+      $ \mathsf{import \ Quantity Expression}$ &&\\
+      \hline
+      $\mathsf{Thou}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right)$\\
+      $\mathsf{Foot}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QEMul} \left( \mathsf{QENum} \left(1000 \right), \mathsf{Thou} \right)$\\
+      $\mathsf{Yard}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QEMul} \left( \mathsf{QENum} \left(3 \right), \mathsf{Foot} \right)$\\
+      $\mathsf{Chain}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QEMul} \left( \mathsf{QENum} \left(22 \right), \mathsf{Yard} \right)$\\
+      $\mathsf{Furlong}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QEMul} \left( \mathsf{QENum} \left(10 \right), \mathsf{Chain} \right)$\\
+      $\mathsf{Mile}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QEMul} \left( \mathsf{QENum} \left(8 \right), \mathsf{Furlong} \right)$\\
+      \hline
+    \end{tabular}
+  \end{center}
+
+  \caption{A theory of some non-SI units of length. }
+  \label{fig:nonsilength}
+\end{figure}

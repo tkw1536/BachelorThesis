@@ -43,8 +43,18 @@ The realisation that dimensions are types of quantity expressions leads us to ou
 
 \input{graphs/QE.tex}
 
-* define a theory of metric quantity expressions
+Figure \ref{fig:dimensions} defines the 8 basic dimensions and then dimension compositon via multiplication and division. Then we move on in \ref{fig:QE} to define quantity expressions. Each quantity expression has a dimension (via the QE constructor). This allows us to define basic dimensions (which we will actually do in the next figure. ). With the QENum symbol we allow creation of unit dimension quantity expressions via numbers (in this case we import some theory of numbers to allow us to use a number type. ). Then we define multiplication and division of quantity expressions in such a way that dimensions multiply and divide appropriatly.
+
+Now we need to introduce some basic units. Let us start by just defining meter in figure \ref{fig:meter}. We can now write a term in this theory that expresses any number of meters.
+
+\input{graphs/meter.tex}
+
 \subsection{Transforming Quantity Expressions from one form into another}
+
+This is a very nice beginning. Let us know define a few more units of length. In figure \ref{fig:nonsilength} we show a few non-si units. These are defined one top of one another.
+
+\input{graphs/nonsilength.tex}
+
 
 * quivalence of Quantity Expressions
 * What does it mean?
