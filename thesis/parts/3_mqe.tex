@@ -51,11 +51,15 @@ Now we need to introduce some basic units. Let us start by just defining meter i
 
 \subsection{Transforming Quantity Expressions from one form into another}
 
-This is a very nice beginning. Let us know define a few more units of length. In figure \ref{fig:nonsilength} we show a few non-si units. These are defined one top of one another.
-
+This is a very nice start of a unit system\ednote{Better formulation}. Let us know define a few more units of length. In figure \ref{fig:nonsilength} we show a few non-si units. Here we first define thoug as a quanity expression of length and then one-by-one define more units in terms of the previous one.
 \input{graphs/nonsilength.tex}
 
+We now want to relate quantity expressions with units from the \textit{Meter} theory to units from the \textit{Non SI Lengths} theory. It is known that $1 \mathsf{Thou} = 0.0000254 \mathsf{Meter}$. This can be easily expressed with a view $\psi$ between these to theories:
 
-* quivalence of Quantity Expressions
-* What does it mean?
-* How can we actually transfer from one unit to another
+\[
+\psi = \left\{\begin{array}{l}
+  \mathsf{Thou} \mapsto \mathsf{QEMul} \left( \mathsf{QENum} \left( 0.0000254 \right), \mathsf{Meter} \right)
+\end{array}\right\}
+\]
+
+Even though the view just maps the symbol \textit{Thou} to some Term in the Meter theory, we can also use it to transform any other term from the Thou Theory. Since all units are defined in terms of the previous one, we can just expand all definitions to get an expression containing only numbers and the unit \textit{Thou}. Then we can use the view as normal to get a Quantity Expression in the \textit{Meter} theory. 
