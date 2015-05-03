@@ -1,3 +1,47 @@
 \section{Modeling Quantity Expressions}
-\subsection{Structure of Quantity Expressions}
-\subsection{Applying theory modeling to Quantity Expressions}
+
+The first step in developing a good search engine for Quantity Expressions is to take a closer look at Quantity Expression.
+
+\subsection{Compositional behaviour of Quantity Expressions}
+
+For this purpose let us take a look at:
+\[x = 25\ \frac{\text{m}}{\text{s}}\]
+We notice that $x$ consists of 2 parts, a scalar ($25$) and a scalar-free $\frac{\text{m}}{\text{s}}$. Furthermore, the unit consists of two primitive units $m$ and $s$. Since they are divided by one another, we can conclude that $x$ describes a velocity.
+
+While $m$ and $s$ are certainly primitive units (they can not be decomposed further), it is not easy to define a unit as a composition of simple units. Consider the following example:
+\[y = \frac{\text{L}}{100\ \text{km}}\]
+$y$ is certainly a unit and also a quantity expression. It consists of 2 sub-expressions, $\text{L}$ and $100\ \text{km}$. The first one is a primitive unit and the second one a multiplication of a number and the unit $\text{km}$. It is thus reasonable to define the following 4 types of quantity expressions:
+\begin{enumerate}
+  \item A primitive unit, such as $\text{m}$ (meter). This is the most obvious one.
+  \item A number, such as $100$. This can mostly be used to compose existing quantity expressions.
+  \item The multiplication $\cdot{}$ which takes 2 existing quantity expression and generates a new one, for example $\cdot \left(100, \text{m} \right) = 100\ \text{m}$
+  \item The division \textbackslash which again takes 2 quantity expressions and generates a new one, for example $\text{\textbackslash} (\text{m}, \text{s}) = \frac{\text{m}}{\text{s}}$
+\end{enumerate}
+This allows us to easily generate the quantity expressions $x$ and $y$ from primitive units m, s, L and km.
+
+\subsection{Dimensions of Quantity Expressions}
+Now let us briefly examine the dimensions of Quantity Expressions. The dimension of a quantity expression is the type of quantity it expresses. For example $5\ \text{m}$ describes some length. According to the International System of Units\ednote{Quote something properly here} there are seven basic dimensions:
+\begin{enumerate}
+  \item length
+  \item mass
+  \item time
+  \item electric current
+  \item temperature
+  \item luminous intensity
+  \item amount of substance.
+\end{enumerate}
+
+In addition to this we add the unit dimension which simply describes a number.
+
+Similar to the compositional behaviour of quantity expressions, dimensions can be multiplied and divided. Unlike quantity expressions however they can not be multiplied with numbers. Furthermore, when multiplying to quantity expressions of dimensions $a$ and $b$ their resulting dimension is $a \cdot{} b$, the multiplication of the dimensions. The same goes for division. In this regard the dimension of a quantity expression behaves like a type.
+
+\subsection{Mathematical Theory of Quantity Expressions}
+
+The realisation that dimensions are types of quantity expressions leads us to pur first formalisation of quantity expressions. We first define a theory of dimensions:
+
+[TODO]
+
+We then import dimensions and define a theory of Quantity Expressions. We also import a theory of numbers:
+
+
+\subsection{Transforming Quantity Expressions from one form into another}

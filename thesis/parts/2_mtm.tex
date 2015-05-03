@@ -1,10 +1,10 @@
 \section{The structure of Mathmatics: Theories, Views and Imports}
 
-Before we continue, we want to give an introduction to mathematical theories\ednote{Better introduction?}.
+Before we start looking at Quantity Expressions and how to build a search engine for them, we want to give an introduction to meta-mathmatical structure. We will use this knowledge later to build a better search engine. For this we first need to take a look at the concept of theories.
 
 \subsection{Modeling Mathematics with the help of theories}
 
-Theories, in this sense, are a set of symbols. Each of the symbols optionally can optionally have a type and a definition. Within each theory, we can then use these symbols to write down terms (or expressions) within this theory. Types and definitions of these symbols are terms themselves\footnote{They are not terms over the same theory however. }. As a simple example of this, let us consider the theory of semigroups:
+Theories, in this sense, are simply a set of symbols. Each of the symbols optionally can have a type and a definition. Within each theory, we can then use these symbols to write down terms (or expressions) within this theory. Types and definitions of these symbols are terms themselves\footnote{They are not terms over the same theory however. }. As a simple example of this, let us consider the theory of semigroups:
 
 \vspace{20px}
 
@@ -18,7 +18,7 @@ Theories, in this sense, are a set of symbols. Each of the symbols optionally ca
 
 \vspace{20px}
 
-In this theory, we define 3 symbols: $G$, $\circ$ and $\scriptstyle \mathsf{assoc}$. In the first line we define a type $G$. Next we define a function $\circ$ that takes 2 arguments of type $G$ and returns another term of type $G$. In the last line, we make the statement that associativity holds\ednote{possibly explain / mention Curry–Howard isomorphism}.
+In this theory, we define 3 symbols: $G$, $\circ$ and $\scriptstyle \mathsf{assoc}$. In the first line we define a type $G$. Next we define a function $\circ$ that takes 2 arguments of type $G$ and returns another term of type $G$. In the last line, we make the statement that associativity holds\ednote{possibly explain / mention Curry–Howard isomorphism}. 
 
 \subsection{Extending theories using imports}
 
@@ -77,8 +77,10 @@ If we take a closer look at this view, we notice that we also have to map the im
 
 \ednote{Remove section heading or extend this section. } We have seen in the examples above that we can model mathematics with the help of theories, views and imports. To make this structure even more obvious, we can represent it in a graph, a so-called theory graph. We consider the theories as vertices of such a graph and the views and imports as edges. An example can be found in figure \ref{graph1}.
 
-\input{graph1.tex}
+\input{graphs/graph1.tex}
 
-\subsection{MMT as a concrete implementation}
+\subsection{Using MMT to write down terms and theories}
 
-MMT is a \textbf{M}odule system for \textbf{M}athematical \textbf{T}heories \cite{RabKoh:WSMSML13}. In MMT we can represent mathematical theories, views and imports. \ednote{Continue this section}
+MMT is a \textbf{M}odule system for \textbf{M}athematical \textbf{T}heories \cite{RabKoh:WSMSML13}. With the help of MMT we can represent theories, views and imports in \textit{.mmt} files. It is easy to write these files and anyone without programming knowledge can easily extend existing ones. The objects defined in these files can then be used via an API to write down terms and transform these using definitions and views.
+
+This furthermore allows us to easily model an extensible system for units for use within a search engine. We will come back to this later in section \ref{sec:meq_model}.
