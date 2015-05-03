@@ -1,0 +1,16 @@
+\begin{figure}[h]
+  \begin{center}
+    \begin{tabular}{|l c l|}
+      \hline
+      \textsf{Quantity Expression} & &\\\hline
+      $ \mathsf{import \ Dimension}$ &&\\
+      \hline
+      $\mathsf{QE}$ & $:$ & $ \mathsf{dimension} \rightarrow \mathsf{type}$\\
+      $ \mathsf{QEMul}$& $:$ & $ \forall x : \mathsf{dimension} . \forall y : \mathsf{dimension} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( y\right) \rightarrow \mathsf{QE} \left( \cdot{} \left(x, y\right) \right)  $\\
+      $ \mathsf{QEDiv}$& $:$ & $ \forall x : \mathsf{dimension} . \forall y : \mathsf{dimension} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( y\right) \rightarrow \mathsf{QE} \left( \backslash \left(x, y\right) \right)  $\\\hline
+    \end{tabular}
+  \end{center}
+
+  \caption{The first version of the theory of quantity expressions. }
+  \label{fig:QE}
+\end{figure}

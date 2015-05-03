@@ -1,0 +1,19 @@
+\begin{figure}[h]
+  \begin{center}
+    \begin{tabular}{|l c l|}
+      \hline
+      \textsf{Non-negative integers} & &\\\hline
+      $\mathbb{Z}^{+}_{0}$ & $:$ & $\mathsf{type}$\\
+
+      $0$ & $:$ & $\mathbb{Z}^{+}_{0}$\\
+
+      $+$ & $:$ & $ \mathbb{Z}^{+}_{0} \rightarrow \mathbb{Z}^{+}_{0} \rightarrow \mathbb{Z}^{+}_{0}$\\
+
+      $\mathsf{assoc}$& $:$ & $ \text{ded}\left( \forall x : \mathbb{Z}^{+}_{0} . \forall y : \mathbb{Z}^{+}_{0} . \forall z : \mathbb{Z}^{+}_{0} . (x\circ y)\circ z=x\circ (y\circ z) \right)$\\
+
+      $\mathsf{id}$& $:$ & $ \text{ded}\left( \forall x \in \mathbb{Z}^{+}_{0} . x + 0 = 0 + x = x\right)$\\\hline
+    \end{tabular}
+  \end{center}
+  \caption{The theory of non-negative integers. }
+  \label{fig:nnintegers}
+\end{figure}
