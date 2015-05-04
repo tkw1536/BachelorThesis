@@ -1,12 +1,28 @@
 \section{Making Quantity Expressions searchable}
 Now that we know what quantity expressions are and how we can convert between equivalent representations, it is time to start about concrete algorithms for our search engine.
 
+When querying this search engine with a quantity expression, we want to be able find occurrences of equivalent quantity expressions. For this we need several components:
+\begin{enumerate}
+  \item a component that allow the user to enter quantity expressions,
+  \item a way to send quantity expressions from the user to the search engine
+  \item a software to find quantity expressions within documents
+  \item an algorithm to convert between different forms of a quantity expressions (or at least determine if 2 quantity expressions are equivalent) and finally
+  \item a unit system that is flexible enough to handle different kinds of units.
+\end{enumerate}
+
 \subsection{An idea for an extensible system}
 \label{sec:meq_model}
 
+Let us start with point (5), a unit system that is flexible enough to handle all different of units. As a basis we use the formalisation described in section \ref{sec:qeform}. Since we want to convert different units, we also want to apply what we learned in section \ref{sec:qeconv}. We use MMT to write down the formalisation of quantity expressions as described. We can write down a lot of different units in this form. In figure \ref{fig:unitsgraph} you can see a small subgraph of unit theories.
+
+\input{graphs/units_graph.tex}
+
+\ednote{More}
 
 \subsection{Normalisation of Quantity Expressions}
-* describe normalisation algorithm, 2 steps
+
+Now that we have a basic formalisation of units, we want to be able to exchange quantity expressions between the user, the search engine and the
+
 
 \subsection{Serialising Quantity Expressions to XML}
 * W3C RFC, find it again

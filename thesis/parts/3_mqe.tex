@@ -36,6 +36,7 @@ In addition to this we add the unit dimension which simply describes a number.
 Similar to the compositional behaviour of quantity expressions, dimensions can be multiplied and divided. Unlike quantity expressions however they can not be multiplied with numbers. Furthermore, when multiplying to quantity expressions of dimensions $a$ and $b$ their resulting dimension is $a \cdot{} b$, the multiplication of the dimensions. The same goes for division. In this regard the dimension of a quantity expression behaves like a type.
 
 \subsection{Mathematical Theory of Quantity Expressions}
+\label{sec:qeform}
 
 The realisation that dimensions are types of quantity expressions leads us to our first formalisation of quantity expressions. We first define a theory of dimensions in figure \ref{fig:dimensions} and then import it to define a theory of Quantity Expressions in figure \ref{fig:QE}.
 
@@ -50,6 +51,7 @@ Now we need to introduce some basic units. Let us start by just defining meter i
 \input{graphs/meter.tex}
 
 \subsection{Transforming Quantity Expressions from one form into another}
+\label{sec:qeconv}
 
 This is a very nice start of a unit system\ednote{Better formulation}. Let us know define a few more units of length. In figure \ref{fig:nonsilength} we show a few non-si units. Here we first define thoug as a quanity expression of length and then one-by-one define more units in terms of the previous one.
 \input{graphs/nonsilength.tex}
@@ -62,4 +64,4 @@ We now want to relate quantity expressions with units from the \textit{Meter} th
 \end{array}\right\}
 \]
 
-Even though the view just maps the symbol \textit{Thou} to some Term in the Meter theory, we can also use it to transform any other term from the Thou Theory. Since all units are defined in terms of the previous one, we can just expand all definitions to get an expression containing only numbers and the unit \textit{Thou}. Then we can use the view as normal to get a Quantity Expression in the \textit{Meter} theory. 
+Even though the view just maps the symbol \textit{Thou} to some Term in the Meter theory, we can also use it to transform any other term from the Thou Theory. Since all units are defined in terms of the previous one, we can just expand all definitions to get an expression containing only numbers and the unit \textit{Thou}. Then we can use the view as normal to get a Quantity Expression in the \textit{Meter} theory.

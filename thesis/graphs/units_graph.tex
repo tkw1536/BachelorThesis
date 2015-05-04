@@ -1,0 +1,148 @@
+\usetikzlibrary{shapes,arrows,mmt}
+\def\thmo#1#2{\mathsf{#1}\colon\kern-.15em{#2}}
+\providecommand\myxscale{3.9}
+\providecommand\myyscale{2.2}
+\providecommand\myfontsize{\footnotesize}
+
+\begin{figure}[h]
+  \begin{center}
+    \begin{tikzpicture}[xscale=\myxscale,yscale=\myyscale]\myfontsize
+
+      %Background
+      \draw[rounded corners, draw=none, fill=lightgray, opacity=0.5] (-1.7,-3.5) -- (-1.7,-0.5) -- (0.4,-0.5) -- (0.4,-3.5) -- cycle;
+
+      % Theory of Dimensions
+      \node[thy] (dim) at (-1,-3) {
+        \begin{tabular}{l}
+          \textsf{Dimensions}\\\hline
+          8 basic dimensions\\
+          dimension multiplication\\
+          dimension division\\
+          \hline
+        \end{tabular}
+      };
+
+      % Dimensions extended
+      \node[thy] (dimex) at (-1,-2) {
+        \begin{tabular}{l}
+          \textsf{Dimensions Extended}\\\hline
+          aliases for composite dimensions\\
+          (such as $\mathsf{area} = \mathsf{length} \cdot{} \mathsf{length}$)\\
+          \hline
+        \end{tabular}
+      };
+
+      \draw[include] (dim) -- (dimex);
+
+      %Numbers
+      \node[thy] (numbers) at (0,-2) {
+        \begin{tabular}{l}
+          \textsf{Numbers}\\\hline
+          basic numbers\\
+          (OpenMath)\\
+          \hline
+        \end{tabular}
+      };
+
+      % Quantity Expressions
+      \node[thy] (qes) at (-0.75,-1) {
+        \begin{tabular}{l}
+          \textsf{Quantity Expressions}\\\hline
+          quantity expression constructors\\
+          quantity expression multiplication\\
+          quantity expression division\\
+          \hline
+        \end{tabular}
+      };
+
+      \draw[include] (numbers) -- (qes);
+      \draw[include] (dimex) -- (qes);
+
+      %SI
+      \node[thy] (SI) at (-1,0) {
+        \begin{tabular}{l}
+          \textsf{SI}\\\hline
+          basic SI units for all dimensions\\
+          \hline
+        \end{tabular}
+      };
+
+      \draw[include] (qes) -- (SI);
+
+      %Imperial Lengths 1A
+      \node[thy] (ImpA1) at (0.3,0) {
+        \begin{tabular}{l}
+          \textsf{Imperial Lengths A1}\\\hline
+          Thou\\
+          \hline
+        \end{tabular}
+      };
+
+      \draw[include] (qes) -- (ImpA1);
+      \draw[view] (ImpA1) -- (SI);
+
+
+      %Imperial Lengths A2
+      \node[thy] (ImpA2) at (1.5,0) {
+        \begin{tabular}{l}
+          \textsf{Imperial Lengths A2}\\\hline
+          Inch, Foot, Yard, \\
+          Chain, Fathom, Mile, \\
+          Mile, Furlong, Cable, \\
+          Nautical Mile, League\\
+          \hline
+        \end{tabular}
+      };
+
+      \draw[include] (ImpA1) -- (ImpA2);
+
+      %Imperial Lengths B1
+      \node[thy] (ImpB1) at (0.9,-1) {
+        \begin{tabular}{l}
+          \textsf{Imperial Lengths B1}\\\hline
+          Link\\
+          \hline
+        \end{tabular}
+      };
+
+      \draw[include] (qes) -- (ImpB1);
+      \draw[view] (ImpB1) -- (ImpA2);
+
+      %Imperial Lengths B2
+      \node[thy] (ImpB2) at (1,-2) {
+        \begin{tabular}{l}
+          \textsf{Imperial Lengths B2}\\\hline
+          Rod\\
+          \hline
+        \end{tabular}
+      };
+
+      \draw[include] (ImpB1) -- (ImpB2);
+
+
+      % Imperial Lengths
+      \node[thy] (ImpLen) at (1.75,-1) {
+        \begin{tabular}{l}
+          \textsf{Imperial Lengths}\\\hline
+        \end{tabular}
+      };
+
+      \draw[include] (ImpA2) -- (ImpLen);
+      \draw[include] (ImpB2) -- (ImpLen);
+
+      % Imperial Area
+      \node[thy] (ImpArea) at (1.75,-2.7) {
+        \begin{tabular}{l}
+          \textsf{Imperial Area}\\\hline
+          Perch, Rood, Acre\\\hline
+        \end{tabular}
+      };
+
+      \draw[include] (ImpLen) -- (ImpArea);
+
+    \end{tikzpicture}
+  \end{center}
+
+  \caption{A small part of the graph containing unit theories. Imports are represented as solid edges and views as squiged edges. The gray area contains basic theories that are used to define quantity expressions. }
+  \label{fig:unitsgraph}
+\end{figure}
