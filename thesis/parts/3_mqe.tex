@@ -1,4 +1,4 @@
-\section{Modeling Quantity Expressions}
+\section{The structure of Quantity Expressions}
 
 The first step in developing a good search engine for Quantity Expressions is to take a closer look at Quantity Expression.
 
@@ -10,10 +10,11 @@ We notice that $x$ consists of 2 parts, a scalar ($25$) and a scalar-free $\frac
 
 While $m$ and $s$ are certainly primitive units (they can not be decomposed further), it is not easy to define a unit as a composition of simple units. Consider the following example:
 \[y = \frac{\text{L}}{100\ \text{km}}\]
-$y$ is certainly a unit and also a quantity expression. It consists of 2 sub-expressions, $\text{L}$ and $100\ \text{km}$. The first one is a primitive unit and the second one a multiplication of a number and the unit $\text{km}$. It is thus reasonable to define the following 4 types of quantity expressions:
+$y$ is certainly a unit and also a quantity expression. It consists of 2 sub-expressions, $\text{L}$ and $100\ \text{km}$. The first one is a primitive unit and the second one a multiplication of a number and the unit $\text{km}$. It is thus reasonable to define the following 5 types of quantity expressions:
 \begin{enumerate}
   \item A primitive unit, such as $\text{m}$ (meter). This is the most obvious one.
-  \item A number, such as $100$. This can mostly be used to compose existing quantity expressions.
+  \item the Multiplication of a quantity expression with a scalar.
+  \item the Division of a quantity expression by a scalar.
   \item The multiplication $\cdot{}$ which takes 2 existing quantity expression and generates a new one, for example $\cdot \left(100, \text{m} \right) = 100\ \text{m}$
   \item The division \textbackslash which again takes 2 quantity expressions and generates a new one, for example $\text{\textbackslash} (\text{m}, \text{s}) = \frac{\text{m}}{\text{s}}$
 \end{enumerate}
@@ -31,7 +32,7 @@ Now let us briefly examine the dimensions of Quantity Expressions. The dimension
   \item amount of substance.
 \end{enumerate}
 
-In addition to this we add the unit dimension which simply describes a number.
+In addition to these dimensions there are 2 more special dimensions: The \textit{count} dimension (used for counting of objects) and the \textit{none} dimension for dimensionless quantities. \ednote{Explain these more}
 
 Similar to the compositional behaviour of quantity expressions, dimensions can be multiplied and divided. Unlike quantity expressions however they can not be multiplied with numbers. Furthermore, when multiplying to quantity expressions of dimensions $a$ and $b$ their resulting dimension is $a \cdot{} b$, the multiplication of the dimensions. The same goes for division. In this regard the dimension of a quantity expression behaves like a type.
 
@@ -44,7 +45,7 @@ The realisation that dimensions are types of quantity expressions leads us to ou
 
 \input{graphs/QE.tex}
 
-Figure \ref{fig:dimensions} defines the 8 basic dimensions and then dimension compositon via multiplication and division. Then we move on in \ref{fig:QE} to define quantity expressions. Each quantity expression has a dimension (via the QE constructor). This allows us to define basic dimensions (which we will actually do in the next figure. ). With the QENum symbol we allow creation of unit dimension quantity expressions via numbers (in this case we import some theory of numbers to allow us to use a number type. ). Then we define multiplication and division of quantity expressions in such a way that dimensions multiply and divide appropriatly.
+Figure \ref{fig:dimensions} defines the 9 basic dimensions and then dimension compositon via multiplication and division. Then we move on in \ref{fig:QE} to define quantity expressions. Each quantity expression has a dimension (via the \textit{QE} constant). This allows us to define basic units (which we will actually do in the next figure. ). With the \textit{QENMul} and \textit{QENDiv} symbols we can multiply and divide quantity expressions by numbers ( for this case we actually need to import some theory of numbers to allow us actually write this down as a Term). Then we define multiplication and division of quantity expressions in such a way that dimensions multiply and divide appropriatly.
 
 Now we need to introduce some basic units. Let us start by just defining meter in figure \ref{fig:meter}. We can now write a term in this theory that expresses any number of meters.
 
@@ -60,7 +61,7 @@ We now want to relate quantity expressions with units from the \textit{Meter} th
 
 \[
 \psi = \left\{\begin{array}{l}
-  \mathsf{Thou} \mapsto \mathsf{QEMul} \left( \mathsf{QENum} \left( 0.0000254 \right), \mathsf{Meter} \right)
+  \mathsf{Thou} \mapsto \mathsf{QENMul} \left( 0.0000254, \mathsf{Meter} \right)
 \end{array}\right\}
 \]
 

@@ -6,11 +6,11 @@
       $ \mathsf{import \ Quantity Expression}$ &&\\
       \hline
       $\mathsf{Thou}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right)$\\
-      $\mathsf{Foot}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QEMul} \left( \mathsf{QENum} \left(1000 \right), \mathsf{Thou} \right)$\\
-      $\mathsf{Yard}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QEMul} \left( \mathsf{QENum} \left(3 \right), \mathsf{Foot} \right)$\\
-      $\mathsf{Chain}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QEMul} \left( \mathsf{QENum} \left(22 \right), \mathsf{Yard} \right)$\\
-      $\mathsf{Furlong}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QEMul} \left( \mathsf{QENum} \left(10 \right), \mathsf{Chain} \right)$\\
-      $\mathsf{Mile}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QEMul} \left( \mathsf{QENum} \left(8 \right), \mathsf{Furlong} \right)$\\
+      $\mathsf{Foot}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QENMul} \left( 1000, \mathsf{Thou} \right)$\\
+      $\mathsf{Yard}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QENMul} \left( 3, \mathsf{Foot} \right)$\\
+      $\mathsf{Chain}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QENMul} \left( 22, \mathsf{Yard} \right)$\\
+      $\mathsf{Furlong}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QENMul} \left( 10, \mathsf{Chain} \right)$\\
+      $\mathsf{Mile}$ & $:$ & $ \mathsf{QE}\left( \mathsf{length} \right) = \mathsf{QENMul} \left( 8, \mathsf{Furlong} \right)$\\
       \hline
     \end{tabular}
   \end{center}
