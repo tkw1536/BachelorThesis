@@ -1,4 +1,5 @@
 \section{Making Quantity Expressions searchable}
+\label{sec:mqes}
 Now that we know what quantity expressions are and how we can convert between equivalent representations, it is time to start about concrete algorithms for our search engine.
 
 When querying this search engine with a quantity expression, we want to be able find occurrences of equivalent quantity expressions. For this we need several components:
@@ -78,4 +79,4 @@ Apart from the frontend, which we will talk about in section \ref{sec:frontend},
   \item Next look in the index for the normalised query.
   \item Then deliver the original versions and their origins from the index.
 \end{enumerate}
-This algorithm allows us to easily and efficiently find quantity expression in documents after we have built up an index. In order to build up this index we need a list of quantity expressions and occurrences inside documents. A software that fullfills this task is called a Spotter. In our case the spotter is developed by Stiv Sherko in a seperate effort \cite{proposal:sharko}. 
+This algorithm allows us to easily and efficiently find quantity expression in documents after we have built up an index. In order to build up this index we need a list of quantity expressions and occurrences inside documents. A software that fullfills this task is called a Spotter. In our case the spotter is developed by Stiv Sherko in a seperate effort \cite{proposal:sharko}.
