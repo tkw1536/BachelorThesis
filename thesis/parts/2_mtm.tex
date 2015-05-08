@@ -1,9 +1,9 @@
-\section{The structure of Mathematics: Theories, Views and Imports}
+\section{The Structure Of Mathematics: Theories, Views And Imports}
 \label{sec:mathoverview}
 
 Before we start looking at Quantity Expressions and how to build a search engine for them, we want to give an introduction to meta-mathmatical structure. We will use this knowledge later to build a better search engine. For this we first need to take a look at the concept of theories.
 
-\subsection{Modeling Mathematics with the help of theories}
+\subsection{Modeling Mathematics With The Help Of Theories}
 
 Theories, in this sense, are simply a set of symbols. Each of the symbols optionally can have a type and a definition. Within each theory, we can then use these symbols to write down terms (or expressions) within this theory. Types and definitions of these symbols are terms themselves\footnote{They are not terms over the same theory however. }. As a simple example of this, let us consider the theory of semigroups as seen in \ref{fig:semigroup}
 
@@ -11,17 +11,17 @@ Theories, in this sense, are simply a set of symbols. Each of the symbols option
 
 In this theory, we define 3 symbols: $G$, $\circ$ and $\scriptstyle \mathsf{assoc}$. In the first line we define a type $G$. Next we define a function $\circ$ that takes 2 arguments of type $G$ and returns another term of type $G$. In the last line, we make the statement that associativity holds\ednote{possibly explain / mention Curry–Howard isomorphism}.
 
-\subsection{Extending theories using imports}
+\subsection{Extending Theories Using imports}
 
 Sometimes we want to extend theories without having to define everything again. For example, we want to say that a Monoid is a semi-group along with an identity element. In the semi-group example above, we have also used terms from other theories to define $G$ as a type.
 
-We can model this concept by using imports. An import from one theory into another makes symbols of the imported theory available in the target theory. In figure \ref{fig:monoid} we can easily define a monoid.
+We can model this concept by using imports. An import from one theory into another makes symbols of the imported theory available in the target theory. In Figure \ref{fig:monoid} we can easily define a monoid.
 
 \input{graphs/monoid.tex}
 
-\subsection{Views as mappings between theories}
+\subsection{Views As Mappings Between Theories}
 
-However imports are not the only way theories can be related. If we have 2 theories, we sometimes want to have a map between them. In addition to the theory of monoids above we define the theory of non-negative integers in figure \ref{fig:nnintegers}.
+However imports are not the only way theories can be related. If we have 2 theories, we sometimes want to have a map between them. In addition to the theory of monoids above we define the theory of non-negative integers in Figure \ref{fig:nnintegers}.
 
 \input{graphs/nnintegers.tex}
 
@@ -39,13 +39,13 @@ A map from the theory of monoids to the theory of positive integers should map a
 
 If we take a closer look at this view, we notice that we also have to map the imported symbols. This is needed so that we can translate any term or statement in theory of monoids to a term or statment into the theory of non-negative integers.
 
-\subsection{Building theory graphs}
+\subsection{Building Theory Graphs}
 
-\ednote{Remove section heading or extend this section. } We have seen in the examples above that we can model mathematics with the help of theories, views and imports. To make this structure even more obvious, we can represent it in a graph, a so-called theory graph. We consider the theories as vertices of such a graph and the views and imports as edges. An example can be found in figure \ref{fig:groups_full}.
+\ednote{Remove section heading or extend this section. } We have seen in the examples above that we can model mathematics with the help of theories, views and imports. To make this structure even more obvious, we can represent it in a graph, a so-called theory graph. We consider the theories as vertices of such a graph and the views and imports as edges. An example can be found in Figure \ref{fig:groups_full}.
 
 \input{graphs/groups_full.tex}
 
-\subsection{Using MMT to write down terms and theories}
+\subsection{Using MMT To Write Down Terms And Theories}
 
 MMT is a \textbf{M}odule system for \textbf{M}athematical \textbf{T}heories \cite{RabKoh:WSMSML13}. With the help of MMT we can represent theories, views and imports in \textit{.mmt} files. It is easy to write these files and anyone without programming knowledge can easily extend existing ones. The objects defined in these files can then be used via an API to write down terms and transform these using definitions and views.
 

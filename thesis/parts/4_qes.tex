@@ -1,4 +1,4 @@
-\section{Making Quantity Expressions searchable}
+\section{Making Quantity Expressions Searchable}
 \label{sec:mqes}
 Now that we know what quantity expressions are and how we can convert between equivalent representations, it is time to start about concrete algorithms for our search engine.
 
@@ -11,10 +11,10 @@ When querying this search engine with a quantity expression, we want to be able 
   \item a unit system that is flexible enough to handle different kinds of units.
 \end{enumerate}
 
-\subsection{An idea for an extensible system}
+\subsection{An Idea For An Extensible System}
 \label{sec:meq_model}
 
-Let us start with point (5), a unit system that is flexible enough to handle all different of units. In figure \ref{fig:unitsgraph} you can find a small part of the unit graph we developed. At first, in the gray area, we define a basic version of our system as defscribe in section \ref{sec:qeform}. Next we continue in the top left corner to define all the basic SI units. For the following we only look at the theories descrobing length and area units (however there are also some for all of the other dimensions).
+Let us start with point (5), a unit system that is flexible enough to handle all different of units. In Figure \ref{fig:unitsgraph} you can find a small part of the unit graph we developed. At first, in the gray area, we define a basic version of our system as defscribe in section \ref{sec:qeform}. Next we continue in the top left corner to define all the basic SI units. For the following we only look at the theories descrobing length and area units (however there are also some for all of the other dimensions).
 
 \input{graphs/units_graph.tex}
 
@@ -28,7 +28,7 @@ But why do we define so many different theories? Why do we not simply define all
 
 Defining units in the way we do it allows us to incrementally add new units to the system. If we have a view back to already known theories, it is easy to compare them back to the existing units.
 
-\subsection{Normalisation of Quantity Expressions}
+\subsection{Normalisation Of Quantity Expressions}
 
 To build a search engine however, it is inefficient to try to directly compare a search query with known quantity expressions. One way to compare quantity expressions is to normalise them to a suitable normal form. The normal form we came up with works in 2 steps.
 
@@ -55,11 +55,11 @@ We also extract the unit component:
 Finally we compose these again to get the normal form:
 \[0.006985\ \frac{\text{Meter}}{\text{Second}}\]
 
-\subsection{Serialising Quantity Expressions to XML}
+\subsection{Serialising Quantity Expressions To XML}
 
 Now that we have a normal form of units, we want to be able to exchange quantity expressions between the user, the search engine and the harvesting component. The W3C has written a note on how to handle Units in MathML \cite{W3C:Unitnnote}. MathML is an XML serialisiation of Mathmatical expression. We orient ourselves on the format. For this serialisation we start with a term over some unit theory. The serialisation of the term
 \[0.006985\ \frac{\text{Meter}}{\text{Second}}\]
-can be found in figure \ref{fig:ser1}.
+can be found in Figure \ref{fig:ser1}.
 \input{graphs/ser1.tex}
 Let us take a closer look to understand this serialisation. We translate each component of the Term individually and then assemble them together.
 
@@ -69,7 +69,7 @@ We translate multiplication and division by using \lstinline[language=XML]{<appl
 
 This format allows us to easily exchange quantity expressions. It is also easy to send quantity expressions from the user to the backend (the core component of the search engine. )
 
-\subsection{Finding units inside documents}
+\subsection{Finding Units Inside Documents}
 Apart from the frontend, which we will talk about in section \ref{sec:frontend}, there is only one major component left: Finding and matching quantity expressions inside documents. As we have outlined in the previous sections, we can easily compare them with the help of normalisation. If we have a list of quantity expressions and where they occur, we can use the following algorithm to easily find them:
 \begin{enumerate}
   \item First find quantity expressions inside documents and store them in a list along with their origin.
