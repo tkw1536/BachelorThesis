@@ -10,14 +10,16 @@ We notice that $x$ consists of 2 parts, a scalar ($25$) and a scalar-free $\frac
 
 While $m$ and $s$ are certainly primitive units (they can not be decomposed further), it is not easy to define a unit as a composition of simple units. Consider the following example:
 \[y = \frac{\text{L}}{100\ \text{km}}\]
-$y$ is certainly a unit and also a quantity expression. It consists of 2 sub-expressions, $\text{L}$ and $100\ \text{km}$. The first one is a primitive unit and the second one a multiplication of a number and the unit $\text{km}$. It is thus reasonable to define the following 5 types of quantity expressions:
+$y$ is certainly a unit and also a quantity expression. It consists of 2 sub-expressions, $\text{L}$ and $100\ \text{km}$. The first one is a primitive unit and the second one a multiplication of a number and the unit $\text{km}$. It is thus reasonable to define the following 6 types of quantity expressions:
 \begin{enumerate}
   \item A primitive unit, such as $\text{m}$ (meter). This is the most obvious one.
   \item the Multiplication of a quantity expression with a scalar.
   \item the Division of a quantity expression by a scalar.
   \item The multiplication $\cdot{}$ which takes 2 existing quantity expression and generates a new one, for example $\cdot \left(100, \text{m} \right) = 100\ \text{m}$
   \item The division \textbackslash which again takes 2 quantity expressions and generates a new one, for example $\text{\textbackslash} (\text{m}, \text{s}) = \frac{\text{m}}{\text{s}}$
+  \item The addition of two quantity expressions
 \end{enumerate}
+
 This allows us to easily generate the quantity expressions $x$ and $y$ from primitive units m, s, L and km.
 
 \subsection{Dimensions of Quantity Expressions}

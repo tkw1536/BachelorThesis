@@ -4,8 +4,8 @@ Now that we know what quantity expressions are and how we can convert between eq
 When querying this search engine with a quantity expression, we want to be able find occurrences of equivalent quantity expressions. For this we need several components:
 \begin{enumerate}
   \item a component that allow the user to enter quantity expressions,
-  \item a way to send quantity expressions from the user to the search engine
   \item a software to find quantity expressions within documents
+  \item a way to send quantity expressions from the user to the search engine
   \item an algorithm to convert between different forms of a quantity expressions (or at least determine if 2 quantity expressions are equivalent) and finally
   \item a unit system that is flexible enough to handle different kinds of units.
 \end{enumerate}
@@ -13,49 +13,69 @@ When querying this search engine with a quantity expression, we want to be able 
 \subsection{An idea for an extensible system}
 \label{sec:meq_model}
 
-Let us start with point (5), a unit system that is flexible enough to handle all different of units. As a basis we use the formalisation described in section \ref{sec:qeform}. Since we want to convert different units, we also want to apply what we learned in section \ref{sec:qeconv}. We use MMT to write down the formalisation of quantity expressions as described. We can write down a lot of different units in this form. In figure \ref{fig:unitsgraph} you can see a small subgraph of unit theories.
+Let us start with point (5), a unit system that is flexible enough to handle all different of units. In figure \ref{fig:unitsgraph} you can find a small part of the unit graph we developed. At first, in the gray area, we define a basic version of our system as defscribe in section \ref{sec:qeform}. Next we continue in the top left corner to define all the basic SI units. For the following we only look at the theories descrobing length and area units (however there are also some for all of the other dimensions).
 
 \input{graphs/units_graph.tex}
 
-\ednote{More}
+We start with defining the non-SI unit \textit{Thou} in the \textit{Imperial Lengths A1}. In order to be able to convert between these units we apply what we learned in section \ref{sec:qeconv} and create a view that maps this unit back to standard SI units. We then expand into \textit{Imperial Lengths A2} and define a few more units incrementally based on \textit{Thou} (we use an import to be able to do this).
+
+Next, we define a new unit \textit{Link} in the \textit{Imperial Lengths B1} theory and define the unit \textit{Rod} in \textit{Imperial Lengths B2}. We then also make a view from \textit{Imperial Lengths B1} to \textit{Imperial Lengths A2}. Since \textit{Imperial Lengths B2} imports \textit{Imperial Lengths B1} this allows us to easily transform both of the new units back to SI if needed.
+
+Next we want to define some units with the dimension Area. For this we first collect all known lengths and make them available in a \textit{Imperial Lengths} theory via imports. Then we import this theory into a new \textit{Imperial Area} theory where we can then define \textit{Perch}, \textit{Rod} and \textit{Acre}.
+
+But why do we define so many different theories? Why do we not simply define all the units of length in a single theory? Obviously, this one length theory would be very big. Furthermore, it would require anyone who wants to add more units to the system to add to this one theory, which can cause conflicts if there are 2 units with the same name (such as \textit{Mile} and \textit{(nautical) Mile}).
+
+Defining units in the way we do it allows us to incrementally add new units to the system. If we have a view back to already known theories, it is easy to compare them back to the existing units.
 
 \subsection{Normalisation of Quantity Expressions}
 
-Now that we have a basic formalisation of units, we want to be able to exchange quantity expressions between the user, the search engine and the
+To build a search engine however, it is inefficient to try to directly compare a search query with known quantity expressions. One way to compare quantity expressions is to normalise them to a suitable normal form. The normal form we came up with works in 2 steps.
 
+We first turn a Term representing a Quantity Expression into a Term over the theory containing only standard units. In general we can choose any theory we want for this. We choose the \textit{SI} theory for this so that the normal forms can be understood easily.
+
+In order to transform a term to standard units, we just expand each unit (represented by constants) into a Term over the standard theory. This is achieved by translating it along a path in the theory graph. A path in the theory graph can consist out of 2 types of edges, Views and Imports. For views we can obviously use the mappings to translate the unit from the source to the target theory of the respective view. For imports however, it is not that simply. We can translate terms along them via definition expansion. This takes us to the imported theory from the theory that imports. We can use these edges as described and use standard graph theory algorithms to find a path for a unit to be recursively translated upon.
+
+In the second step, we seperate the scalar from the units. For this, we first compute the scalar value of a quantity expression and then cancel out units which occur both in numerator and denominator of the quantity expression. This step is much easier then the first one, as we no longer have to use the theory graph. For this reason, we compute the normalisation of each unit only once by caching the result. Then we no longer need to look at the graph for our normalisation procedure at all.
+
+Let us illustrate the process of normalisation a bit more. We will try to normalise the quantity expression
+\[q = 42 \frac{\text{Furlong}}{\text{Fortnight}}\]
+First, we need to normalise \textit{Furlong} (a quantity expression of length) to \textit{Meter}. For this we first do definitional expansion:
+\[\text{Furlong} = 10\ \text{Chain} = 10 \left( 22\ \text{Yard}\right) = \dots = 10 \left( 22 \left( 3 \left( 12 \left( 1000\ \text{Thou} \right) \right) \right)\right) \]
+Next, we need to use a view to turn this into meters:
+\[10 \left( 22 \left( 3 \left( 1000\ \text{Thou} \right) \right)\right) = 10 \left( 22 \left( 3 \left( 12 \left( 1000 \left( 0.0000254\ \text{Meter} \right) \right) \right) \right)\right)\]
+Similary, we use definitional expansion to find that:
+\[\text{Fortnight} = \left( 2 \left( 7 \left( 24 \left( 60 \left( 60\ \text{Second} \right) \right) \right) \right) \right) \]
+Substituting into $q$ gives us the normal form of the quantity expression after the first step:
+\[42 \frac{10 \left( 22 \left( 3 \left( 1000 \left( 0.0000254\ \text{Meter} \right) \right) \right)\right)}{ 2 \left( 7 \left( 24 \left( 60 \left( 60\ \text{Second} \right) \right) \right) \right)}\]
+Next, we want to extract the scalar component and compute it:
+\[42 \frac{10 \left( 22 \left( 3 \left( 12 \left( 1000 \left( 0.0000254 \right) \right) \right) \right)\right)}{ 2 \left( 7 \left( 24 \left( 60 \left( 60\right) \right) \right) \right)} = 0.006985 \]
+We also extract the unit component:
+\[\frac{\text{Meter}}{\text{Second}}\]
+Finally we compose these again to get the normal form:
+\[0.006985\ \frac{\text{Meter}}{\text{Second}}\]
 
 \subsection{Serialising Quantity Expressions to XML}
-* W3C RFC, find it again
 
-%\label{sec:mws:tg}
+Now that we have a normal form of units, we want to be able to exchange quantity expressions between the user, the search engine and the harvesting component. The W3C has written a note on how to handle Units in MathML \cite{W3C:Unitnnote}. MathML is an XML serialisiation of Mathmatical expression. We orient ourselves on the format. For this serialisation we start with a term over some unit theory. The serialisation of the term
+\[0.006985\ \frac{\text{Meter}}{\text{Second}}\]
+can be found in figure \ref{fig:ser1}.
+\input{graphs/ser1.tex}
+Let us take a closer look to understand this serialisation. We translate each component of the Term individually and then assemble them together.
 
-%The theories and their relations can be represented as a graph, called a theory graph. In Figure \ref{graph1} we can see a simple example of a theory graph.
+We translate the unit (constant) \textit{Meter} to \lstinline[language=XML]{<csymbol cd='SIBase'>Meter</csymbol>}. This XML Tag expresses that we are talking about the symbol \textit{Meter}. The cd attribute stands for content directory.In our case this is the name of the theory were the symbol was declared.
 
-%\input{graph1.tex} \ednote{Explain the mappings somewhere}
+We translate multiplication and division by using \lstinline[language=XML]{<apply><times />}\dots\lstinline[language=XML]{</apply>} and \lstinline[language=XML]{<apply><divide />}\dots\lstinline[language=XML]{</apply>} respectively. We can use quantity expressions directly here. If we want to multiply with or divide by numbers, we use \lstinline[language=XML]{<cn type='float'>}\dots\lstinline[language=XML]{</cn>} instead of the \lstinline[language=XML]{<csymbol>} tags.
 
-%Every theory and every constant in MMT has a (globally unique) URI, called the MMT URI. It can be constructed via a triple $\left( G,M,S \right)$ where $G$ is a document URI, $M$ is a module name within this document and $S$ is the name of a constant \cite{RabKoh:WSMSML13}. We then seperate these components via a ? to get a URI of the form $G?M?S$. Because every theorem in MMT is only a symbol declaration it can also be represented via a URI. As explained above, if two theories are related via a view or import, theorems can be translated along this relation.
+This format allows us to easily exchange quantity expressions. It is also easy to send quantity expressions from the user to the backend (the core component of the search engine. )
 
-%Sometimes it is useful not to write down a theorem explicitly, but only give an existing theorem and translate this along a view or import. The MMT URI of this induced theorem can then be given using the view. This URI contains enough information for MMT to generate the theorem in explicit form\cite{IanKohProd:rassmk14}.
-
-%In an MWS Harvest we exploit this property of induced theorems. We have several represented theorems, the forumlae in the corpus, and many more induced theorems, other equivalent representations of these formulae. With the help of MMT, the MMT Harvest is built by representing all theses theories (forumlae) explictly.
-
-%Applying this principle to quantity expressions, we can consider different units as different theories and different quantity expressions different theorems belonging to their respective unit theories. The unit conversions can then be represented via views. The information on how to translate from one unit to another will be contained within the view. If we know all formulae in a corpus we can then generate an MWS Harvest that contains all the representations.
-
-
-
-%As mentioned above, MathWebSearch is a search engine for forumlae and key phrases\ednote{Work in TEMA Search}. MWS consists of 3 main components as well as a frontend\footnote{The frontend is not part of MWS directly but rather built on top of the REST API, more on this later. }\cite{KohPro:MWSmanual}.
-
-%The backend consists of 3 main components,
-%\begin{enumerate}
-%  \item a crawler,
-%  \item a core system and
-%  \item a public REST API.
-%\end{enumerate}
-
-%The crawler, as its name suggests, crawls corpera for forumlae. For each corpus MWS uses, a seperate crawler has to be implemented. The crawled formulae are passed to the core system and indexed in an MWS Harvest. The core system is also responsible for parsing queries and sending results back to the REST API. This is done by searching the harvest only. In order to make a semantic search for quantity expressions we will adapt this crawler to find and harvest quantity expression instead.
-
-%Because MWS is semantics-aware, the harvest can not only contain the exact formulars that are found in the original corpus but also all versions that are quivalent to it. These are generated with the help of MMT and theory graphs, see sections \ref{sec:mws:mmt} and \ref{sec:mws:tg}.
-
-%The frontend for MathWebSearch, which is not part of MWS itself but running client-side in a web browser, is written in HTML5, CSS and JavaScript. It accesses the REST backend and depends on MathML support to render Mathematics. When the client enters a query to search for, the \LaTeX{}ml daemon \cite{latexml-daemon} is used to transform the query into content MathML. Next, the client renders the MathML (to show the formular the user is searching for) and then sends the query off to the MWS API. Upon receiving results, the client renders them and links to the original documents. \ednote{ScreenShot of MWS} \ednote{Write about Query Expansion vs Index Expansion}
-
-%There are several implementations of frontends and crawlers as well as extensions of MathWebSearch. One particular implementation is capable of crawling the arXMLiv corpus, which contains approximatly 750.000 documents. A list of demos can be found at \cite{URL:MWSDemo}.
+\subsection{Finding units inside documents}
+Apart from the frontend, which we will talk about in section \ref{sec:frontend}, there is only one major component left: Finding and matching quantity expressions inside documents. As we have outlined in the previous sections, we can easily compare them with the help of normalisation. If we have a list of quantity expressions and where they occur, we can use the following algorithm to easily find them:
+\begin{enumerate}
+  \item First find quantity expressions inside documents and store them in a list along with their origin.
+  \item Normalise each of them as described before.
+  \item Store the normalised forms in an efficient index along with their original versions and origins.
+  \item When a query is sent, normalise the query.
+  \item Next look in the index for the normalised query.
+  \item Then deliver the original versions and their origins from the index.
+\end{enumerate}
+This algorithm allows us to easily and efficiently find quantity expression in documents after we have built up an index. In order to build up this index we need a list of quantity expressions and occurrences inside documents. A software that fullfills this task is called a Spotter. In our case the spotter is developed by Stiv Sherko in a seperate effort \cite{proposal:sharko}. 
