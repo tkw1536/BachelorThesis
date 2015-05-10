@@ -3,6 +3,10 @@
 %Packages
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
+\usepackage{amssymb}
+
+\newcommand{\realnz}{\mathbb{R}^{\*}}
+\usepackage{svg}
 
 %META-INFORMATION
 \title{Semantic Search for Quantity Expressions}
@@ -102,12 +106,31 @@
 
       \item Spotter is done by \textit{Stiv Sherko}
       \item We only need to worry about the \textit{Unit System}, the \textit{Search Algorithm} and the \textit{Frontend}
+      \item For the first two points, we use a meta-mathematical approach
     \end{itemize}
   \end{frame}
 
+
+  \begin{frame}{Our Approach (2)}
+    \begin{itemize}[<+->]
+      \item We use a meta-mathematical model
+      \item This is a model that can be used to describe mathematics
+      \item We go over this fairly quickly due to time constraints
+      \item Definitions (= Constants) are contained inside \textit{theories}
+      \item A \textit{Term} is an expression written using definitions from a Theory
+      \item Theories can be related using \textit{Imports} and \textit{Views}
+      \item An Import makes Constants from one theory available in another
+      \item A View is a truth-preserving mapping from Constants of one theory to another
+      \item With the help of these relation we can make a \textit{Theory Graph}
+      \item You will see examples with our unit system
+      \item \textit{MMT} is a software that allows us to make use of these concepts
+      \item It is easy to write down your own theories and related them with views
+    \end{itemize}
+  \end{frame}
+    %Unit System
   \begin{frame}{Our Approach: The Unit System (1)}
     \begin{itemize}[<+->]
-      \item Let's start with the Unit System
+      \item Let us start with building a theory of Quantity Expressions
       \item We orient ourselves on the SI specification
       \item Each quantity has a dimension
       \item According to SI there are 7 basic ones:
@@ -131,31 +154,32 @@
       \item we can also multiply these to get new dimensions
       \item such as area $=$ length $\cdot{}$ length
       \item similarly we can divide dimensions
-      \item We can use this to get a meta-mathematical formalisation of dimensions
+      \item such as velovity $= \frac{\text{length}}{\text{time}}$
+      \item We can use this to get a \textit{Theory of Dimensions}:
     \end{itemize}
   \end{frame}
   \begin{frame}{Our Approach: The Unit System (3)}
-      \begin{center}
-        \begin{tabular}{|l c l|}
-          \hline
-          \textsf{Dimension} & &\\\hline
-          $\mathsf{dimension}$ & $:$ & $ \mathsf{type}$\\
+    \begin{center}
+      \begin{tabular}{|l l l|}
+        \hline
+        \textsf{Dimension} & &\\\hline
+        $\mathsf{dim}$ & $:$ & $ \mathsf{type}$\\
 
-          $\mathsf{none}$ & $:$ & $ \mathsf{dimension}$\\
-          $\mathsf{count}$ & $:$ & $ \mathsf{dimension}$\\
-          $\mathsf{length}$ & $:$ & $ \mathsf{dimension}$\\
-          $\mathsf{mass}$ & $:$ & $ \mathsf{dimension}$\\
-          $\mathsf{time}$ & $:$ & $ \mathsf{dimension}$\\
-          $\mathsf{current}$ & $:$ & $ \mathsf{dimension}$\\
-          $\mathsf{temperature}$ & $:$ & $ \mathsf{dimension}$\\
-          $\mathsf{luminous}$ & $:$ & $ \mathsf{dimension}$\\
-          $\mathsf{amount}$ & $:$ & $ \mathsf{dimension}$\\
+        $\mathsf{none}$ & $:$ & $ \mathsf{dim}$\\
+        $\mathsf{count}$ & $:$ & $ \mathsf{dim}$\\
+        $\mathsf{length}$ & $:$ & $ \mathsf{dim}$\\
+        $\mathsf{mass}$ & $:$ & $ \mathsf{dim}$\\
+        $\mathsf{time}$ & $:$ & $ \mathsf{dim}$\\
+        $\mathsf{current}$ & $:$ & $ \mathsf{dim}$\\
+        $\mathsf{temperature}$ & $:$ & $ \mathsf{dim}$\\
+        $\mathsf{luminous}$ & $:$ & $ \mathsf{dim}$\\
+        $\mathsf{amount}$ & $:$ & $ \mathsf{dim}$\\
 
-          $\cdot{}$ & $:$ & $ \mathsf{dimension} \rightarrow \mathsf{dimension} \rightarrow \mathsf{dimension}$\\
-          $\backslash$ & $:$ & $ \mathsf{dimension} \rightarrow \mathsf{dimension} \rightarrow \mathsf{dimension}$\\\hline
-        \end{tabular}
-    \end{center}
-  \end{frame}
+        $\cdot{}$ & $:$ & $ \mathsf{dim} \rightarrow \mathsf{dim} \rightarrow \mathsf{dim}$\\
+        $/$ & $:$ & $ \mathsf{dim} \rightarrow \mathsf{dim} \rightarrow \mathsf{dim}$\\\hline
+      \end{tabular}
+  \end{center}
+\end{frame}
 
   \begin{frame}{Our Approach: The Unit System (4)}
     \begin{itemize}[<+->]
@@ -169,43 +193,73 @@
         \item The \textit{sum} of two existing QEs (of the same dimension)
         \item The \textit{quotient} of two existing QEs such as $1\ \frac{\text{Meter}}{\text{Second}}$
       \end{enumerate}
-      \item this results in the following formalisation:
+      \item this results in the following \textit{Theory of Quantity Expressions}:
     \end{itemize}
   \end{frame}
 
   \begin{frame}{Our Approach: The Unit System (5)}
     \begin{center}
-      \begin{tabular}{|l c l|}
+      \begin{tabular}{|l l l|}
         \hline
         \textsf{Quantity Expression} & &\\\hline
-        $\mathsf{QE}$ & $:$ & $ \mathsf{dimension} \rightarrow \mathsf{type}$\\
-        $\mathsf{QENMul}$& $:$ & $ \forall x : \mathsf{dimension} . \mathsf{number} \rightarrow \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( x\right)$\\
-        $\mathsf{QENDiv}$& $:$ & $ \forall x : \mathsf{dimension} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{number} \rightarrow \mathsf{QE}\left( x\right)$\\
+        $ \mathsf{import \ Dimension}$ &&\\\hline
+        $\mathsf{QE}$ & $:$ & $ \mathsf{dim} \rightarrow \mathsf{type}$\\
+        $\mathsf{QENMul}$& $:$ & $ \forall x : \mathsf{dim} . \realnz \rightarrow \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( x\right)$\\
+        $\mathsf{QENDiv}$& $:$ & $ \forall x : \mathsf{dim} . \mathsf{QE}\left( x\right) \rightarrow \realnz \rightarrow \mathsf{QE}\left( x\right)$\\
 
-        $\mathsf{QEMul}$& $:$ & $ \forall x : \mathsf{dimension} . \forall y : \mathsf{dimension} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( y\right) \rightarrow \mathsf{QE} \left( \cdot{} \left(x, y\right) \right)  $\\
-        $\mathsf{QEAdd}$& $:$ & $ \forall x : \mathsf{dimension} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE} \left( x \right)  $\\
-        $ \mathsf{QEDiv}$& $:$ & $ \forall x : \mathsf{dimension} . \forall y : \mathsf{dimension} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( y\right) \rightarrow \mathsf{QE} \left( \backslash \left(x, y\right) \right)  $\\\hline
+        $\mathsf{QEAdd}$& $:$ & $ \forall x : \mathsf{dim} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE} \left( x \right)  $\\
+        $\mathsf{QEMul}$& $:$ & $ \forall x, y : \mathsf{dim} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( y\right) \rightarrow \mathsf{QE} \left( x \cdot{} y \right)  $\\
+        $ \mathsf{QEDiv}$& $:$ & $ \forall x, y : \mathsf{dim} . \mathsf{QE}\left( x\right) \rightarrow \mathsf{QE}\left( y\right) \rightarrow \mathsf{QE} \left( \frac{x}{y} \right)  $\\\hline
       \end{tabular}
     \end{center}
   \end{frame}
 
+  \begin{frame}{Our Approach: The Unit System (4)}
+    \begin{itemize}[<+->]
+      \item we can now easily create theories that define Units, such as a Meter Theory:
+      \item
+          \begin{tabular}{|l l l|}
+            \hline
+            \textsf{Meter} &&\\\hline
+            $ \mathsf{import \ Quantity\ Expression}$ &&\\
+            \hline
+            $\mathsf{Meter}$ & $:$ & $ \mathsf{QE} \left( \mathsf{length} \right)$\\\hline
+          \end{tabular}
+    \item we can also define some non-metric lengths:
+    \item
+      \begin{tabular}{|l|}
+        \hline
+        \textsf{Non SI Lengths}\\\hline
+        $ \mathsf{import \ Quantity\ Expression}$\\
+        \hline
+        $\mathsf{Thou} : \mathsf{QE}\left( \mathsf{length} \right)$\\
+        $\mathsf{Foot} = \mathsf{QENMul} \left( 1000, \mathsf{Thou} \right)$\\
+        $\mathsf{Yard} = \mathsf{QENMul} \left( 3, \mathsf{Foot} \right)$\\
+        $\mathsf{Chain} = \mathsf{QENMul} \left( 22, \mathsf{Yard} \right)$\\
+        $\mathsf{Furlong} = \mathsf{QENMul} \left( 10, \mathsf{Chain} \right)$\\
+        $\mathsf{Mile} = \mathsf{QENMul} \left( 8, \mathsf{Furlong} \right)$\\
+        \hline
+      \end{tabular}
+    \end{itemize}
+  \end{frame}
 
-  % \begin{frame}{Carl David Tolmé Runge - The end (2)}
-  %     \begin{itemize}
-  %         \item Sources:
-  %         \begin{itemize}
-  %             \item \url{http://en.wikipedia.org/w/index.php?title=Carl_David_Tolm\%C3\%A9_Runge}
-  %             \item \url{http://de.wikipedia.org/w/index.php?title=Carl_Runge}
-  %             \item \url{http://www-history.mcs.st-and.ac.uk/Mathematicians/Runge.html}
-  %             \item \url{http://en.wikipedia.org/wiki/Runge\%E2\%80\%93Kutta_methods}
-  %             \item \url{http://en.wikipedia.org/wiki/List_of_Runge\%E2\%80\%93Kutta_methods}
-  %         \end{itemize}
-  %         \item Image sources:
-  %         \begin{itemize}
-  %             \item \url{http://upload.wikimedia.org/wikipedia/commons/3/34/CarleRunge.jpg}
-  %             \item \url{http://www-rohan.sdsu.edu/\~jmahaffy/courses/f00/math122/lectures/num_method_diff_equations/images/euler_ani.gif}
-  %         \end{itemize}
-  %     \end{itemize}
-  % \end{frame}
+  \begin{frame}{Our Approach: The Unit System (5)}
+    \begin{itemize}[<+->]
+      \item We also need to be able to compare units
+      \item We use \textit{Views} (mappings between theories) for this
+      \item In this case we use the view
+        \[
+          \psi = \left\{\begin{array}{l}
+            \mathsf{Thou} \mapsto \mathsf{QENMul} \left( 0.0000254, \mathsf{Meter} \right)
+          \end{array}\right\}
+        \]
+      \item This allows us to convert quantity expressions between different units
+      \item We have a big (easily extensible) unit graph
+      \item Here is a small part of it
+    \end{itemize}
+  \end{frame}
 
+  \begin{frame}{Our Approach: The Unit System (5)}
+    \includegraphics[width=90mm]{imgs/graph1.png}
+  \end{frame}
 \end{document}
