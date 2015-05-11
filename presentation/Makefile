@@ -17,7 +17,7 @@ cleanmaster:
 
 graph1: setupgraph1
 	cd graph1/dest && pdflatex -shell-escape graph1.tex
-	cd graph1/dest && convert -density 500 -resize 1920x1080 graph1.svg graph1.png
+	cd graph1/dest && convert -density 500 -resize 1920x1080 graph1.pdf graph1.png
 	cd graph1/dest && cp graph1.png ../../imgs/graph1.png
 
 setupgraph1:

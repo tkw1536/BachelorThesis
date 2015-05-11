@@ -29,7 +29,7 @@
             \item The Unit System
             \item The Search Algorithm
           \end{itemize}
-          \item The Implementation
+          \item Conclusion: The Implementation
           \item Time for Questions
         \end{itemize}
       \end{column}
@@ -129,6 +129,7 @@
     %Unit System
   \begin{frame}{Our Approach: The Unit System (1)}
     \begin{itemize}[<+->]
+
       \item Let us start with building a theory of Quantity Expressions
       \item We orient ourselves on the SI specification
       \item Each quantity has a dimension
@@ -213,7 +214,7 @@
     \end{center}
   \end{frame}
 
-  \begin{frame}{Our Approach: The Unit System (4)}
+  \begin{frame}{Our Approach: The Unit System (6)}
     \begin{itemize}[<+->]
       \item we can now easily create theories that define Units, such as a Meter Theory:
       \item
@@ -242,7 +243,7 @@
     \end{itemize}
   \end{frame}
 
-  \begin{frame}{Our Approach: The Unit System (5)}
+  \begin{frame}{Our Approach: The Unit System (7)}
     \begin{itemize}[<+->]
       \item We also need to be able to compare units
       \item We use \textit{Views} (mappings between theories) for this
@@ -321,12 +322,25 @@
     \end{itemize}
   \end{frame}
 
-  \begin{frame}{The Implementation}
+  \begin{frame}{Conclusion: The Implementation}
     \begin{itemize}[<+->]
-      \item TODO
+      \item We have the following implemented components:
+      \item The frontend, written in HTML, CSS, JavaScript
+      \item when queried, this sends a QE to the backend
+      \item The backend, written in scala, uses MMT to normalise this expression
+      \item and then searches the harvests (provided by Stiv's Spotter)
+      \item Finally the frontend displays a list of results
     \end{itemize}
   \end{frame}
 
+  \begin{frame}{Conclusion: The Implementation (2)}
+    \begin{itemize}[<+->]
+      \item The unit Graph are extensible
+      \item The user does not need to think about what units are inside the documents
+      \item Time for a demo (if there is still time)
+    \end{itemize}
+  \end{frame}
+  
   \begin{frame}{Time for Questions}
     \huge{Thank You For Listening}
   \end{frame}
