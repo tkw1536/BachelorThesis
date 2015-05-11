@@ -22,14 +22,20 @@
     \pause
     \begin{columns}[T]
       \begin{column}[T]{7cm}
+
+
         \begin{itemize}[<+->]
           \item Motivation: Problem and State Of The Art
+
           \item Our Approach: Structure Of The Search Engine
+
           \begin{itemize}
             \item The Unit System
             \item The Search Algorithm
           \end{itemize}
+
           \item Conclusion: The Implementation
+
           \item Time for Questions
         \end{itemize}
       \end{column}
@@ -40,6 +46,7 @@
   \begin{frame}{Motivation (1)}
     \begin{itemize}[<+->]
       \item We use units every day
+
       \item We encounter them everywhere:
       \begin{itemize}[<+->]
         \item When driving, there are speed limits, for example: \raisebox{-0.5\height}{\includegraphics[width=10mm]{imgs/sign60.png}} $\frac{\text{km}}{\text{h}}$ % http://www.gettingaroundgermany.info/g_imgs/z274.gif
@@ -54,22 +61,20 @@
 
   \begin{frame}{Motivation (2)}
     \begin{itemize}[<+->]
-      \item But where is the problem?
-      \item Within one paper only a handful of units is used
+      \item within one paper, commonly only one type of units is used
       \item In general there are \textbf{a lot} of \textbf{different} units to describe \textbf{the same} quantity
       \item Just for lengths: \pause \textit{Meter}, \pause \textit{Inch}, \pause \textit{Foot}, \pause \textit{Mile}, \pause \textit{Nautical Mile}, \pause $\dots$
       \item This can cause problems when not converting properly
-      \item Mars Climate Orbiter (1999) \\ \includegraphics[width=50mm]{imgs/mco.jpg}
-      % http://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Mars_Climate_Orbiter_2.jpg/528px-Mars_Climate_Orbiter_2.jpg
-      \item Different Units are a big problem
+      \begin{itemize}
+        \item Mars Climate Orbiter (1999) \\ \includegraphics[width=50mm]{imgs/mco.jpg}
+      \end{itemize}
     \end{itemize}
   \end{frame}
 
   \begin{frame}{Motivation (3)}
     \pause
     \begin{itemize}[<+->]
-      \item What is the most common solution?
-      \item Unit Converters
+      \item Most common solution: Unit Converters
       \begin{itemize}[<+->]
         \item There are a lot of these \\ \includegraphics[width=40mm]{imgs/google.png}
         \item Google itself has one integrated \\ \includegraphics[width=40mm]{imgs/googleuc.png}
@@ -79,15 +84,19 @@
 
   \begin{frame}{Motivation (4)}
     \begin{itemize}[<+->]
-      \item user needs to find out that conversion is required
-      \item both input \textbf{and} output units need to be \textbf{given}
-      \item this is not integrated into the search process itself
+      \item A lot of user interaction:
+      \begin{itemize}
+        \item Problem identification
+        \item input units \& output units
+        \item not integrated into search process
+      \end{itemize}
+
       \item Wouldn't it be nice:
       \begin{itemize}[<+->]
-        \item when searching for $25\ \frac{\text{m}}{\text{s}}$
-        \item we also find $90\ \frac{\text{km}}{\text{h}}$
-        \item we did not have to search for all the representations of the same quantity expression
+        \item when searching for $90\ \frac{\text{km}}{\text{h}}$
+        \item we also find $25\ \frac{\text{m}}{\text{s}}$
       \end{itemize}
+
       \item This is the kind of search engine we have built
     \end{itemize}
   \end{frame}
@@ -96,6 +105,7 @@
   \begin{frame}{Our Approach (1)}
     \begin{itemize}[<+->]
       \item What components do we need for a semantic search engine?
+
       \begin{enumerate}[<+->]
         \item A \textit{Unit System} that is aware of the different representations of a QE
         \item A \textit{Spotter} that finds representations of QEs inside documents
@@ -104,34 +114,38 @@
       \end{enumerate}
 
       \item Spotter is done by \textit{Stiv Sherko}
-      \item We only need to worry about the \textit{Unit System}, the \textit{Search Algorithm} and the \textit{Frontend}
-      \item For the first two points, we use a meta-mathematical approach
     \end{itemize}
   \end{frame}
 
 
   \begin{frame}{Our Approach (2)}
     \begin{itemize}[<+->]
-      \item We use a meta-mathematical model
-      \item This is a model that can be used to describe mathematics
-      \item We go over this fairly quickly due to time constraints
-      \item Definitions (= Constants) are contained inside \textit{theories}
-      \item A \textit{Term} is an expression written using definitions from a Theory
-      \item Theories can be related using \textit{Imports} and \textit{Views}
-      \item An Import makes Constants from one theory available in another
-      \item A View is a truth-preserving mapping from Constants of one theory to another
-      \item With the help of these relation we can make a \textit{Theory Graph}
-      \item You will see examples with our unit system
-      \item \textit{MMT} is a software that allows us to make use of these concepts
-      \item It is easy to write down your own theories and related them with views
+      \item Meta-mathematical model: used to describe structure of mathematics
+
+      \item \textit{Theory} = List of \textit{Definitions} (= Constants)
+
+      \item \textit{Term} = Expression written using definitions from a Theory
+
+      \item Theories can be related in 2 ways:
+      \begin{itemize}
+        \item \textit{Import}s make Constants from one theory available in another
+        \item \textit{View} = truth-preserving mapping between theories
+      \end{itemize}
+
+      \item Can be displayed in a \textit{Theory Graph}
+
+      \item \textit{MMT} = software that implements these concepts
+      \begin{itemize}
+        \item easy to write down theories without programming knowledge
+      \end{itemize}
+
     \end{itemize}
   \end{frame}
     %Unit System
   \begin{frame}{Our Approach: The Unit System (1)}
     \begin{itemize}[<+->]
+      \item Need a \textit{Theory of Quantity Expressions} (QEs)
 
-      \item Let us start with building a theory of Quantity Expressions
-      \item We orient ourselves on the SI specification
       \item Each quantity has a dimension
       \item According to SI there are 7 basic ones:
       \begin{itemize}
@@ -151,14 +165,19 @@
 
   \begin{frame}{Our Approach: The Unit System (2)}
     \begin{itemize}[<+->]
+
       \item we can also multiply these to get new dimensions
-      \item such as area $=$ length $\cdot{}$ length
+      \begin{itemize}
+        \item area $=$ length $\cdot{}$ length
+      \end{itemize}
+
       \item similarly we can divide dimensions
-      \item such as velovity $= \frac{\text{length}}{\text{time}}$
-      \item We can use this to get a \textit{Theory of Dimensions}:
+      \begin{itemize}
+        \item velovity $= \frac{\text{length}}{\text{time}}$
+      \end{itemize}
     \end{itemize}
   \end{frame}
-  \begin{frame}{Our Approach: The Unit System (3)}
+  \begin{frame}{Our Approach: The Unit System (3) - A Theory of Dimensions}
     \begin{center}
       \begin{tabular}{|l l l|}
         \hline
@@ -183,21 +202,22 @@
 
   \begin{frame}{Our Approach: The Unit System (4)}
     \begin{itemize}[<+->]
-      \item how can we formalise a quantity expressions?
-      \item In our model QEs can be one of the following:
+      \item Quantity Expressions can be one of
       \begin{enumerate}
-        \item (1 times) a \textit{primitive unit}, such as Meter
-        \item A \textit{multiplication} of a (real) number with an existing QE, such as $5\ \text{Meter}$
-        \item A \textit{division} of an existing QE by a (non-zero real) number (equivalent to the above)
-        \item The \textit{product} of two existing QEs such as $\text{Newton} \cdot{} \text{Second}$
-        \item The \textit{sum} of two existing QEs (of the same dimension)
-        \item The \textit{quotient} of two existing QEs such as $1\ \frac{\text{Meter}}{\text{Second}}$
+        \item \textit{primitive unit}, such as Meter
+
+        \item \textit{Multiplication} of a (real) number with an existing QE, such as $5\ \text{Meter}$
+        \item \textit{Division} of an existing QE by a (non-zero real) number (equivalent to the above)
+
+        \item \textit{Product} of two existing QEs such as $\text{Newton} \cdot{} \text{Second}$
+        \item \textit{Quotient} of two existing QEs such as $1\ \frac{\text{Meter}}{\text{Second}}$
+
+        \item \textit{Sum} of two existing QEs
       \end{enumerate}
-      \item this results in the following \textit{Theory of Quantity Expressions}:
     \end{itemize}
   \end{frame}
 
-  \begin{frame}{Our Approach: The Unit System (5)}
+  \begin{frame}{Our Approach: The Unit System (5) - A Theory of Quantity Expressions}
     \begin{center}
       \begin{tabular}{|l l l|}
         \hline
@@ -245,22 +265,22 @@
 
   \begin{frame}{Our Approach: The Unit System (7)}
     \begin{itemize}[<+->]
-      \item We also need to be able to compare units
-      \item We use \textit{Views} (mappings between theories) for this
-      \item In this case we use the view
-        \[
-          \psi = \left\{\begin{array}{l}
-            \mathsf{Thou} \mapsto \mathsf{QENMul} \left( 0.0000254, \mathsf{Meter} \right)
-          \end{array}\right\}
-        \]
-      \item This allows us to convert quantity expression representations between different units
-      \item We have a big (easily extensible) theory graph of unit theories
-      \item Here is a small part of it
+      \item need to compare units
+      \begin{itemize}
+        \item use \textit{Views} ( = truth-preserving mappings between theories)
+        \item For example:
+          \[
+            \psi = \left\{\begin{array}{l}
+              \mathsf{Thou} \mapsto \mathsf{QENMul} \left( 0.0000254, \mathsf{Meter} \right)
+            \end{array}\right\}
+          \]
+        \item allows conversion
+      \end{itemize}
     \end{itemize}
   \end{frame}
 
-  \begin{frame}{Our Approach: The Unit System (6)}
-    \includegraphics[width=90mm]{imgs/graph1.png}
+  \begin{frame}{Our Approach: The Unit System (6) - Part of the unit Theory Graph}
+    \includegraphics[width=95mm]{imgs/graph1.png}
   \end{frame}
 
   % The Search Algorithm
@@ -301,17 +321,6 @@
   \end{frame}
 
   \begin{frame}{Our Approach: The Search Algorithm (4)}
-    \begin{itemize}[<+->]
-      \item We can then compare the spotted QEs with the query via directly comparing normal forms
-      \item To save time, we \textit{cache} the normal form of each unit
-      \item We can also \textit{cache} the normal forms of the QEs found by the spotter
-      \item Important: We choose SI units for the standard form
-      \item This is not required. We could also choose to use imperial units as a normal form
-      \item Our unit graph is flexible enough so that we can actually do that
-    \end{itemize}
-  \end{frame}
-
-  \begin{frame}{Our Approach: The Search Algorithm (5)}
     \begin{itemize}[<+->]
       \item We can then compare the spotted QEs with the query via directly comparing normal forms
       \item To save time, we \textit{cache} the normal form of each unit
