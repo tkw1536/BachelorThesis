@@ -28,7 +28,6 @@
           \begin{itemize}
             \item The Unit System
             \item The Search Algorithm
-            \item The Frontend
           \end{itemize}
           \item The Implementation
           \item Time for Questions
@@ -253,8 +252,8 @@
             \mathsf{Thou} \mapsto \mathsf{QENMul} \left( 0.0000254, \mathsf{Meter} \right)
           \end{array}\right\}
         \]
-      \item This allows us to convert quantity expressions between different units
-      \item We have a big (easily extensible) unit graph
+      \item This allows us to convert quantity expression representations between different units
+      \item We have a big (easily extensible) theory graph of unit theories
       \item Here is a small part of it
     \end{itemize}
   \end{frame}
@@ -262,4 +261,75 @@
   \begin{frame}{Our Approach: The Unit System (6)}
     \includegraphics[width=90mm]{imgs/graph1.png}
   \end{frame}
+
+  % The Search Algorithm
+  \begin{frame}{Our Approach: The Search Algorithm (1)}
+    \begin{itemize}[<+->]
+      \item Let us build a search algorithm
+      \item We are given a \textit{query} and want to find all equivalent quantity expressions
+      \item We already have a list of quantity expressions from the spotter
+      \item We just need an efficient way to check if two QEs are the same
+      \item We can just bring QEs to a normal form
+      \item and then have an efficient index
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Our Approach: The Search Algorithm (2)}
+    \begin{itemize}[<+->]
+      \item A normal form should consist of two components:
+      \item A \textit{scalar} component and a (scalar-free) \textit{unit} component
+      \item The \textit{unit} component should be in standard units (in our case SI)
+      \item For this we use 2-step-normalisation
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Our Approach: The Search Algorithm (3)}
+    \begin{itemize}[<+->]
+      \item Example: Normalise $42 \frac{\text{Furlong}}{\text{Fortnight}}$
+      \item First, turn all units into standard units by finding an appropriate path in the \textit{theory graph} of units
+      \item $\text{Furlong} \pause = 10\ \text{Chain} \pause = 10 \left( 22\ \text{Yard}\right) \pause = \dots = 10 \left( 22 \left( 3 \left( 12 \left( 1000 \left( 0.0000254\ \text{Meter} \right) \right) \right) \right)\right) $
+      \item $\text{Fortnight} = \left( 2 \left( 7 \left( 24 \left( 60 \left( 60\ \text{Second} \right) \right) \right) \right) \right) $
+      \item Substitute this back into the original expression
+      \item $42 \frac{10 \left( 22 \left( 3 \left( 1000 \left( 0.0000254\ \text{Meter} \right) \right) \right)\right)}{ 2 \left( 7 \left( 24 \left( 60 \left( 60\ \text{Second} \right) \right) \right) \right)}$
+      \item Then extract the \textit{scalar} component and compute it:
+      \item $ 42 \frac{10 \left( 22 \left( 3 \left( 12 \left( 1000 \left( 0.0000254 \right) \right) \right) \right)\right)}{ 2 \left( 7 \left( 24 \left( 60 \left( 60\right) \right) \right) \right)} = 0.006985 $
+      \item Continue by extracting the \textit{unit} component: $\frac{\text{Meter}}{\text{Second}}$
+      \item Finally multiply these components to get the standard form:
+      \item $0.006985\ \frac{\text{Meter}}{\text{Second}}$
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Our Approach: The Search Algorithm (4)}
+    \begin{itemize}[<+->]
+      \item We can then compare the spotted QEs with the query via directly comparing normal forms
+      \item To save time, we \textit{cache} the normal form of each unit
+      \item We can also \textit{cache} the normal forms of the QEs found by the spotter
+      \item Important: We choose SI units for the standard form
+      \item This is not required. We could also choose to use imperial units as a normal form
+      \item Our unit graph is flexible enough so that we can actually do that
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Our Approach: The Search Algorithm (5)}
+    \begin{itemize}[<+->]
+      \item We can then compare the spotted QEs with the query via directly comparing normal forms
+      \item To save time, we \textit{cache} the normal form of each unit
+      \item We can also \textit{cache} the normal forms of the QEs found by the spotter
+      \item Important: We choose SI units for the standard form
+      \item This is not required. We could also choose to use imperial units as a normal form
+      \item Our unit graph is flexible enough so that we can actually do that
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{The Implementation}
+    \begin{itemize}[<+->]
+      \item TODO
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Time for Questions}
+    \huge{Thank You For Listening}
+  \end{frame}
+
+  %Need pdf2svg && comvert to run Makefile
 \end{document}
