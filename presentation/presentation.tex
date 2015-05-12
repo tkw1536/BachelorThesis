@@ -1,5 +1,9 @@
 \documentclass{beamer}
 
+% Do some customisations
+\setbeamertemplate{navigation symbols}{}
+\setbeamertemplate{footline}[frame number]
+
 %Packages
 \usepackage[utf8]{inputenc}
 \usepackage{hyperref}
@@ -18,7 +22,7 @@
   \frame{\titlepage}
 
   %OVERVIEW
-  \begin{frame}{Overview}
+  \begin{frame}{Semantic Search for Quantity Expressions}
     \pause
     \begin{columns}[T]
       \begin{column}[T]{7cm}
@@ -49,7 +53,7 @@
 
       \item We encounter them everywhere:
       \begin{itemize}[<+->]
-        \item When driving, there are speed limits, for example: \raisebox{-0.5\height}{\includegraphics[width=10mm]{imgs/sign60.png}} $\frac{\text{km}}{\text{h}}$ % http://www.gettingaroundgermany.info/g_imgs/z274.gif
+        \item When driving, there are speed limits, for example: \raisebox{-0.5\height}{\includegraphics[width=10mm]{imgs/sign60.png}} $\frac{\text{km}}{\text{h}}$
         \item When baking, it often says in recepies something like: ``add 3 tea spoons of sugar''
         \item When shopping for shoes there are different sizes
       \end{itemize}
@@ -286,21 +290,27 @@
   % The Search Algorithm
   \begin{frame}{Our Approach: The Search Algorithm (1)}
     \begin{itemize}[<+->]
-      \item Let us build a search algorithm
-      \item We are given a \textit{query} and want to find all equivalent quantity expressions
-      \item We already have a list of quantity expressions from the spotter
-      \item We just need an efficient way to check if two QEs are the same
-      \item We can just bring QEs to a normal form
-      \item and then have an efficient index
+      \item Given:
+      \begin{itemize}
+        \item \textit{Query} (= Quantity Expression) from user
+        \item \textit{List of QEs} in all documents from spotter
+      \end{itemize}
+
+      \item \textit{Goal}: Find all QEs equivalent to query
+
+      \item \textit{Need}: Efficient way to compare two QEs
+      \item \textit{Idea}: bring QEs to normal form and use efficient indexing
     \end{itemize}
   \end{frame}
 
   \begin{frame}{Our Approach: The Search Algorithm (2)}
     \begin{itemize}[<+->]
-      \item A normal form should consist of two components:
-      \item A \textit{scalar} component and a (scalar-free) \textit{unit} component
-      \item The \textit{unit} component should be in standard units (in our case SI)
-      \item For this we use 2-step-normalisation
+      \item Normal form consisting of two components:
+      \begin{itemize}
+        \item \textit{scalar} component
+        \item (scalar-free) \textit{unit} component in standard units (here: SI)
+      \end{itemize}
+      \item use a two-step normalisation process
     \end{itemize}
   \end{frame}
 
@@ -322,31 +332,42 @@
 
   \begin{frame}{Our Approach: The Search Algorithm (4)}
     \begin{itemize}[<+->]
-      \item We can then compare the spotted QEs with the query via directly comparing normal forms
-      \item To save time, we \textit{cache} the normal form of each unit
-      \item We can also \textit{cache} the normal forms of the QEs found by the spotter
-      \item Important: We choose SI units for the standard form
-      \item This is not required. We could also choose to use imperial units as a normal form
-      \item Our unit graph is flexible enough so that we can actually do that
+      \item compare the spotted QEs and the query in normal form
+      \item To save time:
+      \begin{itemize}
+        \item \textit{cache} the normal form of each unit (only find paths once)
+        \item \textit{cache} the normal form of the spotted QEs
+      \end{itemize}
+      \item We normalise to SI units here, but we can freely choose
     \end{itemize}
   \end{frame}
 
   \begin{frame}{Conclusion: The Implementation}
     \begin{itemize}[<+->]
-      \item We have the following implemented components:
-      \item The frontend, written in HTML, CSS, JavaScript
-      \item when queried, this sends a QE to the backend
-      \item The backend, written in scala, uses MMT to normalise this expression
-      \item and then searches the harvests (provided by Stiv's Spotter)
-      \item Finally the frontend displays a list of results
+      \item Components of the search process
+      \begin{itemize}
+        \item Frontend (in the browser)
+        \item when queried, this sends a QE to the backend
+        \item Backend (in scala) uses MMT to normalise query
+        \item Searches the harvests (provided by Stiv's Spotter)
+        \item Browser displays results
+      \end{itemize}
     \end{itemize}
   \end{frame}
 
   \begin{frame}{Conclusion: The Implementation (2)}
     \begin{itemize}[<+->]
-      \item The unit Graph are extensible
-      \item The user does not need to think about what units are inside the documents
-      \item Time for a demo (if there is still time)
+      \item Supported untis only limited by theory graph
+      \item Can be easily extended
+      \item User no longer needs to think about units to find
+    \end{itemize}
+  \end{frame}
+
+  \begin{frame}{Conclusion: The Implementation (3)}
+    \begin{itemize}[<+->]
+      \item Supported untis only limited by theory graph
+      \item Can be easily extended
+      \item User no longer needs to think about units to find
     \end{itemize}
   \end{frame}
 
