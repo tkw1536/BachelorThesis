@@ -1,7 +1,23 @@
-\section{Czrrent Limits and Future work}
+\section{Current Limits And Future work}
 \label{sec:future}
-\ednote{Write this section}
-\subsection{Relative vs absolute units}
+
+While the current implementation provides a proof of concept that the choosen approach indeed works, there are several problems with it. Furthermore there are several features\ednote{Better word} that the current system can not yet do. \ednote{Expand paragraph}
+\ednote{Maybe re-order the subsections}.
+
+\subsection{Absolute Vs Relative Units}
+The current unit system is easily extensible and can express a lot of different units easily.
+
+However there also is a major limitation that stops it from being able to translate between \textit{Kelvin} and \textit{Celsius} as Units of Temperature. This is due to the fact that \textit{Views} only map \textit{Constants} directly. Due to the way we have formalised Quanrtity Expressions this only allows \textit{linear maps} as translations between units.
+
+In \cite{SD:UnitKnowledgeMgmt08} Davenport distinguishes between two types of units: Absolute and relative\footnote{In the paper these are simply called non-absolute units. }. When adding two Quantity Expressions with the same unit we can usually just factor out the unit and then add up the scalars, in other words the set of these QEs forms an abelian monoid. He discovered that this is not always the case. We have $2\ \text{Kelvin} + 3\ \text{Kelvin} = 5\ \text{Kelvin}$ but $2\ \text{Celsius} + 3\ \text{Celsius} \neq 5\ \text{Celsius}$. \textit{Celsius} is not defined via a single quantity expression but is just $\frac{1}{100}$ of the difference between two other Quantity Expressions. Hence it is not an absolutely defined unit, but rather a \textit{relative} unit.
+
+Our implementation can only handle \textit{absolute units}. A possible solution to this problem is to choose a different formalisation of units. Currently they are just some quantity expressions. If we considder a unit as a map from \textit{Real numbers} to \textit{Quantities of a certain Dimension} we can easily translate them in a relative fashion using (lambda) functions:
+\[\text{Celsius}(x) := \textit{Kelvin}(x - 273.5)\]
+Such a change would obviously require changes in the way the normalisation currently works.
+
+\subsection{Handling of SI Prefixes}
+In the current
+
 * type equalities
 * requirements of the graph
 * (in)stabilities of MMT
@@ -15,10 +31,3 @@
 \ednote{Write this section}
 \subsection{Enhancement of the Spotter}
 \ednote{Write this section}
-%Most of the components will inherit from the existing MathWebSearch system. Some of the work packages, like the theory graph, will be easy to complete whereas others, like the unit system, need more work.
-
-%A view between theories of units is enough to translate between them. In practice however, because we want to use units in several components of the system, it is insufficient to just look at the theory graph views. We will need to develop a unit system that can efficiently handle units as well as translations.
-
-%To translate between units we could use simple translation formulae such has $x \text{K} = x + 273.15 ^\circ{C} $. However because we want to support composite units (such as meters per second $\frac{\text{m}}{\text{s}}$) as well, this can cause problems. When translating between 2 composite units, this can easily cause rounding errors. In particular, when an author gives an approximation of a quantity expression in a document, they might round differently depending on the units used. Thuse we might want to search for a range of values instead. This has recently been implemented as an extension to MathWebSearch\cite{MWS:Ranges}. It remains to be seen how exactly these ranges should be used and handled in the front end.
-
-%Apart from translating, we will also need to enter the units in the frontend and pass them to the API. The representation we choose for units when translating should also be flexible enough so that they can be entered easily. While it is trivial to design an interface where a single unit can be entered, it is non-trivial when we want to recognise composite units as well. Furthermore units with (si-)prefixes (such as kilo or mega) can either be recognised seperatly or as part of the unit (multipling directly into the value of the quantity expression). There are several input formats that can be used: AsciiMath, \LaTeX{} and MathML, to name only a few.
