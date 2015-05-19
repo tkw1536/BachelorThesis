@@ -3,13 +3,13 @@
 
 Now that we have discussed all the theoretical components of the search engine, it is time to move on to the actual implementation. In this section we describe in detail how a search query is processed and how it is presented to the end user.
 
-\subsection{Entering A Query}
+\subsection{Entering A Query And Getting Results}
 
 As to give an overview of what exactly happens during a typical search, we will show what happens during a normal search process. From the user perspective, everything happens inside a web browser. When the user visits the demo page \cite{self:sqesdemo}, they are presented with a frontend as shown in Figure \ref{fig:frontmain}.
 
 \begin{figure}[h]
   \begin{center}
-    \includegraphics[width=100mm]{img/screen1.png}
+    \includegraphics[width=\textwidth]{img/screen1.png}
   \end{center}
   \caption{The main page of the frontend. }
   \label{fig:frontmain}
@@ -48,9 +48,19 @@ In order to facilitate entering division and multiplication by numbers, it is al
   \label{fig:frontauto}
 \end{figure}
 
+After the quantity expression has been entered, the search can be started by pressing the \textit{Search} button or hitting the \textit{Enter} key. Once the results have been received from the backend they are displayed to the user. The result page lists the found Quantity Expressions in their original forms\footnote{Currently they are only displayed as serialised XML, this is discussed in more detail in section \ref{sec:fut_res}. } and links to the locations where they were found inside the actual document in the spotter. An example can be found in Figure \ref{fig:frontres}.
+
+\begin{figure}
+  \begin{center}
+    \includegraphics[width=\textwidth]{img/res1.png}
+  \end{center}
+  \caption{The result page when searching for $100$ Meters. }
+  \label{fig:frontres}
+\end{figure}
+
 \subsection{Preparing The Backend}
 
-After the quantity expression has been entered, the search can be started by pressing the \textit{Search} button or hitting the \textit{Enter} key. The query inputted into the text field is then serialised to XML as shown in Section \ref{sec:xml}. This XML is then sent to the backend.
+After the query has been entered into the frontend, it is serialised to XML as shown in Section \ref{sec:xml}. This XML is then sent to the backend.
 
 The backend is written in Scala and exposes its functionality via HTTP. Before the backend is ready to receive queries, it has to normalise the quantity expressions found by the Spotter. These queries are also provided in XML form. This XML is parsed and deserialised into an internal data structure.
 
@@ -63,12 +73,3 @@ We can then use the forms to quickly normalise all the quantity expression found
 Upon receiving the query, the backend deserialises and normalises the XML as it did for all the harvests. Since the normal forms of each \textit{basic unit} are still cached inside memory, this process is very quick. Because the normal forms are already cached on disk, the process of finding equivalent quantity expressions can be efficiently done. As described above, all equivalent quantity expressions are in the same folder. The backend now just reads all the quantity expressions stored inside the folder the query falls in. This delivers all equivalent quantity expressions and can be sent back the frontend.
 
 Because all the normal forms are simply stored on disk inside a folder it is easily possible to add more quantity expressions to an existing harvest. This is even possible during query timee. For this reason the implementation of the search engine has two seperate modes, a \textit{harvest} mode and a \textit{query} mode which allow preprocessing of harvests and actual querying. Since the first mode does not require network interaction, only the query mode has an actual HTTP interface.
-
-\subsection{Presenting The Results}
-
-After the results have been received by the backend they are displayed to the user. An example can be found in Figure \ref{fig:frontres} \ednote{Make this picture}.
-
-\begin{figure}
-  \caption{The result page when searching for $100$ Meters. }
-  \label{fig:frontres}
-\end{figure}
