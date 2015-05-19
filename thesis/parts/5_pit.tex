@@ -48,10 +48,27 @@ In order to facilitate entering division and multiplication by numbers, it is al
   \label{fig:frontauto}
 \end{figure}
 
+\subsection{Preparing The Backend}
+
+After the quantity expression has been entered, the search can be started by pressing the \textit{Search} button or hitting the \textit{Enter} key. The query inputted into the text field is then serialised to XML as shown in Section \ref{sec:xml}. This XML is then sent to the backend.
+
+The backend is written in Scala and exposes its functionality via HTTP. Before the backend is ready to receive queries, it has to normalise the quantity expressions found by the Spotter. These queries are also provided in XML form. This XML is parsed and deserialised into an internal data structure.
+
+Next we want to normalise these quantity expressions using the algorithm described in Section \ref{sec:norm}. In order to achieve this the backend first parses the MMT theories and views and builds up a theory graph. Next, it normalises all units found inside the unit graph and caches these normal forms in memory.
+
+We can then use the forms to quickly normalise all the quantity expression found inside the harvests. The normalised forms are then used to store them in an appropriate structure on disk. In this structure all equivalent quantity expressions are stored inside the same folder. This allows very quick access to all quantity expressions in preparation for processing a query.
+
 \subsection{Processing A Typical Query}
 
-After the quantity expression has been entered, the search can be started by pressing the \textit{Search} button or hitting the \textit{Enter} key. The query inputted into the text field is then serialised to XML as shown in Section \ref{sec:xml}.
+Upon receiving the query, the backend deserialises and normalises the XML as it did for all the harvests. Since the normal forms of each \textit{basic unit} are still cached inside memory, this process is very quick. Because the normal forms are already cached on disk, the process of finding equivalent quantity expressions can be efficiently done. As described above, all equivalent quantity expressions are in the same folder. The backend now just reads all the quantity expressions stored inside the folder the query falls in. This delivers all equivalent quantity expressions and can be sent back the frontend.
 
-
+Because all the normal forms are simply stored on disk inside a folder it is easily possible to add more quantity expressions to an existing harvest. This is even possible during query timee. For this reason the implementation of the search engine has two seperate modes, a \textit{harvest} mode and a \textit{query} mode which allow preprocessing of harvests and actual querying. Since the first mode does not require network interaction, only the query mode has an actual HTTP interface.
 
 \subsection{Presenting The Results}
+
+After the results have been received by the backend they are displayed to the user. An example can be found in Figure \ref{fig:frontres} \ednote{Make this picture}.
+
+\begin{figure}
+  \caption{The result page when searching for $100$ Meters. }
+  \label{fig:frontres}
+\end{figure}
