@@ -1,33 +1,43 @@
 \section{Current Limits And Future work}
 \label{sec:future}
 
-While the current implementation provides a proof of concept that the choosen approach indeed works, there are several problems with it. Furthermore there are several features\ednote{Better word} that the current system can not yet do. \ednote{Expand paragraph}
-\ednote{Maybe re-order the subsections}.
+While the current implementation provides a proof that the choosen approach indeed works, there are several problems with it. In the following we discuss several improvements for existing features as well as missing features.
+
+\subsection{Integration With MathWebSearch: Ranged Queries and Query Variables}
+The MathWebSearch system (MWS) is an existing semantics-aware system to search (\LaTeX\footnote{Technically, MWS itself can only search XHTML documents. However with the help of \LaTeX{}ml \cite{Miller:latexml:base} it also handles \LaTeX \ documents. }) documents for mathematical formulae \cite{HamKohPro:man14}. Similar to the system we built it is also semantics-aware. It abstracts away from variable names and allows \textit{variables} insides queries such as $ { \color{red} x} + \sqrt{\color{red} x}$. For this query MWS would deliver forumlae of the form as above where $ { \color{red} x} $ has been substituted with any sub-formula. In addition MWS supports ranged queries, i. e. queries where we search for a variable that is contained within a certain range.
+
+Integrating our system with MathWebSearch could potentially allow some of these features to be used when searching for Quantity Expressions as well. Additionally the system of harvesting, indexing and searching formulae is much more elaborate and well tested than our system. An enhancement would be to just expose a normalisation API to MathWebSearch and then allow it to handle the remainder of the search process.
+
+Support for \textit{query variables} and \textit{ranged queries} would not come for free however. A suitable normal form would have to be developed. When we currently have an expression, all non-standard units are removed. Thus if we just want to answer queries by just comparing normal forms, those units have to be removed from queries as well. However if we have a query variable we do not know if this is just a scalar variable (in which we do not have to remove it) or if it is a unit (in which case we would have to keep it and restrict the scalars in some way. ). This could potentially be solved by enforcing types for each query variable. This argument shows that it is not easy to just extend our system with these features.
 
 \subsection{Absolute Vs Relative Units}
 The current unit system is easily extensible and can express a lot of different units easily.
 
-However there also is a major limitation that stops it from being able to translate between \textit{Kelvin} and \textit{Celsius} as Units of Temperature. This is due to the fact that \textit{Views} only map \textit{Constants} directly. Due to the way we have formalised Quanrtity Expressions this only allows \textit{linear maps} as translations between units.
+However there also is a major limitation that stops it from being able to translate between \textit{Kelvin} and \textit{Celsius} as Units of Temperature. Since \textit{Views} are maps \textit{Constants} of Theories and not between \textit{Terms} over certain theories, the system can only be used to translate between units with linear maps.
 
-In \cite{SD:UnitKnowledgeMgmt08} Davenport distinguishes between two types of units: Absolute and relative\footnote{In the paper these are simply called non-absolute units. }. When adding two Quantity Expressions with the same unit we can usually just factor out the unit and then add up the scalars, in other words the set of these QEs forms an abelian monoid. He discovered that this is not always the case. We have $2\ \text{Kelvin} + 3\ \text{Kelvin} = 5\ \text{Kelvin}$ but $2\ \text{Celsius} + 3\ \text{Celsius} \neq 5\ \text{Celsius}$. \textit{Celsius} is not defined via a single quantity expression but is just $\frac{1}{100}$ of the difference between two other Quantity Expressions. Hence it is not an absolutely defined unit, but rather a \textit{relative} unit.
+In \cite{SD:UnitKnowledgeMgmt08} Davenport distinguishes between two types of units: Absolute and relative\footnote{In the paper these are simply called non-absolute units. }. When adding two Quantity Expressions with the same unit we can usually just factor out the unit and then add up the scalars, in other words the set of these QEs forms an (abelian) monoid. Davenport discovered that this is not always the case. We have $2\ \text{Kelvin} + 3\ \text{Kelvin} = 5\ \text{Kelvin}$ but $2\ \text{Celsius} + 3\ \text{Celsius} \neq 5\ \text{Celsius}$. \textit{Celsius} for example is not defined via a single quantity expression but is just $\frac{1}{100}$ of the difference between two other Quantity Expressions. Hence it is not an absolutely defined unit, but rather a \textit{relative} one.
 
-Our implementation can only handle \textit{absolute units}. A possible solution to this problem is to choose a different formalisation of units. Currently they are just some quantity expressions. If we considder a unit as a map from \textit{Real numbers} to \textit{Quantities of a certain Dimension} we can easily translate them in a relative fashion using (lambda) functions:
-\[\text{Celsius}(x) := \textit{Kelvin}(x - 273.5)\]
-Such a change would obviously require changes in the way the normalisation currently works.
+Our implementation can currently only handle \textit{absolute units}. One possible solution to this problem is to choose a different formalisation of units. At this point a unit is only some Quantity Expression. If we consider a unit as a map from \textit{Real numbers} to \textit{Quantities of a certain dimension} we can easily translate between unit theories with the existing views by using functions:
+\[\text{Celsius}(x) = \text{Kelvin}(x - 273.5)\]
 
-\subsection{Handling of SI Prefixes}
-In the current
 
-* type equalities
-* requirements of the graph
-* (in)stabilities of MMT
-* davenport units (relative units)
+\subsection{Handling Of SI Prefixes}
+So far we have treated units like \textit{Kilometer} and \textit{Meter} as two different units. \textit{Kilometer} is actually just the SI Prefix \textit{Kilo} added to the unit \textit{Meter} and it is thus clear that $\text{Kilometer} = 1000\ \text{Meter}$. We could improve the system by adding support for these. Since something like \textit{Kilo-Kilometer} makes no sense, a formalisation of them will require a distinction between prefix-free units and prefixed units.
 
-\subsection{Extension Of The Theory Graph Of Units}
+Prefixes have also been treated by Davenport in \cite{SD:UnitKnowledgeMgmt08}. He gives two types of units: \textit{units} and \textit{prefixed units}. He treats resolutions of prefixes as maps:
+
+\[\text{prefix} \times \text{unit} \rightarrow \text{prefixed unit}\]
+
+\ednote{mention normalisation to Kilogram, critisize SI Kilgoram as default}
+
+\subsection{MMT And Type Equalities}
+
+In Section \ref{sec:strucqe} we defined our structure of dimensions and quantity expressions. However at no point we have defined multiplication to be associative or commutative. Hence MMT is not aware of this. Furthermore we did not explicitly define cancellation of dimensions and basic units anywhere. Because we did not define it, MMT is not aware of it.
+
+When MMT type checks views this can cause errors. In the current implementation we have a workaround for this by explicitly giving MMT the result type of a multiplication and division (as an additional argumemt to the multiplication function. ) This makes MMT terms significantly longer, in particular when multiple multiplication or divisions are involved.  This problem can obviously be solved by adding these rules to our formalisation. That alone is not sufficient, because MMT does not implement any kind of type checking of this form at the moment.
+
+\subsection{The Current State Of The Spotter}
 \ednote{Write this section}
-\subsection{Crude state of the results page}
+
+\subsection{Improvement To The Frontend}
 \label{sec:fut_res}
-\subsection{Integration With MathWebSearch}
-\ednote{Write this section}
-\subsection{Enhancement of the Spotter}
-\ednote{Write this section}
