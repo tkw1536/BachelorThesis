@@ -4,7 +4,7 @@ Now that we know what quantity expressions are and how we can convert between eq
 
 When querying this search engine with a quantity expression, we want to be able find occurrences of equivalent quantity expressions. For this we need several components:
 \begin{enumerate}
-  \item a component that allow the user to enter quantity expressions,
+  \item a component that allows the user to enter quantity expressions,
   \item a software to find quantity expressions within documents
   \item a way to send quantity expressions from the user to the search engine
   \item an algorithm to convert between different forms of a quantity expressions (or at least determine if 2 quantity expressions are equivalent) and finally
@@ -59,17 +59,17 @@ Finally we compose these again to get the normal form:
 \subsection{Serialising Quantity Expressions To XML}
 \label{sec:xml}
 
-Now that we have a normal form of units, we want to be able to exchange quantity expressions between the user, the search engine and the harvesting component. The W3C has written a note on how to handle Units in MathML \cite{W3C:Unitnnote}. MathML is an XML serialisiation of Mathmatical expression. We orient ourselves on the format. For this serialisation we start with a term over some unit theory. The serialisation of the term
+Now that we have a normal form of units, we want to be able to exchange quantity expressions between the user, the search engine and the harvesting component. The W3C has written a note on how to handle Units in MathML \cite{W3C:Unitnnote}. MathML is an XML serialisiation of Mathematical expression. We orient ourselves on the format. For this serialisation we start with a term over some unit theory. The serialisation of the term
 \[0.006985\ \frac{\text{Meter}}{\text{Second}}\]
 can be found in Figure \ref{fig:ser1}.
 \input{graphs/ser1.tex}
 Let us take a closer look to understand this serialisation. We translate each component of the Term individually and then assemble them together.
 
-We translate the unit (constant) \textit{Meter} to \lstinline[language=XML]{<csymbol cd='SIBase'>Meter</csymbol>}. This XML Tag expresses that we are talking about the symbol \textit{Meter}. The cd attribute stands for content directory.In our case this is the name of the theory were the symbol was declared.
+We translate the unit (constant) \textit{Meter} to \lstinline[language=XML]{<csymbol cd='SIBase'>Meter</csymbol>}. This XML Tag expresses that we are talking about the symbol \textit{Meter}. The cd attribute stands for content directory. In our case this is the name of the theory were the symbol was declared.
 
 We translate multiplication and division by using \lstinline[language=XML]{<apply><times />}\dots\lstinline[language=XML]{</apply>} and \lstinline[language=XML]{<apply><divide />}\dots\lstinline[language=XML]{</apply>} respectively. We can use quantity expressions directly here. If we want to multiply with or divide by numbers, we use \lstinline[language=XML]{<cn type='float'>}\dots\lstinline[language=XML]{</cn>} instead of the \lstinline[language=XML]{<csymbol>} tags.
 
-This format allows us to easily exchange quantity expressions. It is also easy to send quantity expressions from the user to the backend (the core component of the search engine. )
+This format allows us to easily exchange quantity expressions. It is also easy to send quantity expressions from the user to the backend (the core component of the search engine).
 
 \subsection{Finding Units Inside Documents}
 Apart from the frontend (which we will describe in detail in Section \ref{sec:pit}), there is only one major component left: Finding and matching quantity expressions inside documents. As we have outlined in the previous sections, we can easily compare them with the help of normalisation. If we have a list of quantity expressions and where they occur, we can use the following algorithm to easily find them:

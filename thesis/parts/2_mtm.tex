@@ -1,16 +1,19 @@
 \section{The Structure Of Mathematics: Theories, Views And Imports}
 \label{sec:mathoverview}
 
-Before we start looking at Quantity Expressions and how to build a search engine for them, we want to give an introduction to meta-mathmatical structure. We will use this knowledge later to build a better search engine. For this we first need to take a look at the concept of theories.
+Before we start looking at Quantity Expressions and how to build a search engine for them, we want to give an introduction to meta-mathematical structure. We will use this knowledge later to build a better search engine.
+
+To model mathematics we need a proper logical foundation. For this we use the \textit{LF Logical Framework} \cite{hhp93lf}. LF provides a typed logic, that is a logic in which each object has a so-called type. It also allow to construct functions as types via the $\rightarrow$ constructor.
+
+Next we can take a look at the concept of theories.
 
 \subsection{Modeling Mathematics With The Help Of Theories}
 
-Theories, in this sense, are simply a set of symbols. Each of the symbols optionally can have a type and a definition. Within each theory, we can then use these symbols to write down terms (or expressions) within this theory. Types and definitions of these symbols are terms themselves\footnote{They are not terms over the same theory however. }. As a simple example of this, let us consider the theory of semigroups as seen in \ref{fig:semigroup}
+Theories, in this sense, are simply sets of symbols. Each of the symbols can optionally have a type and a definition. Within each theory, we can then use these symbols to write down terms (or expressions) within this theory. Types and definitions of these symbols are terms themselves\footnote{They are not terms over the same theory however. }. As a simple example of this, let us consider the theory of semigroups as seen in Figure \ref{fig:semigroup}.
 
 \input{graphs/semigroup.tex}
 
-In this theory, we define 3 symbols: $G$, $\circ$ and $\scriptstyle \mathsf{assoc}$. In the first line we define a type $G$. Next we define a function $\circ$ that takes 2 arguments of type $G$ and returns another term of type $G$. In the last line, we make the statement that associativity holds\ednote{possibly explain / mention Curry–Howard isomorphism}.
-\ednote{Explain what types are and why we are not using the pair constructor here}
+In this theory, we define 3 symbols: $G$, $\circ$ and $\scriptstyle \mathsf{assoc}$. In the first line we define a type $G$. Next we define a function $\circ$ that takes 2 terms of type $G$ and returns another term of type $G$. We could also denote this function by $G \times G \rightarrow G$ but LF does not provide the $\times$ symbol. Hence we just use the equivalent notation $G \rightarrow G \rightarrow G$. In the last line, we make the statement that associativity holds. This is achieved via the \textit{ded} (short for deduction) symbol. When a statement (such as associativity formulation in this case) is passed to it, it asserts that the statement is provable by returning a proof for it. Thus it is commonly used for axiomes.
 
 \subsection{Extending Theories Using imports}
 
@@ -20,9 +23,9 @@ We can model this concept by using imports. An import from one theory into anoth
 
 \input{graphs/monoid.tex}
 
-\subsection{Views As Mappings Between Theories}
+\subsection{Views As Truth-Preserving Mappings Between Theories}
 
-However imports are not the only way theories can be related. If we have 2 theories, we sometimes want to have a map between them. In addition to the theory of monoids above we define the theory of non-negative integers in Figure \ref{fig:nnintegers}.
+However imports are not the only way how theories can be related. If we have 2 theories, we sometimes want to have a map between them. In addition to the theory of monoids above we define the theory of non-negative integers in Figure \ref{fig:nnintegers}.
 
 \input{graphs/nnintegers.tex}
 

@@ -39,7 +39,7 @@ In addition to these dimensions there are 2 more special dimensions: The \textit
 
 Similar to the compositional behaviour of quantity expressions, dimensions can be multiplied and divided. Unlike quantity expressions however they can not be multiplied with numbers. Furthermore, when multiplying to quantity expressions of dimensions $a$ and $b$ their resulting dimension is $a \cdot{} b$, the multiplication of the dimensions. The same goes for division. In this regard the dimension of a quantity expression behaves like a type.
 
-\subsection{Mathematical Theory Of Quantity Expressions}
+\subsection{A Mathematical Theory Of Quantity Expressions}
 \label{sec:qeform}
 
 The realisation that dimensions are types of quantity expressions leads us to our first formalisation of quantity expressions. We first define a theory of dimensions in Figure \ref{fig:dimensions} and then import it to define a theory of Quantity Expressions in Figure \ref{fig:QE}.
@@ -48,7 +48,7 @@ The realisation that dimensions are types of quantity expressions leads us to ou
 
 \input{graphs/QE.tex}
 
-Figure \ref{fig:dimensions} defines the 9 basic dimensions and then dimension compositon via multiplication and division. Then we move on in \ref{fig:QE} to define quantity expressions. Each quantity expression has a dimension (via the \textit{QE} constant). This allows us to define basic units (which we will actually do in the next Figure. ). With the \textit{QENMul} and \textit{QENDiv} symbols we can multiply and divide quantity expressions by numbers (for this case we actually need to import some theory of numbers to allow us actually write this down as a Term). Then we define multiplication and division of quantity expressions in such a way that dimensions multiply and divide appropriatly.
+Figure \ref{fig:dimensions} defines the 9 basic dimensions and then dimension compositon via multiplication and division. Then we move on in Figure \ref{fig:QE} to define quantity expressions. Each quantity expression has a dimension (via the \textit{QE} constant). This allows us to define basic units (which we will actually do in the next Figure). With the \textit{QENMul} and \textit{QENDiv} symbols we can multiply and divide quantity expressions by numbers (for this case we actually need to import some theory of numbers to allow us actually write this down as a Term). Then we define multiplication and division of quantity expressions in such a way that dimensions multiply and divide appropriatly.
 
 Now we need to introduce some basic units. Let us start by just defining meter in Figure \ref{fig:meter}. We can now write a term in this theory that expresses any number of meters.
 
@@ -57,10 +57,10 @@ Now we need to introduce some basic units. Let us start by just defining meter i
 \subsection{Transforming Quantity Expressions From One Form Into Another}
 \label{sec:qeconv}
 
-This is a very nice start of a unit system\ednote{Better formulation}. Let us know define a few more units of length. In Figure \ref{fig:nonsilength} we show a few non-si units. Here we first define thoug as a quanity expression of length and then one-by-one define more units in terms of the previous one.
+This provides a basis for a unit system. Let us furthermore define a few more units of non-metric lengths. In Figure \ref{fig:nonsilength} we show a few non-si units. Here we first define thoug as a quanity expression of length and then one-by-one define more units in terms of the previous one.
 \input{graphs/nonsilength.tex}
 
-We now want to relate quantity expressions with units from the \textit{Meter} theory to units from the \textit{Non SI Lengths} theory. It is known that $1 \mathsf{Thou} = 0.0000254 \mathsf{Meter}$. This can be easily expressed with a view $\psi$ between these to theories:
+We now want to relate quantity expressions with units from the \textit{Meter} theory to units from the \textit{Non SI Lengths} theory. It is known that $1 \mathsf{Thou} = 0.0000254 \mathsf{Meter}$. This can be easily expressed with a view $\psi$ between these two theories:
 
 \[
 \psi = \left\{\begin{array}{l}
