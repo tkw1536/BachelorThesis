@@ -72,7 +72,7 @@ We translate multiplication and division by using \lstinline[language=XML]{<appl
 This format allows us to easily exchange quantity expressions. It is also easy to send quantity expressions from the user to the backend (the core component of the search engine. )
 
 \subsection{Finding Units Inside Documents}
-Apart from the frontend, which we will talk about in section \ref{sec:frontend}, there is only one major component left: Finding and matching quantity expressions inside documents. As we have outlined in the previous sections, we can easily compare them with the help of normalisation. If we have a list of quantity expressions and where they occur, we can use the following algorithm to easily find them:
+Apart from the frontend (which we will describe in detail in Section \ref{sec:pit}), there is only one major component left: Finding and matching quantity expressions inside documents. As we have outlined in the previous sections, we can easily compare them with the help of normalisation. If we have a list of quantity expressions and where they occur, we can use the following algorithm to easily find them:
 \begin{enumerate}
   \item First find quantity expressions inside documents and store them in a list along with their origin.
   \item Normalise each of them as described before.
@@ -81,4 +81,4 @@ Apart from the frontend, which we will talk about in section \ref{sec:frontend},
   \item Next look in the index for the normalised query.
   \item Then deliver the original versions and their origins from the index.
 \end{enumerate}
-This algorithm allows us to easily and efficiently find quantity expression in documents after we have built up an index. In order to build up this index we need a list of quantity expressions and occurrences inside documents. A software that fullfills this task is called a Spotter. In our case the spotter is developed by Stiv Sherko in a seperate effort \cite{proposal:sharko}.
+This algorithm allows us to easily and efficiently find quantity expression in documents after we have built up an index. In order to build up this index we need a list of quantity expressions and occurrences inside documents. A software that fullfills this task is called a Spotter. In our case the spotter is developed by Stiv Sherko in a seperate effort \cite{thesis:sharko}.

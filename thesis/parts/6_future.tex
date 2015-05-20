@@ -1,7 +1,7 @@
 \section{Current Limits And Future work}
 \label{sec:future}
 
-While the current implementation provides a proof that the choosen approach indeed works, there are several problems with it. In the following we discuss several improvements for existing features as well as missing features.
+The current implementation provides a proof that the choosen approach indeed works. There are several problems with it. In the following we discuss several improvements for existing features as well as missing features.
 
 \subsection{Integration With MathWebSearch: Ranged Queries and Query Variables}
 The MathWebSearch system (MWS) is an existing semantics-aware system to search (\LaTeX\footnote{Technically, MWS itself can only search XHTML documents. However with the help of \LaTeX{}ml \cite{Miller:latexml:base} it also handles \LaTeX \ documents. }) documents for mathematical formulae \cite{HamKohPro:man14}. Similar to the system we built it is also semantics-aware. It abstracts away from variable names and allows \textit{variables} insides queries such as $ { \color{red} x} + \sqrt{\color{red} x}$. For this query MWS would deliver forumlae of the form as above where $ { \color{red} x} $ has been substituted with any sub-formula. In addition MWS supports ranged queries, i. e. queries where we search for a variable that is contained within a certain range.
@@ -28,8 +28,7 @@ Prefixes have also been treated by Davenport in \cite{SD:UnitKnowledgeMgmt08}. H
 
 \[\text{prefix} \times \text{unit} \rightarrow \text{prefixed unit}\]
 
-\ednote{mention normalisation to Kilogram, critisize SI Kilgoram as default}
-
+Hence in order to handle SI Prefixes properly, we will need to add a new type of units, the prefixed unit. Since \textit{Kilogram} is the standard SI unit for mass, this will likely result in normalisation to \textit{Gram} instead.
 \subsection{MMT And Type Equalities}
 
 In Section \ref{sec:strucqe} we defined our structure of dimensions and quantity expressions. However at no point we have defined multiplication to be associative or commutative. Hence MMT is not aware of this. Furthermore we did not explicitly define cancellation of dimensions and basic units anywhere. Because we did not define it, MMT is not aware of it.
@@ -37,7 +36,20 @@ In Section \ref{sec:strucqe} we defined our structure of dimensions and quantity
 When MMT type checks views this can cause errors. In the current implementation we have a workaround for this by explicitly giving MMT the result type of a multiplication and division (as an additional argumemt to the multiplication function. ) This makes MMT terms significantly longer, in particular when multiple multiplication or divisions are involved.  This problem can obviously be solved by adding these rules to our formalisation. That alone is not sufficient, because MMT does not implement any kind of type checking of this form at the moment.
 
 \subsection{The Current State Of The Spotter}
-\ednote{Write this section}
+
+Currently the spotter extracts simple Quantity Expressions of the form $\textit{Scalar} \cdot{} \textit{Unit}$ from XHTML documents. This is done in two steps, first the presentational markup is extracted and then the semantics are infered from this representation. The markup extracter currently achieves an f-measure of $0.4465$ and the semantics extracter achieves an f-measure of$0.6546$. The spotter is described in detail in \cite{thesis:sharko}.
+
+In order for the search engine to function properly, it is neccessary to have a proper spotter. For early testing the current implementation is sufficient, but for proper development it will have to be improved. Obviously we want to be able to search for velocities as well. With the current implementation this is not yet possible. Because the spotter only provides harvests to the search engine and is not directly integrated however, it can be developed independently of the rest of the system.
 
 \subsection{Improvement To The Frontend}
 \label{sec:fut_res}
+
+The current frontend, especially the result page, needs some improvement.
+
+Currently the result page just shows a list of links as well as the XML representation of the found quantity expressions. Instead it should show the human-readable representation of the Quantity Expression as well. Such an improvement could be delivered by the spotter. As described above, it extracts both markup and semantics of Quantity Expressions. Instead of only returning the latter it could return both, which could then easily be shown to the frontend.
+
+Furthermore, the text field used to enter Quantity Expressions could use an improvement. Currently this is rendered manually. It makes sense to take advantage of presentation MathML or similar technologies here. Presentation MathML is an XML-based language that can be used to describe the layout of math formulae.
+
+\subsection{Conclusion}
+
+We wanted to build a search engine for Quantity Expressions that unifies both the presentational and semantic approach. As shown by the problems outlined above, our work is not yet finished. Several components still require improvements to be practical. Furthermore, the system should be subjected to some kind of evaluation by end users to measure the actual usability of it. Nonetheless, the prototype implementation we have designed demonstrates that this is indeed a viable approach. Our system, if expanded and improved properly, has potential to solve the problem of different units entirely. 
