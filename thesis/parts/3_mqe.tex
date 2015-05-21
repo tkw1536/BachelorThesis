@@ -14,14 +14,14 @@ In general, the \textit{unit component} is not always scalar free. While $m$ and
 \[y = \frac{\text{L}}{100\ \text{km}}\]
 We could certainly call $y$ a \textit{unit}. It consists of 2 sub-expressions, $\text{L}$ and $100\ \text{km}$. The first one is a primitive unit and the second one a multiplication of a number and the unit $\text{km}$. This, first of all, leads us to define the concept of a \textit{primitive unit} as a simple Quantity that is not a Number.
 
-Abstracting from the examples above, we can now considder the semantics of Quantity Expressions. It makes sense to define Quantity Expressions as one of the following 6 cases: 
+Abstracting from the examples above, we can now considder the semantics of Quantity Expressions. It makes sense to define Quantity Expressions as one of the following 6 cases:
 \begin{enumerate}
   \item A \textit{primitive unit}, such as \textit{Meter}.
   \item The \textit{Product} of a Quantity Expression with a scalar, such as $5 \text{Meter}$
   \item The \textit{Quotient} of a Quantity Expression by a (non-zero) scalar\footnote{Strictly speaking, this is equivalent to the case above. For simplicity we define it anyways. }.
   \item The Multiplication $\cdot{}$ which takes 2 existing quantity expression and generates a new one, for example $\cdot \left(100, \text{m} \right) = 100\ \text{m}$
   \item The division / which again takes 2 quantity expressions and generates a new one, for example $\text{/} (\text{m}, \text{s}) = \frac{\text{m}}{\text{s}}$
-  \item The addition of two quantity expressions
+  \item The addition of two quantity expressions \footnote{This is also not strictly needed, but can become useful later on when we want to translate between different units. }
 \end{enumerate}
 
 This allows us to easily generate Quantity Expressions (like the examples $x$ and $y$ from above) starting at the primitive units m, s, L and km.

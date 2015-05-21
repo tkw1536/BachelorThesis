@@ -59,7 +59,7 @@
 % BibTex
 \usepackage{cite}
 
-\title{Semantic Search for Quantity Expressions\\ \vspace{2 mm} Bachelor Thesis DRAFT\ednote{Remove draft status}}
+\title{Semantic Search For Quantity Expressions\\ \vspace{2 mm} Bachelor Thesis DRAFT\ednote{Remove draft status}}
 \author{Tom Wiesing\\Supervisor: Michael Kohlhase\\Co-supervisor: Tobias Preusser\\Jacobs University, Bremen, Germany}
 
 \date{\today}
@@ -73,7 +73,15 @@
 
 %The abstract
 \begin{abstract}
-  In this proposal we describe how to introduce units to MathWebSearch. The aim of the project is build an extensible semantics-aware system that searches a corpus of documents for quantity expressions. The project will be based on the existing MathWebSearch system and related technologies. \ednote{Physics search}\ednote{Re-write abstract}
+
+  \noindent In this paper we want to give an approach to Semantic Search for Quantity Expressions.
+
+  A Quantity Expression is an expression that represents a quantity such as $25 \frac{\text{m}}{\text{s}}$. Different Quantity Expressions can represent the same quantity, for example the expression can also be refered to by $90 \frac{\text{km}}{\text{h}}$. In this case we are only using metric units, however using different units can become a problem when having to convert between them constantly.
+
+  In a Semantic Search Engine for Quantity Expressions we want to be able to search for quantities independent of their representations. The implementation we have designed is very modular. We use a meta-mathematical formalisation for the unit system. This brings the advantage of being easily extensible with new units. Because of the modularity, the spotting of Quantity Expressions within documents is taken on in \cite{thesis:sherko}.
+
+  Despite this modularity, our implementation has some problems, one of them being that we can not translate between \textit{Celsius} and \textit{Kelvin}. Nonetheless, if expanded and improved properly, this implementation has potential to solve the problem of different units entirely.
+
 \end{abstract}
 
 \newpage
