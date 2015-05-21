@@ -1,25 +1,25 @@
 \section{The Structure Of Mathematics: Theories, Views And Imports}
 \label{sec:mathoverview}
 
-Before we start looking at Quantity Expressions and how to build a search engine for them, we want to give an introduction to meta-mathematical structures. We will use this knowledge later to build a better search engine.
+Before we start looking at quantity expressions and how to build a search engine for them, we want to give an introduction to meta-mathematical structures. We will use this knowledge later to build a better search engine.
 
-To model mathematics we need a proper logical foundation. For this we use the \textit{LF Logical Framework} \cite{hhp93lf}. LF provides a typed logic, that is a logic in which each object has a so-called type. It also allow has a function type via the $\rightarrow$ constructor.
+To model mathematics we need a proper logical foundation. For this we use the \textit{LF Logical Framework} \cite{hhp93lf}. LF provides a typed logic, that is a logic in which each object has a so-called type. It also allows to construct a function type via the $\rightarrow$ constructor.
 
-Next we can take a look at the concept of theories.
+Next we can take a look at the concepts of theories, views and imports. These are introduced by MMT and not part of LF.
 
 \subsection{Modeling Mathematics With The Help Of Theories}
 
-Theories, in this sense, are simply sets of symbols. Each of the symbols can optionally have a type and a definition. Within each theory, we can then use these symbols to write down terms (or expressions) within this theory. Types and definitions of these symbols are terms themselves\footnote{They are not terms over the same theory however. }. As a simple example of this, let us consider the theory of semigroups as seen in Figure \ref{fig:semigroup}.
+Theories, in this sense, are simply sets of named symbols. Each of the symbols can optionally have a type and a definition. Within each theory, we can then use these symbols to write down terms (or expressions) within this theory. Types and definitions of these symbols are terms themselves\footnote{They are not terms over the same theory however. }. As a simple example of this, let us consider the theory of semigroups as seen in Figure \ref{fig:semigroup}.
 
 \input{graphs/semigroup.tex}
 
-In this theory, we define 3 symbols: $G$, $\circ$ and $\scriptstyle \mathsf{assoc}$. In the first line we define a type $G$. Next we define a function $\circ$ that takes 2 terms of type $G$ as arguments and returns another term of type $G$. We could also denote this function by $G \times G \rightarrow G$ but LF does not provide the $\times$ symbol. Hence we just use the equivalent notation $G \rightarrow G \rightarrow G$. In the last line, we make the statement that associativity holds. This is achieved via the \textit{ded} (short for deduction) symbol. When a statement (such as associativity formulation in this case) is passed to it, it asserts that the statement is provable by returning a proof for it. This is commonly used for axiomes.
+In this theory, we define 3 symbols: $G$, $\circ$ and $\scriptstyle \mathsf{assoc}$. In the first line we define a type $G$. Next we define a function $\circ$ that takes 2 terms of type $G$ as arguments and returns another term of type $G$. We could also denote this function by $G \times G \rightarrow G$ but LF does not provide the $\times$ symbol. Hence we just use the equivalent notation $G \rightarrow G \rightarrow G$. In the last line, we make the statement that associativity holds. This is achieved via the \textit{ded} (short for deduction) symbol. When a statement (such as associativity formulation in this case) is passed to it, it returns the type of proofs of that the statement. Here, the symbol \textit{assoc} is given this type, hence by definition it proves associativity. In general, the \textit{ded} symbol is used to give axiomes.
 
-\subsection{Extending Theories Using imports}
+\subsection{Extending Theories Using Imports}
 
-Sometimes we want to extend theories without having to define everything again. For example, we want to say that a Monoid is a semi-group along with an identity element. In the semi-group example above, we have also used terms from other theories to define $G$ as a type.
+Sometimes we want to extend theories without having to define everything again. For example, we want to say that a monoid is a semi-group along with an identity element. In the semi-group example above, we have also used terms from other theories to define $G$ as a type.
 
-We can model this concept by using imports. An import from one theory into another makes symbols of the imported theory available in the target theory. In Figure \ref{fig:monoid} we use this to define a monoid.
+We can model this concept by using imports. An import from one theory into another makes symbols of the imported theory available in the target theory. In Figure \ref{fig:monoid} we use this to define a theory of monoids.
 
 \input{graphs/monoid.tex}
 
@@ -29,7 +29,7 @@ However imports are not the only way how theories can be related. If we have two
 
 \input{graphs/nnintegers.tex}
 
-A map from the theory of monoids to the theory of positive integers should map all symbols from the theory of monoids to symbols from the theory of positive integers. Furthermore, such a map should be truth preserving, i. e. if I write down a true statement as a term over the theory of monoids and translate this term, it should still be true  in the theory of positive integers. Such a mapping is called a \textit{View} from the theory of monoids to the theory of Positive integers. Such a view $\phi$ could look as follows:
+A map from the theory of monoids to the theory of positive integers should map all symbols from the theory of monoids to symbols from the theory of positive integers. Furthermore, such a map should be truth preserving, i. e. if I write down a true statement as a term over the theory of monoids and translate this term, it should still be true  in the theory of positive integers. Such a mapping is called a \textit{view} from the theory of monoids to the theory of positive integers. Such a view $\phi$ could look as follows:
 
 \[
   \phi=\left\{\begin{array}{l}

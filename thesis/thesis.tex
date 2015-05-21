@@ -6,6 +6,7 @@
 % Input encoding
 \usepackage[utf8]{inputenc}
 \usepackage{eurosym}
+\usepackage{placeins}
 
 \usepackage{caption}
 \usepackage{subcaption}
@@ -76,9 +77,9 @@
 
   \noindent In this paper we want to give an approach to Semantic Search for Quantity Expressions.
 
-  A Quantity Expression is an expression that represents a quantity such as $25 \frac{\text{m}}{\text{s}}$. Different Quantity Expressions can represent the same quantity, for example the expression can also be refered to by $90 \frac{\text{km}}{\text{h}}$. In this case we are only using metric units, however using different units can become a problem when having to convert between them constantly.
+  A quantity expression is an expression that represents a quantity such as $25 \frac{\text{m}}{\text{s}}$. Different quantity expressions can represent the same quantity, for example the expression can also be refered to by $90 \frac{\text{km}}{\text{h}}$. In this case we are only using metric units, however using different units can become a problem when having to convert between them constantly.
 
-  In a Semantic Search Engine for Quantity Expressions we want to be able to search for quantities independent of their representations. The implementation we have designed is very modular. We use a meta-mathematical formalisation for the unit system. This brings the advantage of being easily extensible with new units. Because of the modularity, the spotting of Quantity Expressions within documents is taken on in \cite{thesis:sherko}.
+  In a \texit{semantic search engine for quantity expressions} we want to be able to search for quantities independent of their representations. The implementation we have designed is very modular. We use a meta-mathematical formalisation for the unit system. This brings the advantage of being easily extensible with new units. Because of the modularity, the spotting of Quantity Expressions within documents is taken on in \cite{thesis:sharko}.
 
   Despite this modularity, our implementation has some problems, one of them being that we can not translate between \textit{Celsius} and \textit{Kelvin}. Nonetheless, if expanded and improved properly, this implementation has potential to solve the problem of different units entirely.
 
@@ -88,26 +89,33 @@
 
 \tableofcontents
 
+\FloatBarrier
 \newpage
 
 \input{parts/1_intro.tex}
 
+\FloatBarrier
 \newpage
 
 \input{parts/2_mtm.tex}
 
+\FloatBarrier
 \newpage
 
 \input{parts/3_mqe.tex}
 
+\FloatBarrier
 \newpage
+
 
 \input{parts/4_qes.tex}
 
+\FloatBarrier
 \newpage
 
 \input{parts/5_pit.tex}
 
+\FloatBarrier
 \newpage
 
 \input{parts/6_future.tex}

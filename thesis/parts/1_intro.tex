@@ -4,7 +4,7 @@
 
 Units are everywhere. We encounter units and quantity expressions in everyday life wherever we go. When driving on the road we see a speed limits on signs (for example $30 \frac{\text{km}}{h}$). When we go shopping there are different shoe sizes. When we buy something, we pay a currency of $30 \text{\euro}$. Everything is being quantified. This is also the case in science papers. Many, if not all, papers have 1 or more quantity expressions in them. Approximatly 1\% of all letters in scienficic papers belong to a quantity expression.
 
-This in itself is not a problem. The problem occurs when different units are used to describe the same quantity. In most of the world, the metric system is used to describe most quantities. Some countries still use non-SI units. These different units sometimes make it very difficult to talk about Quantities.
+This in itself is not a problem. The problem occurs when different units are used to describe the same quantity. In most of the world, the metric system is used to describe most quantities. Some countries still use non-SI units. These different units sometimes make it very difficult to talk about quantities.
 
 One notable example for this is the \textit{Mars Climate Orbiter} which was destroyed in 1999 when it entered the atmosphere of Mars because it received the non-standard units of \textit{pound-seconds} instead of the expected \textit{newton-seconds}\cite{nasa:mcor}.
 
@@ -12,13 +12,13 @@ One notable example for this is the \textit{Mars Climate Orbiter} which was dest
 
 Out of convenience new units ones are constantly being invented. Hence there are many hundred units that already exist. Just converting between them is easy, googleing ``unit converter'' reveals about 12000000 results. Even Google itself has implemented a unit converter into its search engine.
 
-However, all of these tools have a problem. They only convert units directly, meaning they require the user to enter the original units and desired units. This reuires the user to identity that there is a problem with units in the first place.
+However, all of these tools have a problem. They only convert units directly, meaning they require the user to enter the original units and desired units. This requires the user to identity that there is a problem with units in the first place.
 
 There is no tool which directly incorperates this translation of units into search results. Such a tool should find quantities independently of which units they are expressed in. It would make search efforts much easier, as fewer user input is required. It would no longer be required for the user to recognise that there is a problem.
 
 In addition to this problem unit converters are usually very restricted in the units they support. They commonly store translation formulae for any pair of units to convert between. Hence they are difficult to extend with new units.
 
-Their superficial handling of units usually does not take the underlying meaning, the semantics, into accoun On the other hand, The SI specification \cite{sispec} provides a very good insight into how units can be handled. It is precisely defined what each unit means and what kind of quantities can be expressed. It is a very formal approach. This approach does not take into account that it is sometimes less practical to user general units instead of specfic ones.
+Their superficial handling of units usually does not take the underlying meaning, the semantics, into account. On the other hand, the SI specification \cite{sispec} provides a very good insight into how units can be handled. It is precisely defined what each unit means and what kind of quantities can be expressed. It is a very formal approach. This approach does not take into account that it is sometimes less practical to user general units instead of specfic ones.
 
 Neither this very formal nor the previous approach with unit converters can be efficiently used to solve the problem.
 
@@ -26,7 +26,7 @@ Neither this very formal nor the previous approach with unit converters can be e
 
 That is why we want to build a search engine that unifies these approaches. It should be capable to find occurrences of quantity expressions within documents, no matter of their representation. For this we need several components: (1) an extensible system flexible enough to convert between units when needed, (2) a so-called spotter that finds occurrences of quantity expressions within documents, (3) a search algorithm that can take a quantity expression from the user and find equivalent quantities in the results from the spotter and (4) a front-end that allows the user to enter a quantity expression and receive the results.
 
-For (1) we want to use a meta-mathematical theories approach which is implemented by a software called MMT. With the help of MMT this allows us to build an extendible unit system. This uses a concept of a theory graph in which units are related via so-called views and imports. These can be used to translate between them. Additionally, we can define a new unit and easily link it to any of the ones which have been defined previously. Point (2) will be taken on by Stiv Sherko in a seperate effort \cite{thesis:sharko}. The spotter finds quantity expressions inside documents which can almost directly be used by our system. For our search algorithm (3) we use a simple trick: We normalise spotted units. A normal form is then used to efficiently index the harvest delivered from the previous step. Finally for (4) we built a frontend which allows the user to enter quantity expressions. It is deployed at \cite{self:sqesdemo}. A basic sketch of the system can be found in Figure \ref{fig:system}.
+For (1) we want to use a meta-mathematical theories approach which is implemented by the MMT language and system \cite{RabKoh:WSMSML13}. With the help of MMT this allows us to build an expandable unit system. This uses a concept of a theory graph in which units are related via so-called views and imports. These can be used to translate between them. Additionally, we can define a new unit and easily link it to any of the ones which have been defined previously. Point (2) will be taken on by Stiv Sherko in a seperate effort \cite{thesis:sharko}. The spotter finds quantity expressions inside documents which can almost directly be used by our system. For our search algorithm (3) we use a simple trick: We normalise spotted units. A normal form is then used to efficiently index the harvest delivered from the previous step. Finally for (4) we built a frontend which allows the user to enter quantity expressions. It is deployed at \cite{self:sqesdemo}. A basic sketch of the system can be found in Figure \ref{fig:system}.
 
 \input{graphs/system_figure.tex}
 
