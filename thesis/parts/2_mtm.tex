@@ -3,7 +3,7 @@
 
 Before we start looking at Quantity Expressions and how to build a search engine for them, we want to give an introduction to meta-mathematical structure. We will use this knowledge later to build a better search engine.
 
-To model mathematics we need a proper logical foundation. For this we use the \textit{LF Logical Framework} \cite{hhp93lf}. LF provides a typed logic, that is a logic in which each object has a so-called type. It also allow to construct functions as types via the $\rightarrow$ constructor.
+To model mathematics we need a proper logical foundation. For this we use the \textit{LF Logical Framework} \cite{hhp93lf}. LF provides a typed logic, that is a logic in which each object has a so-called type. It also allow has a function type via the $\rightarrow$ constructor.
 
 Next we can take a look at the concept of theories.
 
@@ -13,19 +13,19 @@ Theories, in this sense, are simply sets of symbols. Each of the symbols can opt
 
 \input{graphs/semigroup.tex}
 
-In this theory, we define 3 symbols: $G$, $\circ$ and $\scriptstyle \mathsf{assoc}$. In the first line we define a type $G$. Next we define a function $\circ$ that takes 2 terms of type $G$ and returns another term of type $G$. We could also denote this function by $G \times G \rightarrow G$ but LF does not provide the $\times$ symbol. Hence we just use the equivalent notation $G \rightarrow G \rightarrow G$. In the last line, we make the statement that associativity holds. This is achieved via the \textit{ded} (short for deduction) symbol. When a statement (such as associativity formulation in this case) is passed to it, it asserts that the statement is provable by returning a proof for it. Thus it is commonly used for axiomes.
+In this theory, we define 3 symbols: $G$, $\circ$ and $\scriptstyle \mathsf{assoc}$. In the first line we define a type $G$. Next we define a function $\circ$ that takes 2 terms of type $G$ as arguments and returns another term of type $G$. We could also denote this function by $G \times G \rightarrow G$ but LF does not provide the $\times$ symbol. Hence we just use the equivalent notation $G \rightarrow G \rightarrow G$. In the last line, we make the statement that associativity holds. This is achieved via the \textit{ded} (short for deduction) symbol. When a statement (such as associativity formulation in this case) is passed to it, it asserts that the statement is provable by returning a proof for it. This is commonly used for axiomes.
 
 \subsection{Extending Theories Using imports}
 
 Sometimes we want to extend theories without having to define everything again. For example, we want to say that a Monoid is a semi-group along with an identity element. In the semi-group example above, we have also used terms from other theories to define $G$ as a type.
 
-We can model this concept by using imports. An import from one theory into another makes symbols of the imported theory available in the target theory. In Figure \ref{fig:monoid} we can easily define a monoid.
+We can model this concept by using imports. An import from one theory into another makes symbols of the imported theory available in the target theory. In Figure \ref{fig:monoid} we use this to define a monoid.
 
 \input{graphs/monoid.tex}
 
 \subsection{Views As Truth-Preserving Mappings Between Theories}
 
-However imports are not the only way how theories can be related. If we have 2 theories, we sometimes want to have a map between them. In addition to the theory of monoids above we define the theory of non-negative integers in Figure \ref{fig:nnintegers}.
+However imports are not the only way how theories can be related. If we have two theories, we sometimes want to have a map between them. In addition to the theory of monoids above we define the theory of non-negative integers in Figure \ref{fig:nnintegers}.
 
 \input{graphs/nnintegers.tex}
 
