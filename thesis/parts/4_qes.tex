@@ -1,51 +1,51 @@
 \section{Making Quantity Expressions Searchable}
 \label{sec:mqes}
-Now that we know what quantity expressions are and how we can convert between equivalent representations, it is time to start about concrete algorithms for our search engine.
+Now that we know what quantity expressions are and how we can convert between equivalent representations, it is time to start investigating concrete algorithms for our search engine.
 
-When querying this search engine with a quantity expression, we want to be able find occurrences of equivalent Quantity Expressions. For this we need several components:
+When querying this search engine with a quantity expression, we want to be able find occurrences of equivalent quantity expressions. For this we need several components:
 \begin{enumerate}
   \item a component that allows the user to enter quantity expressions,
-  \item a software to find quantity expressions within documents
-  \item a way to send quantity expressions from the user to the search engine
-  \item an algorithm to convert between different forms of a quantity expressions (or at least determine if 2 quantity expressions are equivalent) and finally
+  \item a software to find quantity expressions within documents,
+  \item a way to send quantity expressions from the user to the search engine,
+  \item an algorithm to convert between different forms of a quantity expressions (or at least determine if two quantity expressions are equivalent) and finally
   \item a unit system that is flexible enough to handle different kinds of units.
 \end{enumerate}
 
 \subsection{An Idea For An Extensible System}
 \label{sec:meq_model}
 
-Let us start with point (5), a unit system that is flexible enough to handle all different of units. In Figure \ref{fig:unitsgraph} you can find a small part of the unit graph we developed. At first, in the gray area, we define a basic version of our system as defscribe in section \ref{sec:qeform}. Next we continue in the top left corner to define all the basic SI units. For the following we only look at the theories descrobing length and area units (however there are also some for all of the other dimensions).
+Let us start with point (5), a unit system that is flexible enough to handle all different of units. In Figure \ref{fig:unitsgraph} you can find a small part of the unit graph we developed. At first, in the gray area, we define a basic version of our system as described in section \ref{sec:qeform}. Next we continue in the top left corner to define all the basic SI units. For the following we only look at the theories describing length and area dimensions (however there are also some for all of the other dimensions).
 
 \input{graphs/units_graph.tex}
 
-We start with defining the non-SI unit \textit{Thou} in the \textit{Imperial Lengths A1}. In order to be able to convert between these units we apply what we learned in section \ref{sec:qeconv} and create a view that maps this unit back to standard SI units. We then expand into \textit{Imperial Lengths A2} and define a few more units incrementally based on \textit{Thou} (we use an import to be able to do this).
+We start with defining the non-SI unit \textit{thou} in the \textit{Imperial Lengths A1}. In order to be able to convert between these units we apply what we learned in section \ref{sec:qeconv} and create a view that maps this unit back to standard SI units. We then expand into \textit{Imperial Lengths A2} and define a few more units incrementally based on \textit{thou} (we use an import to be able to do this).
 
-Next, we define a new unit \textit{Link} in the \textit{Imperial Lengths B1} theory and define the unit \textit{Rod} in \textit{Imperial Lengths B2}. We then also make a view from \textit{Imperial Lengths B1} to \textit{Imperial Lengths A2}. Since \textit{Imperial Lengths B2} imports \textit{Imperial Lengths B1} this allows us to easily transform both of the new units back to SI if needed.
+Next, we define a new unit \textit{link} in the \textit{Imperial Lengths B1} theory and define the unit \textit{rod} in \textit{Imperial Lengths B2}. We then also make a view from \textit{Imperial Lengths B1} to \textit{Imperial Lengths A2}. Since \textit{Imperial Lengths B2} imports \textit{Imperial Lengths B1}, this allows us to easily transform both of the new units back to SI if needed.
 
-Next we want to define some units with the dimension Area. For this we first collect all known lengths and make them available in a \textit{Imperial Lengths} theory via imports. Then we import this theory into a new \textit{Imperial Area} theory where we can then define \textit{Perch}, \textit{Rod} and \textit{Acre}.
+Next we want to define some units with the dimension \textit{area}. For this we first collect all known lengths and make them available in an \textit{Imperial Lengths} theory via imports. Then we import this theory into a new \textit{Imperial Area} theory where we can then define \textit{perch}, \textit{rod} and \textit{acre}.
 
-But why do we define so many different theories? Why do we not simply define all the units of length in a single theory? Obviously, this one length theory would be very big. Furthermore, it would require anyone who wants to add more units to the system to add to this one theory, which can cause conflicts if there are 2 units with the same name (such as \textit{Mile} and \textit{(nautical) Mile}).
+But why do we define so many different theories? Why do we not simply define all the units of length in a single theory? Obviously, this one length theory would be very big. Furthermore, it would require anyone who wants to add more units to the system to add to this one theory, which can cause conflicts if there are two units with the same name (such as \textit{mile} and \textit{(nautical) mile}).
 
 Defining units in the way we do it allows us to incrementally add new units to the system. If we have a view back to already known theories, it is easy to compare them back to the existing units.
 
 \subsection{Normalisation Of Quantity Expressions}
 \label{sec:norm}
 
-To build a search engine however, it is inefficient to try to directly compare a search query with known quantity expressions. One way to compare quantity expressions is to normalise them to a suitable normal form. The normal form we came up with works in 2 steps.
+To build a search engine however, it is inefficient to try to directly compare a search query with known quantity expressions. One way to compare quantity expressions is to normalize them to a suitable normal form. The normal form we came up with works in 2 steps.
 
-We first turn a Term representing a Quantity Expression into a Term over the theory containing only standard units. In general we can choose any theory we want for this. We choose the \textit{SI} theory for this so that the normal forms can be understood easily.
+We first turn a term representing a quantity expression into a Term over the theory containing only standard units. In general we can choose any theory we want for this. We choose the \textit{SI} theory for this so that the normal forms can be understood easily.
 
-In order to transform a term to standard units, we just expand each unit (represented by constants) into a Term over the standard theory. This is achieved by translating it along a path in the theory graph. A path in the theory graph can consist out of 2 types of edges, Views and Imports. For views we can obviously use the mappings to translate the unit from the source to the target theory of the respective view. For imports however, it is not that simply. We can translate terms along them via definition expansion. This takes us to the imported theory from the theory that imports. We can use these edges as described and use standard graph theory algorithms to find a path for a unit to be recursively translated upon.
+In order to transform a term to standard units, we just expand each unit (represented by constants) into a term over the standard theory. This is achieved by translating it along a path in the theory graph. A path in the theory graph can consist out of 2 types of edges, views and imports. For views we can obviously use the mappings to translate the unit from the source to the target theory of the respective view. For imports however, it is not that simple. We can translate terms along them via definition expansion. This takes us to the imported theory from the theory that imports. We can use these edges as described and use standard graph theory algorithms to find a path for a unit to be recursively translated upon.
 
-In the second step, we seperate the scalar from the units. For this, we first compute the scalar value of a quantity expression and then cancel out units which occur both in numerator and denominator of the quantity expression. This step is much easier then the first one, as we no longer have to use the theory graph. For this reason, we compute the normalisation of each unit only once by caching the result. Then we no longer need to look at the graph for our normalisation procedure at all.
+In the second step, we separate the scalar from the units. For this, we first compute the scalar value of a quantity expression and then cancel out units which occur both in numerator and denominator of the quantity expression. This step is much easier then the first one, as we no longer have to use the theory graph. For this reason, we compute the normalization of each unit only once by caching the result. Then we no longer need to look at the graph for our normalization procedure at all.
 
-Let us illustrate the process of normalisation a bit more. We will try to normalise the quantity expression
+Let us illustrate the process of normalization a bit more. We will try to normalize the quantity expression
 \[q = 42 \frac{\text{Furlong}}{\text{Fortnight}}\]
-First, we need to normalise \textit{Furlong} (a quantity expression of length) to \textit{Meter}. For this we first do definitional expansion:
+First, we need to normalize \textit{furlong} (a quantity expression of length) to \textit{meter}. For this we first do definitional expansion:
 \[\text{Furlong} = 10\ \text{Chain} = 10 \left( 22\ \text{Yard}\right) = \dots = 10 \left( 22 \left( 3 \left( 12 \left( 1000\ \text{Thou} \right) \right) \right)\right) \]
 Next, we need to use a view to turn this into meters:
 \[10 \left( 22 \left( 3 \left( 1000\ \text{Thou} \right) \right)\right) = 10 \left( 22 \left( 3 \left( 12 \left( 1000 \left( 0.0000254\ \text{Meter} \right) \right) \right) \right)\right)\]
-Similary, we use definitional expansion to find that:
+Similarly, we use definitional expansion to find that:
 \[\text{Fortnight} = \left( 2 \left( 7 \left( 24 \left( 60 \left( 60\ \text{Second} \right) \right) \right) \right) \right) \]
 Substituting into $q$ gives us the normal form of the quantity expression after the first step:
 \[42 \frac{10 \left( 22 \left( 3 \left( 1000 \left( 0.0000254\ \text{Meter} \right) \right) \right)\right)}{ 2 \left( 7 \left( 24 \left( 60 \left( 60\ \text{Second} \right) \right) \right) \right)}\]
@@ -59,26 +59,26 @@ Finally we compose these again to get the normal form:
 \subsection{Serialising Quantity Expressions To XML}
 \label{sec:xml}
 
-Now that we have a normal form of units, we want to be able to exchange quantity expressions between the user, the search engine and the harvesting component. The W3C has written a note on how to handle Units in MathML \cite{W3C:Unitnnote}. MathML is an XML serialisiation of Mathematical expression. We orient ourselves on the format. For this serialisation we start with a term over some unit theory. The serialisation of the term
+Now that we have a normal form of units, we want to be able to exchange quantity expressions between the user, the search engine and the harvesting component. The W3C has written a note on how to handle units in MathML \cite{W3C:Unitnnote}. MathML is an XML representation of mathematical expressions\footnote{There are two variants of MathML, presentation MathML and content MathML which are used to represent presentation and semantics of a mathematical expressions respectively. We only use the latter here. }. We orient ourselves on the format. For this serialization we start with a term over some unit theory. The serialization of the term
 \[0.006985\ \frac{\text{Meter}}{\text{Second}}\]
 can be found in Figure \ref{fig:ser1}.
 \input{graphs/ser1.tex}
-Let us take a closer look to understand this serialisation. We translate each component of the Term individually and then assemble them together.
+Let us take a closer look to understand this serialization. We translate each component of the term individually and then assemble them together.
 
-We translate the unit (constant) \textit{Meter} to \lstinline[language=XML]{<csymbol cd='SIBase'>Meter</csymbol>}. This XML Tag expresses that we are talking about the symbol \textit{Meter}. The cd attribute stands for content directory. In our case this is the name of the theory were the symbol was declared.
+We translate the unit (constant) \textit{meter} to \lstinline[language=XML]{<csymbol cd='SIBase'>Meter</csymbol>}. This XML tag expresses that we are talking about the symbol \textit{meter}. The cd attribute stands for content directory. In our case this is the name of the theory were the symbol was declared.
 
 We translate multiplication and division by using \lstinline[language=XML]{<apply><times />}\dots\lstinline[language=XML]{</apply>} and \lstinline[language=XML]{<apply><divide />}\dots\lstinline[language=XML]{</apply>} respectively. We can use quantity expressions directly here. If we want to multiply with or divide by numbers, we use \lstinline[language=XML]{<cn type='float'>}\dots\lstinline[language=XML]{</cn>} instead of the \lstinline[language=XML]{<csymbol>} tags.
 
 This format allows us to easily exchange quantity expressions. It is also easy to send quantity expressions from the user to the backend (the core component of the search engine).
 
 \subsection{Finding Units Inside Documents}
-Apart from the frontend (which we will describe in detail in Section \ref{sec:pit}), there is only one major component left: Finding and matching quantity expressions inside documents. As we have outlined in the previous sections, we can easily compare them with the help of normalisation. If we have a list of quantity expressions and where they occur, we can use the following algorithm to easily find them:
+Apart from the frontend (which we will describe in detail in Section \ref{sec:pit}), there is only one major component left: Finding and matching quantity expressions inside documents. As we have outlined in the previous sections, we can easily compare them with the help of normalization. If we have a list of quantity expressions and where they occur, we can use the following algorithm to easily find them:
 \begin{enumerate}
   \item First find quantity expressions inside documents and store them in a list along with their origin.
-  \item Normalise each of them as described before.
-  \item Store the normalised forms in an efficient index along with their original versions and origins.
-  \item When a query is sent, normalise the query.
-  \item Next look in the index for the normalised query.
+  \item Normalize each of them as described before.
+  \item Store the normalized forms in an efficient index along with their original versions and origins.
+  \item When a query is sent, normalize the query.
+  \item Next look in the index for the normalized query.
   \item Then deliver the original versions and their origins from the index.
 \end{enumerate}
-This algorithm allows us to easily and efficiently find quantity expression in documents after we have built up an index. In order to build up this index we need a list of quantity expressions and occurrences inside documents. A software that fullfills this task is called a Spotter. In our case the spotter is developed by Stiv Sherko in a seperate effort \cite{thesis:sharko}.
+This algorithm allows us to easily and efficiently find quantity expression in documents after we have built up an index. In order to build up this index we need a list of quantity expressions and occurrences inside documents. A software that fullfills this task is called a Spotter. In our case the spotter is developed by Stiv Sherko in a separate effort \cite{thesis:sharko}.
