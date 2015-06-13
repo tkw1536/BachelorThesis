@@ -60,7 +60,7 @@
 % BibTex
 \usepackage{cite}
 
-\title{Semantic Search For Quantity Expressions\\ \vspace{2 mm} Bachelor Thesis DRAFT\ednote{Remove draft status}}
+\title{Semantic Search For Quantity Expressions\\ \vspace{2 mm} Bachelor Thesis}
 \author{Tom Wiesing\\Supervisor: Michael Kohlhase\\Co-supervisor: Tobias Preusser\\Jacobs University, Bremen, Germany}
 
 \date{\today}
@@ -75,20 +75,11 @@
 %The abstract
 \begin{abstract}
 
-  % \noindent In this paper we want to give an approach to Semantic Search for Quantity Expressions.
-  %
-  % A quantity expression is an expression that represents a quantity such as $25 \frac{\text{m}}{\text{s}}$. Different quantity expressions can represent the same quantity, for example the expression can also be referred to by $90 \frac{\text{km}}{\text{h}}$. In this case we are only using metric units, however using different units can become a problem when having to convert between them constantly.
-  %
-  % In a \textit{semantic search engine for quantity expressions} we want to be able to search for quantities independent of their representations. The implementation we have designed is very modular. We use a meta-mathematical formalization for the unit system. This brings the advantage of being easily extensible with new units. Because of the modularity, the spotting of Quantity Expressions within documents is taken on in \cite{thesis:sharko}.
-  %
-  %
-
-  We encounter units and quantity expressions in everyday life. Approximately 1\% of all letters in scientific papers belong to a quantity expression. It is a big problem when different units are used to describe the same quantity, for example both $90 \frac{\text{km}}{\text{h}}$ and $25 \frac{\text{m}}{\text{s}}$ can be used to describe the same velocity. Unit converters are the common solution to this problem. However these only convert units directly and require user to identity that there is a problem. The SI specification \cite{sispec} provides a very good insight into how units can be handled. We built a search engine that unifies these approaches.
+  We encounter units and quantity expressions in everyday life. Approximately 1\% of all letters in scientific papers belong to a quantity expression. Difficulties can occur when different units are used to describe the same quantity, for example both $90 \frac{\text{km}}{\text{h}}$ and $25 \frac{\text{m}}{\text{s}}$ can be used to describe the same velocity. Unit converters are the common solution to this problem. However these only convert units directly and require user to identity that there is a problem. The SI specification \cite{sispec} provides a very good insight into how units can be handled. We built a search engine that unifies these approaches.
 
   Our system has a modular architecture consisting out of a unit system, a spotter of quantity expressions and a search algorithm. For our formalization of units we use the MMT language and system \cite{RabKoh:WSMSML13}. This enabled us to build an expandable unit system. The spotter was taken on by Stiv Sherko in a separate effort \cite{thesis:sharko}. The prototype of the system is deployed at \cite{self:sqesdemo}.
 
-  Despite this modularity, our implementation has some problems, one of them being that we can not translate between \textit{celsius} and \textit{kelvin}. Nonetheless, if expanded and improved properly, this implementation has potential to solve the problem of different units entirely. 
-
+  In this paper we describe the implementation and discuss possible issues and enhancements.
 \end{abstract}
 
 \newpage
